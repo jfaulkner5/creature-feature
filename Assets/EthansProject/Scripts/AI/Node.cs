@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace EthansProject
 {
 
-    public class Node : MonoBehaviour
+    [System.Serializable]
+    public class Node
     {
         public Vector3 spacialInfo;
-
     }
 }

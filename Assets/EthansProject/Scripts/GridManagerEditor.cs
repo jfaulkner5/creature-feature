@@ -1,0 +1,32 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+
+namespace EthansProject
+{
+    [CustomEditor(typeof(NodeManager))]
+    public class NodeManagerEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            NodeManager grid = NodeManager.instance;
+
+            if (GUILayout.Button("Update AI"))
+            {
+                grid.CreateGrid();
+            }
+
+            if (GUILayout.Button("Debug PathData: " + grid.debugMode))
+            {
+                if (grid.debugMode)
+                    grid.debugMode = false;
+
+                else
+                    grid.debugMode = true;
+
+            }
+            base.DrawDefaultInspector();
+        }
+    }
+}
