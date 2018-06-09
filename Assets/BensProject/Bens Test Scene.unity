@@ -113,6 +113,197 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &74775680
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f3a4fd6c9a10d84e8c4b64269eaca5c, type: 2}
+    - target: {fileID: 100000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+  m_IsPrefabParent: 0
+--- !u!1 &74775681 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+  m_PrefabInternal: {fileID: 74775680}
+--- !u!64 &74775682
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 74775681}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: eb91bcc27749bca479cfdaf9764d76e5, type: 3}
+--- !u!1 &350079007
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 350079008}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &350079008
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 350079007}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 1, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1222249425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1222249429}
+  - component: {fileID: 1222249428}
+  - component: {fileID: 1222249427}
+  - component: {fileID: 1222249426}
+  m_Layer: 0
+  m_Name: Plane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &1222249426
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1222249425}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1222249427
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1222249425}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: ee8a3b70beab7e54a952dcdd4379ccd4, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1222249428
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1222249425}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1222249429
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1222249425}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10, y: 0, z: 10}
+  m_LocalScale: {x: 2, y: 1, z: 2}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1432029756
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,1214 +413,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   build: 0
-  xWidth: 20
-  zWidth: 20
-  resolution: 5
+  CheckCount: 0
+  xWidth: 2
+  zWidth: 2
+  resolution: 1
   nodeHeight: 0.155
-  NodeSet:
-  - x: 0
-    z: 0
-    nabours: []
-  - x: 0
-    z: 5
-    nabours: []
-  - x: 0
-    z: 10
-    nabours: []
-  - x: 0
-    z: 15
-    nabours: []
-  - x: 0
-    z: 20
-    nabours: []
-  - x: 0
-    z: 25
-    nabours: []
-  - x: 0
-    z: 30
-    nabours: []
-  - x: 0
-    z: 35
-    nabours: []
-  - x: 0
-    z: 40
-    nabours: []
-  - x: 0
-    z: 45
-    nabours: []
-  - x: 0
-    z: 50
-    nabours: []
-  - x: 0
-    z: 55
-    nabours: []
-  - x: 0
-    z: 60
-    nabours: []
-  - x: 0
-    z: 65
-    nabours: []
-  - x: 0
-    z: 70
-    nabours: []
-  - x: 0
-    z: 75
-    nabours: []
-  - x: 0
-    z: 80
-    nabours: []
-  - x: 0
-    z: 85
-    nabours: []
-  - x: 0
-    z: 90
-    nabours: []
-  - x: 0
-    z: 95
-    nabours: []
-  - x: 5
-    z: 0
-    nabours: []
-  - x: 5
-    z: 5
-    nabours: []
-  - x: 5
-    z: 10
-    nabours: []
-  - x: 5
-    z: 15
-    nabours: []
-  - x: 5
-    z: 20
-    nabours: []
-  - x: 5
-    z: 25
-    nabours: []
-  - x: 5
-    z: 30
-    nabours: []
-  - x: 5
-    z: 35
-    nabours: []
-  - x: 5
-    z: 40
-    nabours: []
-  - x: 5
-    z: 45
-    nabours: []
-  - x: 5
-    z: 50
-    nabours: []
-  - x: 5
-    z: 55
-    nabours: []
-  - x: 5
-    z: 60
-    nabours: []
-  - x: 5
-    z: 65
-    nabours: []
-  - x: 5
-    z: 70
-    nabours: []
-  - x: 5
-    z: 75
-    nabours: []
-  - x: 5
-    z: 80
-    nabours: []
-  - x: 5
-    z: 85
-    nabours: []
-  - x: 5
-    z: 90
-    nabours: []
-  - x: 5
-    z: 95
-    nabours: []
-  - x: 10
-    z: 0
-    nabours: []
-  - x: 10
-    z: 5
-    nabours: []
-  - x: 10
-    z: 10
-    nabours: []
-  - x: 10
-    z: 15
-    nabours: []
-  - x: 10
-    z: 20
-    nabours: []
-  - x: 10
-    z: 25
-    nabours: []
-  - x: 10
-    z: 30
-    nabours: []
-  - x: 10
-    z: 35
-    nabours: []
-  - x: 10
-    z: 40
-    nabours: []
-  - x: 10
-    z: 45
-    nabours: []
-  - x: 10
-    z: 50
-    nabours: []
-  - x: 10
-    z: 55
-    nabours: []
-  - x: 10
-    z: 60
-    nabours: []
-  - x: 10
-    z: 65
-    nabours: []
-  - x: 10
-    z: 70
-    nabours: []
-  - x: 10
-    z: 75
-    nabours: []
-  - x: 10
-    z: 80
-    nabours: []
-  - x: 10
-    z: 85
-    nabours: []
-  - x: 10
-    z: 90
-    nabours: []
-  - x: 10
-    z: 95
-    nabours: []
-  - x: 15
-    z: 0
-    nabours: []
-  - x: 15
-    z: 5
-    nabours: []
-  - x: 15
-    z: 10
-    nabours: []
-  - x: 15
-    z: 15
-    nabours: []
-  - x: 15
-    z: 20
-    nabours: []
-  - x: 15
-    z: 25
-    nabours: []
-  - x: 15
-    z: 30
-    nabours: []
-  - x: 15
-    z: 35
-    nabours: []
-  - x: 15
-    z: 40
-    nabours: []
-  - x: 15
-    z: 45
-    nabours: []
-  - x: 15
-    z: 50
-    nabours: []
-  - x: 15
-    z: 55
-    nabours: []
-  - x: 15
-    z: 60
-    nabours: []
-  - x: 15
-    z: 65
-    nabours: []
-  - x: 15
-    z: 70
-    nabours: []
-  - x: 15
-    z: 75
-    nabours: []
-  - x: 15
-    z: 80
-    nabours: []
-  - x: 15
-    z: 85
-    nabours: []
-  - x: 15
-    z: 90
-    nabours: []
-  - x: 15
-    z: 95
-    nabours: []
-  - x: 20
-    z: 0
-    nabours: []
-  - x: 20
-    z: 5
-    nabours: []
-  - x: 20
-    z: 10
-    nabours: []
-  - x: 20
-    z: 15
-    nabours: []
-  - x: 20
-    z: 20
-    nabours: []
-  - x: 20
-    z: 25
-    nabours: []
-  - x: 20
-    z: 30
-    nabours: []
-  - x: 20
-    z: 35
-    nabours: []
-  - x: 20
-    z: 40
-    nabours: []
-  - x: 20
-    z: 45
-    nabours: []
-  - x: 20
-    z: 50
-    nabours: []
-  - x: 20
-    z: 55
-    nabours: []
-  - x: 20
-    z: 60
-    nabours: []
-  - x: 20
-    z: 65
-    nabours: []
-  - x: 20
-    z: 70
-    nabours: []
-  - x: 20
-    z: 75
-    nabours: []
-  - x: 20
-    z: 80
-    nabours: []
-  - x: 20
-    z: 85
-    nabours: []
-  - x: 20
-    z: 90
-    nabours: []
-  - x: 20
-    z: 95
-    nabours: []
-  - x: 25
-    z: 0
-    nabours: []
-  - x: 25
-    z: 5
-    nabours: []
-  - x: 25
-    z: 10
-    nabours: []
-  - x: 25
-    z: 15
-    nabours: []
-  - x: 25
-    z: 20
-    nabours: []
-  - x: 25
-    z: 25
-    nabours: []
-  - x: 25
-    z: 30
-    nabours: []
-  - x: 25
-    z: 35
-    nabours: []
-  - x: 25
-    z: 40
-    nabours: []
-  - x: 25
-    z: 45
-    nabours: []
-  - x: 25
-    z: 50
-    nabours: []
-  - x: 25
-    z: 55
-    nabours: []
-  - x: 25
-    z: 60
-    nabours: []
-  - x: 25
-    z: 65
-    nabours: []
-  - x: 25
-    z: 70
-    nabours: []
-  - x: 25
-    z: 75
-    nabours: []
-  - x: 25
-    z: 80
-    nabours: []
-  - x: 25
-    z: 85
-    nabours: []
-  - x: 25
-    z: 90
-    nabours: []
-  - x: 25
-    z: 95
-    nabours: []
-  - x: 30
-    z: 0
-    nabours: []
-  - x: 30
-    z: 5
-    nabours: []
-  - x: 30
-    z: 10
-    nabours: []
-  - x: 30
-    z: 15
-    nabours: []
-  - x: 30
-    z: 20
-    nabours: []
-  - x: 30
-    z: 25
-    nabours: []
-  - x: 30
-    z: 30
-    nabours: []
-  - x: 30
-    z: 35
-    nabours: []
-  - x: 30
-    z: 40
-    nabours: []
-  - x: 30
-    z: 45
-    nabours: []
-  - x: 30
-    z: 50
-    nabours: []
-  - x: 30
-    z: 55
-    nabours: []
-  - x: 30
-    z: 60
-    nabours: []
-  - x: 30
-    z: 65
-    nabours: []
-  - x: 30
-    z: 70
-    nabours: []
-  - x: 30
-    z: 75
-    nabours: []
-  - x: 30
-    z: 80
-    nabours: []
-  - x: 30
-    z: 85
-    nabours: []
-  - x: 30
-    z: 90
-    nabours: []
-  - x: 30
-    z: 95
-    nabours: []
-  - x: 35
-    z: 0
-    nabours: []
-  - x: 35
-    z: 5
-    nabours: []
-  - x: 35
-    z: 10
-    nabours: []
-  - x: 35
-    z: 15
-    nabours: []
-  - x: 35
-    z: 20
-    nabours: []
-  - x: 35
-    z: 25
-    nabours: []
-  - x: 35
-    z: 30
-    nabours: []
-  - x: 35
-    z: 35
-    nabours: []
-  - x: 35
-    z: 40
-    nabours: []
-  - x: 35
-    z: 45
-    nabours: []
-  - x: 35
-    z: 50
-    nabours: []
-  - x: 35
-    z: 55
-    nabours: []
-  - x: 35
-    z: 60
-    nabours: []
-  - x: 35
-    z: 65
-    nabours: []
-  - x: 35
-    z: 70
-    nabours: []
-  - x: 35
-    z: 75
-    nabours: []
-  - x: 35
-    z: 80
-    nabours: []
-  - x: 35
-    z: 85
-    nabours: []
-  - x: 35
-    z: 90
-    nabours: []
-  - x: 35
-    z: 95
-    nabours: []
-  - x: 40
-    z: 0
-    nabours: []
-  - x: 40
-    z: 5
-    nabours: []
-  - x: 40
-    z: 10
-    nabours: []
-  - x: 40
-    z: 15
-    nabours: []
-  - x: 40
-    z: 20
-    nabours: []
-  - x: 40
-    z: 25
-    nabours: []
-  - x: 40
-    z: 30
-    nabours: []
-  - x: 40
-    z: 35
-    nabours: []
-  - x: 40
-    z: 40
-    nabours: []
-  - x: 40
-    z: 45
-    nabours: []
-  - x: 40
-    z: 50
-    nabours: []
-  - x: 40
-    z: 55
-    nabours: []
-  - x: 40
-    z: 60
-    nabours: []
-  - x: 40
-    z: 65
-    nabours: []
-  - x: 40
-    z: 70
-    nabours: []
-  - x: 40
-    z: 75
-    nabours: []
-  - x: 40
-    z: 80
-    nabours: []
-  - x: 40
-    z: 85
-    nabours: []
-  - x: 40
-    z: 90
-    nabours: []
-  - x: 40
-    z: 95
-    nabours: []
-  - x: 45
-    z: 0
-    nabours: []
-  - x: 45
-    z: 5
-    nabours: []
-  - x: 45
-    z: 10
-    nabours: []
-  - x: 45
-    z: 15
-    nabours: []
-  - x: 45
-    z: 20
-    nabours: []
-  - x: 45
-    z: 25
-    nabours: []
-  - x: 45
-    z: 30
-    nabours: []
-  - x: 45
-    z: 35
-    nabours: []
-  - x: 45
-    z: 40
-    nabours: []
-  - x: 45
-    z: 45
-    nabours: []
-  - x: 45
-    z: 50
-    nabours: []
-  - x: 45
-    z: 55
-    nabours: []
-  - x: 45
-    z: 60
-    nabours: []
-  - x: 45
-    z: 65
-    nabours: []
-  - x: 45
-    z: 70
-    nabours: []
-  - x: 45
-    z: 75
-    nabours: []
-  - x: 45
-    z: 80
-    nabours: []
-  - x: 45
-    z: 85
-    nabours: []
-  - x: 45
-    z: 90
-    nabours: []
-  - x: 45
-    z: 95
-    nabours: []
-  - x: 50
-    z: 0
-    nabours: []
-  - x: 50
-    z: 5
-    nabours: []
-  - x: 50
-    z: 10
-    nabours: []
-  - x: 50
-    z: 15
-    nabours: []
-  - x: 50
-    z: 20
-    nabours: []
-  - x: 50
-    z: 25
-    nabours: []
-  - x: 50
-    z: 30
-    nabours: []
-  - x: 50
-    z: 35
-    nabours: []
-  - x: 50
-    z: 40
-    nabours: []
-  - x: 50
-    z: 45
-    nabours: []
-  - x: 50
-    z: 50
-    nabours: []
-  - x: 50
-    z: 55
-    nabours: []
-  - x: 50
-    z: 60
-    nabours: []
-  - x: 50
-    z: 65
-    nabours: []
-  - x: 50
-    z: 70
-    nabours: []
-  - x: 50
-    z: 75
-    nabours: []
-  - x: 50
-    z: 80
-    nabours: []
-  - x: 50
-    z: 85
-    nabours: []
-  - x: 50
-    z: 90
-    nabours: []
-  - x: 50
-    z: 95
-    nabours: []
-  - x: 55
-    z: 0
-    nabours: []
-  - x: 55
-    z: 5
-    nabours: []
-  - x: 55
-    z: 10
-    nabours: []
-  - x: 55
-    z: 15
-    nabours: []
-  - x: 55
-    z: 20
-    nabours: []
-  - x: 55
-    z: 25
-    nabours: []
-  - x: 55
-    z: 30
-    nabours: []
-  - x: 55
-    z: 35
-    nabours: []
-  - x: 55
-    z: 40
-    nabours: []
-  - x: 55
-    z: 45
-    nabours: []
-  - x: 55
-    z: 50
-    nabours: []
-  - x: 55
-    z: 55
-    nabours: []
-  - x: 55
-    z: 60
-    nabours: []
-  - x: 55
-    z: 65
-    nabours: []
-  - x: 55
-    z: 70
-    nabours: []
-  - x: 55
-    z: 75
-    nabours: []
-  - x: 55
-    z: 80
-    nabours: []
-  - x: 55
-    z: 85
-    nabours: []
-  - x: 55
-    z: 90
-    nabours: []
-  - x: 55
-    z: 95
-    nabours: []
-  - x: 60
-    z: 0
-    nabours: []
-  - x: 60
-    z: 5
-    nabours: []
-  - x: 60
-    z: 10
-    nabours: []
-  - x: 60
-    z: 15
-    nabours: []
-  - x: 60
-    z: 20
-    nabours: []
-  - x: 60
-    z: 25
-    nabours: []
-  - x: 60
-    z: 30
-    nabours: []
-  - x: 60
-    z: 35
-    nabours: []
-  - x: 60
-    z: 40
-    nabours: []
-  - x: 60
-    z: 45
-    nabours: []
-  - x: 60
-    z: 50
-    nabours: []
-  - x: 60
-    z: 55
-    nabours: []
-  - x: 60
-    z: 60
-    nabours: []
-  - x: 60
-    z: 65
-    nabours: []
-  - x: 60
-    z: 70
-    nabours: []
-  - x: 60
-    z: 75
-    nabours: []
-  - x: 60
-    z: 80
-    nabours: []
-  - x: 60
-    z: 85
-    nabours: []
-  - x: 60
-    z: 90
-    nabours: []
-  - x: 60
-    z: 95
-    nabours: []
-  - x: 65
-    z: 0
-    nabours: []
-  - x: 65
-    z: 5
-    nabours: []
-  - x: 65
-    z: 10
-    nabours: []
-  - x: 65
-    z: 15
-    nabours: []
-  - x: 65
-    z: 20
-    nabours: []
-  - x: 65
-    z: 25
-    nabours: []
-  - x: 65
-    z: 30
-    nabours: []
-  - x: 65
-    z: 35
-    nabours: []
-  - x: 65
-    z: 40
-    nabours: []
-  - x: 65
-    z: 45
-    nabours: []
-  - x: 65
-    z: 50
-    nabours: []
-  - x: 65
-    z: 55
-    nabours: []
-  - x: 65
-    z: 60
-    nabours: []
-  - x: 65
-    z: 65
-    nabours: []
-  - x: 65
-    z: 70
-    nabours: []
-  - x: 65
-    z: 75
-    nabours: []
-  - x: 65
-    z: 80
-    nabours: []
-  - x: 65
-    z: 85
-    nabours: []
-  - x: 65
-    z: 90
-    nabours: []
-  - x: 65
-    z: 95
-    nabours: []
-  - x: 70
-    z: 0
-    nabours: []
-  - x: 70
-    z: 5
-    nabours: []
-  - x: 70
-    z: 10
-    nabours: []
-  - x: 70
-    z: 15
-    nabours: []
-  - x: 70
-    z: 20
-    nabours: []
-  - x: 70
-    z: 25
-    nabours: []
-  - x: 70
-    z: 30
-    nabours: []
-  - x: 70
-    z: 35
-    nabours: []
-  - x: 70
-    z: 40
-    nabours: []
-  - x: 70
-    z: 45
-    nabours: []
-  - x: 70
-    z: 50
-    nabours: []
-  - x: 70
-    z: 55
-    nabours: []
-  - x: 70
-    z: 60
-    nabours: []
-  - x: 70
-    z: 65
-    nabours: []
-  - x: 70
-    z: 70
-    nabours: []
-  - x: 70
-    z: 75
-    nabours: []
-  - x: 70
-    z: 80
-    nabours: []
-  - x: 70
-    z: 85
-    nabours: []
-  - x: 70
-    z: 90
-    nabours: []
-  - x: 70
-    z: 95
-    nabours: []
-  - x: 75
-    z: 0
-    nabours: []
-  - x: 75
-    z: 5
-    nabours: []
-  - x: 75
-    z: 10
-    nabours: []
-  - x: 75
-    z: 15
-    nabours: []
-  - x: 75
-    z: 20
-    nabours: []
-  - x: 75
-    z: 25
-    nabours: []
-  - x: 75
-    z: 30
-    nabours: []
-  - x: 75
-    z: 35
-    nabours: []
-  - x: 75
-    z: 40
-    nabours: []
-  - x: 75
-    z: 45
-    nabours: []
-  - x: 75
-    z: 50
-    nabours: []
-  - x: 75
-    z: 55
-    nabours: []
-  - x: 75
-    z: 60
-    nabours: []
-  - x: 75
-    z: 65
-    nabours: []
-  - x: 75
-    z: 70
-    nabours: []
-  - x: 75
-    z: 75
-    nabours: []
-  - x: 75
-    z: 80
-    nabours: []
-  - x: 75
-    z: 85
-    nabours: []
-  - x: 75
-    z: 90
-    nabours: []
-  - x: 75
-    z: 95
-    nabours: []
-  - x: 80
-    z: 0
-    nabours: []
-  - x: 80
-    z: 5
-    nabours: []
-  - x: 80
-    z: 10
-    nabours: []
-  - x: 80
-    z: 15
-    nabours: []
-  - x: 80
-    z: 20
-    nabours: []
-  - x: 80
-    z: 25
-    nabours: []
-  - x: 80
-    z: 30
-    nabours: []
-  - x: 80
-    z: 35
-    nabours: []
-  - x: 80
-    z: 40
-    nabours: []
-  - x: 80
-    z: 45
-    nabours: []
-  - x: 80
-    z: 50
-    nabours: []
-  - x: 80
-    z: 55
-    nabours: []
-  - x: 80
-    z: 60
-    nabours: []
-  - x: 80
-    z: 65
-    nabours: []
-  - x: 80
-    z: 70
-    nabours: []
-  - x: 80
-    z: 75
-    nabours: []
-  - x: 80
-    z: 80
-    nabours: []
-  - x: 80
-    z: 85
-    nabours: []
-  - x: 80
-    z: 90
-    nabours: []
-  - x: 80
-    z: 95
-    nabours: []
-  - x: 85
-    z: 0
-    nabours: []
-  - x: 85
-    z: 5
-    nabours: []
-  - x: 85
-    z: 10
-    nabours: []
-  - x: 85
-    z: 15
-    nabours: []
-  - x: 85
-    z: 20
-    nabours: []
-  - x: 85
-    z: 25
-    nabours: []
-  - x: 85
-    z: 30
-    nabours: []
-  - x: 85
-    z: 35
-    nabours: []
-  - x: 85
-    z: 40
-    nabours: []
-  - x: 85
-    z: 45
-    nabours: []
-  - x: 85
-    z: 50
-    nabours: []
-  - x: 85
-    z: 55
-    nabours: []
-  - x: 85
-    z: 60
-    nabours: []
-  - x: 85
-    z: 65
-    nabours: []
-  - x: 85
-    z: 70
-    nabours: []
-  - x: 85
-    z: 75
-    nabours: []
-  - x: 85
-    z: 80
-    nabours: []
-  - x: 85
-    z: 85
-    nabours: []
-  - x: 85
-    z: 90
-    nabours: []
-  - x: 85
-    z: 95
-    nabours: []
-  - x: 90
-    z: 0
-    nabours: []
-  - x: 90
-    z: 5
-    nabours: []
-  - x: 90
-    z: 10
-    nabours: []
-  - x: 90
-    z: 15
-    nabours: []
-  - x: 90
-    z: 20
-    nabours: []
-  - x: 90
-    z: 25
-    nabours: []
-  - x: 90
-    z: 30
-    nabours: []
-  - x: 90
-    z: 35
-    nabours: []
-  - x: 90
-    z: 40
-    nabours: []
-  - x: 90
-    z: 45
-    nabours: []
-  - x: 90
-    z: 50
-    nabours: []
-  - x: 90
-    z: 55
-    nabours: []
-  - x: 90
-    z: 60
-    nabours: []
-  - x: 90
-    z: 65
-    nabours: []
-  - x: 90
-    z: 70
-    nabours: []
-  - x: 90
-    z: 75
-    nabours: []
-  - x: 90
-    z: 80
-    nabours: []
-  - x: 90
-    z: 85
-    nabours: []
-  - x: 90
-    z: 90
-    nabours: []
-  - x: 90
-    z: 95
-    nabours: []
-  - x: 95
-    z: 0
-    nabours: []
-  - x: 95
-    z: 5
-    nabours: []
-  - x: 95
-    z: 10
-    nabours: []
-  - x: 95
-    z: 15
-    nabours: []
-  - x: 95
-    z: 20
-    nabours: []
-  - x: 95
-    z: 25
-    nabours: []
-  - x: 95
-    z: 30
-    nabours: []
-  - x: 95
-    z: 35
-    nabours: []
-  - x: 95
-    z: 40
-    nabours: []
-  - x: 95
-    z: 45
-    nabours: []
-  - x: 95
-    z: 50
-    nabours: []
-  - x: 95
-    z: 55
-    nabours: []
-  - x: 95
-    z: 60
-    nabours: []
-  - x: 95
-    z: 65
-    nabours: []
-  - x: 95
-    z: 70
-    nabours: []
-  - x: 95
-    z: 75
-    nabours: []
-  - x: 95
-    z: 80
-    nabours: []
-  - x: 95
-    z: 85
-    nabours: []
-  - x: 95
-    z: 90
-    nabours: []
-  - x: 95
-    z: 95
-    nabours: []
-  NodeCount: 400
+  NodeCollisionMask:
+    serializedVersion: 2
+    m_Bits: 512
+  NodeCount: 4
   DisplayGizmo: 1
-  GizmoColour: {r: 0, g: 1, b: 1, a: 1}
+  NodeColour: {r: 0, g: 1, b: 1, a: 1}
+  neighbourColour: {r: 0, g: 0, b: 1, a: 1}
 --- !u!4 &1928012826
 Transform:
   m_ObjectHideFlags: 0
@@ -1437,11 +432,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1928012824}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2012391799
 GameObject:
@@ -1506,5 +501,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}

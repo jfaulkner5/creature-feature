@@ -6,7 +6,7 @@ namespace EthansProject {
     public static class PathingManager
     {
 
-        public Path ()
+        public static void Path ()
         {
 
         }

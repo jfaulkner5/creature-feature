@@ -48,6 +48,8 @@ namespace BensDroneFleet
         public List<PathNode> nabours = new List<PathNode>();
         public PathMeta meta;
 
+        public Vector3 position { get {return new Vector3(x, 0, z); } }
+
         public PathNode(float xPos,float zPos)
         {
             Debug.Log("newNode");
