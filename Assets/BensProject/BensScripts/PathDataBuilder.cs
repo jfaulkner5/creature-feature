@@ -7,7 +7,9 @@ namespace BensDroneFleet {
 
     public class PathDataBuilder : MonoBehaviour {
 
-        public bool build = false;
+        #region Old Grid Data
+        [Header("Generate Old Grid")]
+        public bool buildOldGrid = false;
         public bool CheckCount = false;
         public int xWidth;
         public int zWidth;
@@ -30,11 +32,15 @@ namespace BensDroneFleet {
         public Color NodeColour = Color.cyan;
         public Color neighbourColour = Color.blue;
 
+        #endregion        
+
         private void OnValidate()
         {
-            if (build)
+
+            #region Old Grid Triggers
+            if (buildOldGrid)
             {
-                build = false;
+                buildOldGrid = false;
 
                 BuildNodeSet();
             }
@@ -45,10 +51,46 @@ namespace BensDroneFleet {
 
                 foreach (PathNode node in NodeSet)
                 {
-                    Debug.Log("pos: " + node.position + "   Nab count: " + node.nabours.Count);
+                    Debug.Log("pos: " + node.position + "   Nabour count:" + node.nabours.Count);
                 }
             }
+
+            #endregion
+
         }
+
+        private void OnDrawGizmos()
+        {
+            //Old stuff
+            #region Old grid Display
+
+            if (DisplayGizmo)
+            {
+                Gizmos.color = NodeColour;
+                if (NodeSet != null && NodeSet.Length > 0)
+                {
+                    foreach (PathNode node in NodeSet)
+                    {
+                        if (node != null && node.nabours.Count > 0)
+                        {
+                            foreach (PathNode nodeB in node.nabours)
+                            {
+                                Gizmos.DrawLine(node.position, nodeB.position);
+                            }
+                        }
+                        else if (node != null && node.nabours.Count == 0)
+                        {
+                            Gizmos.color = Color.red;
+                            Gizmos.DrawSphere(new Vector3(node.x, nodeSize.y * 0.5f, node.z), nodeSize.y);
+                        }
+                    }
+                }
+            }
+
+            #endregion
+        }
+
+        #region Old Grid Methods
 
         List<Vector3> GeneratePositionSet(int width, int length, Vector3 positionResolution)
         {
@@ -87,69 +129,68 @@ namespace BensDroneFleet {
                     if (!Physics.CheckBox(location, new Vector3(.25f, 1, .25f), transform.rotation, NodeCollisionMask))
                     {
                         PathNode node = MakeNewNode(location);
+                        NodeSet[xpos, zpos] = node;
 
                         #region NodeNabourBackwardsCheck
-                        // This Checks the three array locations [xPos - 1, zPos] [xPos, zPos - 1]  [xPos - 1, zPos - 1]
-                        // And if they are valid will add its self to their neighbour list
+                        // This Checks the surounding array locations.
+                        // And if they are valid will add its self to their neighbour list, and them to its. using list.AddSafe that will only add an object to a list if that list does not allready contain it.
+                        // [ xpos, zpos]
+                        // [-1, 1] [ 0, 1] [ 1, 1]
+                        // [-1, 0] [ 0, 0] [ 1, 0]
+                        // [-1,-1] [ 0,-1] [ 1,-1]
 
-                        if (xpos - 1 >= 0)
+                        // [-1, 1]
+                        if (xpos - 1 >= 0 && zpos + 1 < zWidth && NodeSet[xpos - 1, zpos + 1] != null)
                         {
-                            if (NodeSet[xpos - 1, zpos] != null)
-                            {
-                                node.nabours.AddSafe(NodeSet[xpos - 1, zpos]);
-                                NodeSet[xpos - 1, zpos].nabours.AddSafe(node);
-                            }                   
+                            node.nabours.AddSafe(NodeSet[xpos - 1, zpos + 1]);
+                            NodeSet[xpos - 1, zpos + 1].nabours.AddSafe(node);
                         }
-
-                        if (xpos + 1 < xWidth)
+                        // [0, 1]
+                        if (xpos >= 0 && zpos + 1 < zWidth && NodeSet[xpos, zpos + 1] != null)
                         {
-                            if (NodeSet[xpos + 1,zpos] != null)
-                            {                               
-                                node.nabours.AddSafe(NodeSet[xpos + 1, zpos]);
-                                NodeSet[xpos - 1, zpos].nabours.AddSafe(node);
-                            }
+                            node.nabours.AddSafe(NodeSet[xpos, zpos + 1]);
+                            NodeSet[xpos, zpos + 1].nabours.AddSafe(node);
                         }
-
-                        if (xpos - 1 >= 0 && zpos - 1 >= 0)
+                        // [1, 1]
+                        if (xpos + 1 < xWidth && zpos + 1 < zWidth && NodeSet[xpos + 1, zpos + 1] != null)
                         {
-                            if (NodeSet[xpos - 1, zpos - 1] != null)
-                            {
-                                node.nabours.AddSafe(NodeSet[xpos - 1, zpos - 1]);
-                                NodeSet[xpos - 1, zpos - 1].nabours.AddSafe(node);
-                            }                            
+                            node.nabours.AddSafe(NodeSet[xpos + 1, zpos + 1]);
+                            NodeSet[xpos + 1, zpos + 1].nabours.AddSafe(node);
                         }
-
-                        if (xpos + 1 < 0 && xWidth + 1 < zWidth)
+                        // [-1, 0]
+                        if (xpos - 1 >= 0 && zpos >= 0 && NodeSet[xpos - 1, zpos] != null)
                         {
-                            if (NodeSet[xpos + 1, zpos + 1] != null)
-                            {
-                                node.nabours.AddSafe(NodeSet[xpos + 1, zpos + 1]);
-                                NodeSet[xpos + 1, zpos + 1].nabours.AddSafe(node);
-                            }
+                            node.nabours.AddSafe(NodeSet[xpos - 1, zpos]);
+                            NodeSet[xpos - 1, zpos].nabours.AddSafe(node);
                         }
-
-                        if (zpos - 1 >= 0)
+                        // [1, 0]
+                        if (xpos + 1 < xWidth && zpos >= 0 && NodeSet[xpos + 1, zpos] != null)
                         {
-                            if (NodeSet[xpos, zpos - 1] != null)
-                            {
-                                node.nabours.AddSafe(NodeSet[xpos, zpos - 1]);
-                                NodeSet[xpos, zpos - 1].nabours.AddSafe(node);
-                            }                            
+                            node.nabours.AddSafe(NodeSet[xpos + 1, zpos]);
+                            NodeSet[xpos + 1, zpos].nabours.AddSafe(node);
                         }
-
-                        if (zpos + 1 < zWidth)
-                        {                            
-                            if (NodeSet[xpos, zpos + 1] != null)
-                            {
-                                
-                                node.nabours.AddSafe(NodeSet[xpos, zpos + 1]);
-                                NodeSet[xpos, zpos + 1].nabours.AddSafe(node);
-                            }
+                        // [-1, -1]
+                        if (xpos - 1 >= 0 && zpos - 1 >= 0 && NodeSet[xpos - 1, zpos - 1] != null)
+                        {
+                            node.nabours.AddSafe(NodeSet[xpos - 1, zpos - 1]);
+                            NodeSet[xpos - 1, zpos - 1].nabours.AddSafe(node);                                     
+                        }
+                        // [0,-1]
+                        if (xpos >= 0 && zpos - 1 >= 0 && NodeSet[xpos , zpos - 1] != null)
+                        {
+                            node.nabours.AddSafe(NodeSet[xpos, zpos - 1]);
+                            NodeSet[xpos, zpos - 1].nabours.AddSafe(node);
+                        }
+                        // [1,-1]
+                        if (xpos + 1 < xWidth && zpos - 1 >= 0 && NodeSet[xpos + 1, zpos - 1] != null)
+                        {
+                            node.nabours.AddSafe(NodeSet[xpos + 1, zpos - 1]);
+                            NodeSet[xpos + 1, zpos - 1].nabours.AddSafe(node);
                         }
 
                         #endregion
 
-                        NodeSet[xpos, zpos] = node;
+
                     }
                 }                              
             }
@@ -165,31 +206,7 @@ namespace BensDroneFleet {
                 
                 return node;         
         }
+        #endregion
 
-        private void OnDrawGizmos()
-        {
-            if (DisplayGizmo)
-            {                
-                Gizmos.color = NodeColour;
-                if (NodeSet != null && NodeSet.Length > 0)
-                {
-                    foreach (PathNode node in NodeSet)
-                    {
-                        if (node != null)
-                        {
-                            Gizmos.DrawSphere(new Vector3(node.x, nodeSize.y * 0.5f, node.z), nodeSize.y);
-
-                            if (node.nabours.Count > 0)
-                            {
-                                foreach (PathNode nodeB in node.nabours)
-                                {
-                                    Gizmos.DrawLine(node.position, nodeB.position);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }
