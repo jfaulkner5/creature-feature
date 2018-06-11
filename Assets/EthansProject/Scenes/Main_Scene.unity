@@ -358,7 +358,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1036021475892486, guid: 89d7a4b788600854c9fba821c46ce67a, type: 2}
       propertyPath: m_Layer
-      value: 9
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1036021475892486, guid: 89d7a4b788600854c9fba821c46ce67a, type: 2}
+      propertyPath: m_Name
+      value: Berry
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 89d7a4b788600854c9fba821c46ce67a, type: 2}
