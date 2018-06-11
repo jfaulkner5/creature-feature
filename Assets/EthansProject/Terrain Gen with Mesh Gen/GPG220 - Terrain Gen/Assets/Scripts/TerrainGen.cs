@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TerrainUtils
+namespace EthansProject
 {
 	[RequireComponent(typeof(Terrain))]
 	public class TerrainGen : MonoBehaviour
@@ -24,9 +24,9 @@ namespace TerrainUtils
 
 			// grab the terrain data
 			TerrainData terrainData = terrainComp.terrainData;
-
-			// retrieve the height map
-			float[,] heightMap = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, terrainData.heightmapHeight);
+            
+            // retrieve the height map
+            float[,] heightMap = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, terrainData.heightmapHeight);
 
 			for (int x = 0; x < terrainData.heightmapWidth; ++x)
 			{
@@ -54,7 +54,7 @@ namespace TerrainUtils
 			}
 
 			terrainData.SetHeights(0, 0, heightMap);
-
+            terrainComp.enabled = false;
 			int numVerts = terrainData.heightmapWidth * terrainData.heightmapHeight;
 			Vector3[] vertices = new Vector3[numVerts];
 			int[] triangles = new int[numVerts * 3 * 2]; // 3 verts per triangle, 2 triangles per quad/square
@@ -67,7 +67,7 @@ namespace TerrainUtils
 				{
 					float height = terrainData.GetHeight(x, z);
 					vertices[vertIndex] = new Vector3(x, height, z);
-
+                    NodeManager.instance.CreateGrid(vertices[vertIndex], terrainData,  x, z);
 					if ((x < (terrainData.heightmapWidth - 1)) && (z < (terrainData.heightmapHeight - 1)))
 					{
 						triangles[(vertIndex * 6) + 0] = vertIndex + 1;

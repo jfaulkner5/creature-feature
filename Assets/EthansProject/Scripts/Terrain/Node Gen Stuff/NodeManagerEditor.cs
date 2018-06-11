@@ -14,7 +14,7 @@ namespace EthansProject
 
             if (GUILayout.Button("Update AI"))
             {
-                grid.CreateGrid();
+               // grid.CreateGrid();
             }
             //TODO Stop being trash
             if (GUILayout.Button("Debug PathData: " + grid.debugMode))

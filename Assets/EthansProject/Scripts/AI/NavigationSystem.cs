@@ -23,13 +23,13 @@ namespace EthansProject {
             PathingManager.FindPath(gameObject.transform.position, tempTarg);
             
             return;
-            if (grid.path.Count > 0)
+            if (grid.nodes.Count > 0)
             {
-                for (int i = 0; i < grid.path.Count; i++)
+                for (int i = 0; i < grid.nodes.Count; i++)
                 {
-                    while (Vector3.Distance(transform.position, grid.path[i].node.spacialInfo) > 0.5f)
+                    while (Vector3.Distance(transform.position, grid.nodes[i].node.spacialInfo) > 0.5f)
                     {
-                        transform.position = Vector3.Lerp(transform.position, grid.path[i].node.spacialInfo, 0.5f);
+                        transform.position = Vector3.Lerp(transform.position, grid.nodes[i].node.spacialInfo, 0.5f);
                     }
                 }
             }

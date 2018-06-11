@@ -20,11 +20,10 @@ namespace EthansProject
         /// <param name="endPoint"></param>
         public static void FindPath(Vector3 startPoint, Vector3 endPoint)
         {
-           
             PathingNode startNode = grid.NodeFromWorldPoint(startPoint);
             PathingNode endNode = grid.NodeFromWorldPoint(endPoint);
             openList.Add(startNode);
-
+            Debug.Log(startNode + " : " + endNode);
             while (openList.Count > 0)
             {
                 //Hack: Un-preforment
@@ -41,7 +40,7 @@ namespace EthansProject
 
                 if (currentNode == endNode)
                 {
-                    grid.path = RetacePath(startNode, endNode);
+                    grid.nodes = RetacePath(startNode, endNode);
                     return;
                 }
                 //TODO Stop being trash

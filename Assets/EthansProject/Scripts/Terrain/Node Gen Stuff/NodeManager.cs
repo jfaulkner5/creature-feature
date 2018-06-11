@@ -7,7 +7,9 @@ namespace EthansProject
 {
     public class NodeManager : MonoBehaviour
     {
-
+        int gridSizeX, gridSizeY;
+        public List<PathingNode> nodes = new List<PathingNode>();
+        Vector2 gridWorldSize;
         #region Single Instance
         public static NodeManager instance;
 
@@ -27,26 +29,28 @@ namespace EthansProject
         #endregion
         //TODO Stop being trash
         public LayerMask unwalkableMask;
-        public Vector2 gridWorldSize;
+        //public Vector2 gridWorldSize;
         [Range(0.1f, 0.8f)]
         public float nodeRadius;
         PathingNode[,] grid;
-
+        TerrainData newData;
         [HideInInspector]
         public bool debugMode = true;
         float nodeDiameter;
-        int gridSizeX, gridSizeY;
-        public List<PathingNode> path;
         //TODO Stop being trash
         /// <summary>
         /// 
         /// </summary>
-        void Start()
+        public void Start()
         {
+           
             nodeDiameter = nodeRadius * 2;
+            gridWorldSize = new Vector2(newData.heightmapWidth, newData.heightmapHeight);
+            //gridSizeX = Mathf.RoundToInt(newData.heightmapWidth / nodeDiameter);
+            //gridSizeY = Mathf.RoundToInt(newData.heightmapHeight / nodeDiameter);
             gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
             gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-            CreateGrid();
+            //CreateGrid();
         }
 
         private void Update()
@@ -56,20 +60,17 @@ namespace EthansProject
         /// <summary>
         /// Creates the nodes in the space of the grid size.
         /// </summary>
-        public void CreateGrid()
+        public void CreateGrid(Vector3 vertPoint,TerrainData data,  int x, int z)
         {
-            grid = new PathingNode[gridSizeX, gridSizeY];
-            Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
+            newData = data;
+            grid = new PathingNode[data.heightmapWidth, data.heightmapHeight];
+            //Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
+            
 
-            for (int x = 0; x < gridSizeX; x++)
-            {
-                for (int y = 0; y < gridSizeY; y++)
-                {
-                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
-                    bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                    grid[x, y] = new PathingNode(walkable, worldPoint, x, y);
-                }
-            }
+            // Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
+            bool walkable = !(Physics.CheckSphere(vertPoint, nodeRadius, unwalkableMask));
+            grid[x, z] = new PathingNode(walkable, vertPoint, x, z);
+            nodes.Add(grid[x, z]);
         }
 
         /// <summary>
@@ -106,13 +107,16 @@ namespace EthansProject
         /// <returns></returns>
         public PathingNode NodeFromWorldPoint(Vector3 worldPosition)
         {
-            float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
-            float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
+            float percentX = (worldPosition.x + newData.heightmapWidth / 2) / newData.heightmapWidth;
+            float percentY = (worldPosition.z + newData.heightmapHeight / 2) / newData.heightmapHeight;
             percentX = Mathf.Clamp01(percentX);
             percentY = Mathf.Clamp01(percentY);
 
             int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
             int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
+
+            Debug.Log("Found: " + grid[x, y] + ". At: " + worldPosition);
+
             return grid[x, y];
 
         }
@@ -125,16 +129,16 @@ namespace EthansProject
             if (!debugMode)
                 return;
 
-            Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+           // Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
             if (grid != null)
             {
-                foreach (PathingNode n in grid)
+                foreach (PathingNode n in nodes)
                 {
                     Gizmos.color = (n.traverable) ? Color.white : Color.red;
-                    if (path != null && path.Contains(n))
-                        Gizmos.color = Color.blue;
-                    Gizmos.DrawSphere(n.node.spacialInfo, 1 * (nodeDiameter - .1f));
+                    //if (path != null && path.Contains(n))
+                    //    Gizmos.color = Color.blue;
+                    Gizmos.DrawSphere(n.node.spacialInfo, nodeDiameter /2);
                 }
             }
 
