@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EthansProject
 {
-
+    //TODO Stop being trash
     [System.Serializable]
     public class Node
     {

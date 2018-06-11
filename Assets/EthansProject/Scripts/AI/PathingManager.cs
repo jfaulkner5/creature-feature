@@ -9,10 +9,15 @@ namespace EthansProject
         public static List<PathingNode> openList = new List<PathingNode>();
         public static HashSet<PathingNode> closedList = new HashSet<PathingNode>();
 
-
-
         static NodeManager grid = NodeManager.instance;
 
+        /// <summary>
+        /// Uses the astar algorithim to return a path.
+        /// Turns the passed in positions and turns them into nodes.
+        /// 
+        /// </summary>
+        /// <param name="startPoint"></param>
+        /// <param name="endPoint"></param>
         public static void FindPath(Vector3 startPoint, Vector3 endPoint)
         {
            
@@ -39,7 +44,7 @@ namespace EthansProject
                     grid.path = RetacePath(startNode, endNode);
                     return;
                 }
-
+                //TODO Stop being trash
 
                 foreach (PathingNode neigbouringNode in grid.GetNeigbours(currentNode))
                 {
@@ -48,9 +53,7 @@ namespace EthansProject
                         continue;
 
                     float newNeighbourCost = currentNode.costG + GetDistance(currentNode, neigbouringNode);
-
-
-
+                    
                     if (newNeighbourCost < neigbouringNode.costG || !openList.Contains(neigbouringNode))
                     {
                         neigbouringNode.parent = currentNode;
@@ -70,6 +73,12 @@ namespace EthansProject
             }
         }
 
+        /// <summary>
+        /// Returns a list of the path taken to find the "Goal".
+        /// </summary>
+        /// <param name="startNode"></param>
+        /// <param name="endNode"></param>
+        /// <returns></returns>
         static List<PathingNode> RetacePath(PathingNode startNode, PathingNode endNode)
         {
             List<PathingNode> path = new List<PathingNode>();
@@ -84,10 +93,14 @@ namespace EthansProject
             path.Reverse();
 
             return path;
-
         }
 
-
+        /// <summary>
+        /// essenially returns a huristic cost
+        /// </summary>
+        /// <param name="nodeA"></param>
+        /// <param name="nodeB"></param>
+        /// <returns></returns>
         static int GetDistance(PathingNode nodeA, PathingNode nodeB)
         {
             int distanceX = Mathf.Abs(nodeA.gridX - nodeB.gridX);

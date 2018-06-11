@@ -25,9 +25,10 @@ namespace EthansProject
             }
         }
         #endregion
-
+        //TODO Stop being trash
         public LayerMask unwalkableMask;
         public Vector2 gridWorldSize;
+        [Range(0.1f, 0.8f)]
         public float nodeRadius;
         PathingNode[,] grid;
 
@@ -35,7 +36,11 @@ namespace EthansProject
         public bool debugMode = true;
         float nodeDiameter;
         int gridSizeX, gridSizeY;
-
+        public List<PathingNode> path;
+        //TODO Stop being trash
+        /// <summary>
+        /// 
+        /// </summary>
         void Start()
         {
             nodeDiameter = nodeRadius * 2;
@@ -48,7 +53,9 @@ namespace EthansProject
         {
             //Dont do this lmao. yikes CreateGrid();
         }
-
+        /// <summary>
+        /// Creates the nodes in the space of the grid size.
+        /// </summary>
         public void CreateGrid()
         {
             grid = new PathingNode[gridSizeX, gridSizeY];
@@ -65,6 +72,11 @@ namespace EthansProject
             }
         }
 
+        /// <summary>
+        /// Gets all the neigbours of the passing node.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public List<PathingNode> GetNeigbours(PathingNode node)
         {
             List<PathingNode> neigbours = new List<PathingNode>();
@@ -82,12 +94,16 @@ namespace EthansProject
                     {
                         neigbours.Add(grid[checkX, checkY]);
                     }
-
                 }
             }
             return neigbours;
         }
-
+        //TODO Stop being trash
+        /// <summary>
+        /// Recives the node from world pace position passed through
+        /// </summary>
+        /// <param name="worldPosition"></param>
+        /// <returns></returns>
         public PathingNode NodeFromWorldPoint(Vector3 worldPosition)
         {
             float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
@@ -100,7 +116,10 @@ namespace EthansProject
             return grid[x, y];
 
         }
-        public List<PathingNode> path;
+
+         /// <summary>
+         /// Draws the nodews and determains whether to make them different colors. 
+         /// </summary>
         void OnDrawGizmos()
         {
             if (!debugMode)
@@ -115,7 +134,7 @@ namespace EthansProject
                     Gizmos.color = (n.traverable) ? Color.white : Color.red;
                     if (path != null && path.Contains(n))
                         Gizmos.color = Color.blue;
-                    Gizmos.DrawCube(n.node.spacialInfo, Vector3.one * (nodeDiameter - .1f));
+                    Gizmos.DrawSphere(n.node.spacialInfo, 1 * (nodeDiameter - .1f));
                 }
             }
 

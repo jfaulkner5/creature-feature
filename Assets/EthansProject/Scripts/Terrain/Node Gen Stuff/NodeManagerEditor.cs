@@ -6,17 +6,17 @@ using UnityEditor;
 namespace EthansProject
 {
     [CustomEditor(typeof(NodeManager))]
-    public class NodeManagerEditor : Editor
+    public class GridManagerEditor : Editor
     {
         public override void OnInspectorGUI()
         {
-            NodeManager grid = NodeManager.instance;
+            NodeManager grid = FindObjectOfType<NodeManager>();
 
             if (GUILayout.Button("Update AI"))
             {
                 grid.CreateGrid();
             }
-
+            //TODO Stop being trash
             if (GUILayout.Button("Debug PathData: " + grid.debugMode))
             {
                 if (grid.debugMode)

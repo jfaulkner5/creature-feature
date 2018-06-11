@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace EthansProject
 {
-    
-
     public class PathingNode
     {
         public float costG, costH;

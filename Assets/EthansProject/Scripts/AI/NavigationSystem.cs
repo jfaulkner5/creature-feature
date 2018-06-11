@@ -8,7 +8,7 @@ namespace EthansProject {
         {
             get { return GetClosestTarget(); }
         }
-       
+        //TODO Stop being trash
         NodeManager grid;
         Vector3 tempTarg;
         // Use this for initialization
@@ -33,9 +33,8 @@ namespace EthansProject {
                     }
                 }
             }
-
         }
-
+        //TODO Stop being trash
         Vector3 GetClosestTarget()
         {
             GameObject[] gos;
