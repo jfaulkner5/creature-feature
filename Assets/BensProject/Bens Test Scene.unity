@@ -618,15 +618,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildOldGrid: 0
   CheckCount: 0
-  xWidth: 2
-  zWidth: 2
+  xWidth: 5
+  zWidth: 5
   resolution: 1
   nodeHeight: 0.155
   NodeCollisionMask:
     serializedVersion: 2
     m_Bits: 512
-  NodeCount: 4
-  DisplayGizmo: 1
+  NodeCount: 25
+  DisplayGizmo: 0
   NodeColour: {r: 0, g: 1, b: 1, a: 1}
   neighbourColour: {r: 0, g: 0, b: 1, a: 1}
 --- !u!4 &1928012826

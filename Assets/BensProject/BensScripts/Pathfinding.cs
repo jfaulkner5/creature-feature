@@ -44,6 +44,7 @@ namespace BensDroneFleet {
             {
 
                 Node currantNode = openSet[0];
+
                 for (int index = 1; index < openSet.Count; index++) // the problem is that it is looping for < openSet.count but on the first run the count is 1 and it starts at 1. so the loop bales.
                 {
                     //Debug.LogError(index);
@@ -52,39 +53,40 @@ namespace BensDroneFleet {
                     {
                         currantNode = openSet[index];
                     }
+                }
 
-                    openSet.Remove(currantNode);
-                    closedSet.Add(currantNode);
+                openSet.Remove(currantNode);
+                closedSet.Add(currantNode);
 
-                    if (currantNode == endNode)
-                    {                        
-                        return RetracePath(startNode, endNode);
-                    }
+                if (currantNode == endNode)
+                {                        
+                    return RetracePath(startNode, endNode);
+                }
 
-                    foreach (Node neighbour in grid.GetNeighbours(currantNode))
+                foreach (Node neighbour in grid.GetNeighbours(currantNode))
+                {
+                    if (!neighbour.walkable || closedSet.Contains(neighbour))
                     {
-                        if (!neighbour.walkable || closedSet.Contains(neighbour))
-                        {
-                            continue;
-                        }
-
-                        int newMoveCostToNeighbour = currantNode.gCost + GetDistance(currantNode, neighbour);
-                        if (newMoveCostToNeighbour < neighbour.gCost || openSet.Contains(neighbour))
-                        {
-                            neighbour.gCost = newMoveCostToNeighbour;
-                            neighbour.hCost = GetDistance(neighbour, endNode);
-                            neighbour.parant = currantNode;
-
-                            if (!openSet.Contains(neighbour))
-                            {
-                                openSet.Add(neighbour);
-                            }
-                        }
+                        continue;
                     }
-                }                                
+
+                    int newMoveCostToNeighbour = currantNode.gCost + GetDistance(currantNode, neighbour);
+                    
+                    if (newMoveCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
+                    {
+                        neighbour.gCost = newMoveCostToNeighbour;
+                        neighbour.hCost = GetDistance(neighbour, endNode);
+                        neighbour.parant = currantNode;
+
+                        if (!openSet.Contains(neighbour))
+                        {
+                            openSet.Add(neighbour);
+                        }
+                    }                    
+                }                
             }
 
-            Debug.LogError("Compleated OpenSet withought finding target. ");
+            Debug.LogError(closedSet.Count);
             return null;
         }
 
