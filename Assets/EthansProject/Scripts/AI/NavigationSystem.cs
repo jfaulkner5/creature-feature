@@ -8,7 +8,7 @@ namespace EthansProject {
         {
             get { return GetClosestTarget(); }
         }
-        //TODO Stop being trash
+         
         NodeManager grid;
         Vector3 tempTarg;
         // Use this for initialization
@@ -20,6 +20,8 @@ namespace EthansProject {
         // Update is called once per frame
         void Update() {
 
+            if (!NodeManager.instance._initialized)
+                return;
             PathingManager.FindPath(gameObject.transform.position, tempTarg);
             
             return;
@@ -34,7 +36,7 @@ namespace EthansProject {
                 }
             }
         }
-        //TODO Stop being trash
+         
         Vector3 GetClosestTarget()
         {
             GameObject[] gos;

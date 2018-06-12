@@ -7,7 +7,7 @@ namespace EthansProject
 {
     public class NodeManager : MonoBehaviour
     {
-        int gridSizeX, gridSizeY;
+        int gridSizeX, gridSizeZ;
         public List<PathingNode> nodes = new List<PathingNode>();
         Vector2 gridWorldSize;
         #region Single Instance
@@ -27,30 +27,34 @@ namespace EthansProject
             }
         }
         #endregion
-        //TODO Stop being trash
+         
         public LayerMask unwalkableMask;
         //public Vector2 gridWorldSize;
         [Range(0.1f, 0.8f)]
         public float nodeRadius;
         PathingNode[,] grid;
-        TerrainData newData;
+        [HideInInspector]
+        public TerrainData newData;
         [HideInInspector]
         public bool debugMode = true;
         float nodeDiameter;
-        //TODO Stop being trash
+
+        public bool _initialized = false;
         /// <summary>
         /// 
         /// </summary>
-        public void Start()
+        /// 
+        public void Initialize()
         {
+            _initialized = true;
            
             nodeDiameter = nodeRadius * 2;
-            gridWorldSize = new Vector2(newData.heightmapWidth, newData.heightmapHeight);
-            //gridSizeX = Mathf.RoundToInt(newData.heightmapWidth / nodeDiameter);
             //gridSizeY = Mathf.RoundToInt(newData.heightmapHeight / nodeDiameter);
-            gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-            gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+            gridSizeX = Mathf.RoundToInt(newData.heightmapScale.x);
+            gridSizeZ = Mathf.RoundToInt(newData.heightmapScale.z);
             //CreateGrid();
+            gridWorldSize = new Vector2(newData.heightmapScale.x, newData.heightmapScale.z);
+            //gridSizeX = Mathf.RoundToInt(newData.heightmapWidth / nodeDiameter);
         }
 
         private void Update()
@@ -60,7 +64,7 @@ namespace EthansProject
         /// <summary>
         /// Creates the nodes in the space of the grid size.
         /// </summary>
-        public void CreateGrid(Vector3 vertPoint,TerrainData data,  int x, int z)
+        public void CreateNode(Vector3 vertPoint,TerrainData data,  int x, int z)
         {
             newData = data;
             grid = new PathingNode[data.heightmapWidth, data.heightmapHeight];
@@ -71,6 +75,7 @@ namespace EthansProject
             bool walkable = !(Physics.CheckSphere(vertPoint, nodeRadius, unwalkableMask));
             grid[x, z] = new PathingNode(walkable, vertPoint, x, z);
             nodes.Add(grid[x, z]);
+           // Debug.Log(grid[x, z].gridX + ", " + grid[x, z].gridY);
         }
 
         /// <summary>
@@ -91,7 +96,7 @@ namespace EthansProject
                     int checkX = node.gridX + x;
                     int checkY = node.gridY + y;
 
-                    if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
+                    if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeZ)
                     {
                         neigbours.Add(grid[checkX, checkY]);
                     }
@@ -99,7 +104,7 @@ namespace EthansProject
             }
             return neigbours;
         }
-        //TODO Stop being trash
+         
         /// <summary>
         /// Recives the node from world pace position passed through
         /// </summary>
@@ -107,15 +112,17 @@ namespace EthansProject
         /// <returns></returns>
         public PathingNode NodeFromWorldPoint(Vector3 worldPosition)
         {
-            float percentX = (worldPosition.x + newData.heightmapWidth / 2) / newData.heightmapWidth;
-            float percentY = (worldPosition.z + newData.heightmapHeight / 2) / newData.heightmapHeight;
-            percentX = Mathf.Clamp01(percentX);
-            percentY = Mathf.Clamp01(percentY);
+        
+            Vector3 posOffset = worldPosition - newData.bounds.min;
+            posOffset.x /= newData.heightmapScale.x;
+            posOffset.y /= newData.heightmapScale.y;
+            posOffset.z /= newData.heightmapScale.z;
 
-            int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
-            int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
+            int x = Mathf.RoundToInt(posOffset.x);
+            int y = Mathf.RoundToInt(posOffset.z);
 
-            Debug.Log("Found: " + grid[x, y] + ". At: " + worldPosition);
+
+           // Debug.Log("Found: " + grid[x, y].gridX + ", " + grid[x, y].gridY + ". At: " + worldPosition + " : " + x + ","+y);
 
             return grid[x, y];
 

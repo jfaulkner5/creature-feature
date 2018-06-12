@@ -23,13 +23,14 @@ namespace EthansProject
             PathingNode startNode = grid.NodeFromWorldPoint(startPoint);
             PathingNode endNode = grid.NodeFromWorldPoint(endPoint);
             openList.Add(startNode);
-            Debug.Log(startNode + " : " + endNode);
+          //  Debug.Log(startNode.node.spacialInfo + " : " + endNode.node.spacialInfo);
             while (openList.Count > 0)
             {
                 //Hack: Un-preforment
                 PathingNode currentNode = openList[0];
                 for (int i = 0; i < openList.Count; i++)
                 {
+                    Debug.Log(openList[i]);
                     if (openList[i].CostF < currentNode.CostF || (openList[i].CostF == currentNode.CostF && openList[i].costG < currentNode.costG))
                     {
                         currentNode = openList[i];
@@ -43,7 +44,7 @@ namespace EthansProject
                     grid.nodes = RetacePath(startNode, endNode);
                     return;
                 }
-                //TODO Stop being trash
+                 
 
                 foreach (PathingNode neigbouringNode in grid.GetNeigbours(currentNode))
                 {

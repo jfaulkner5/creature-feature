@@ -16,7 +16,7 @@ namespace EthansProject
             {
                // grid.CreateGrid();
             }
-            //TODO Stop being trash
+             
             if (GUILayout.Button("Debug PathData: " + grid.debugMode))
             {
                 if (grid.debugMode)

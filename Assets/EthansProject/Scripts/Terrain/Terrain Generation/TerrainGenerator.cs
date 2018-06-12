@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour
 {
-    //TODO Stop being trash
+     
     // Use this for initialization
     void Start()
     {
@@ -30,7 +30,7 @@ public class TerrainGenerator : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //TODO Stop being trash
+         
         if (!regenerate)
             return;
 
@@ -97,7 +97,7 @@ public class TerrainGenerator : MonoBehaviour
 
     public void GenerateMap()
     {
-        //TODO Stop being trash
+         
     }
 
 }

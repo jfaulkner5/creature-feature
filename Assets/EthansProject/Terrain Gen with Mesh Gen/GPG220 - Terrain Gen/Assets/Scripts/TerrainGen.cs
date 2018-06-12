@@ -24,7 +24,7 @@ namespace EthansProject
 
 			// grab the terrain data
 			TerrainData terrainData = terrainComp.terrainData;
-            
+            NodeManager.instance.newData = terrainData;
             // retrieve the height map
             float[,] heightMap = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, terrainData.heightmapHeight);
 
@@ -67,7 +67,7 @@ namespace EthansProject
 				{
 					float height = terrainData.GetHeight(x, z);
 					vertices[vertIndex] = new Vector3(x, height, z);
-                    NodeManager.instance.CreateGrid(vertices[vertIndex], terrainData,  x, z);
+                    NodeManager.instance.CreateNode(vertices[vertIndex], terrainData, x, z);
 					if ((x < (terrainData.heightmapWidth - 1)) && (z < (terrainData.heightmapHeight - 1)))
 					{
 						triangles[(vertIndex * 6) + 0] = vertIndex + 1;
@@ -86,6 +86,7 @@ namespace EthansProject
 			mfComp.mesh.triangles = triangles;
 			mfComp.mesh.RecalculateBounds();
 			mfComp.mesh.RecalculateNormals();
+            NodeManager.instance.Initialize();
 		}
 	}
 }
