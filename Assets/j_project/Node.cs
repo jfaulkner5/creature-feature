@@ -14,12 +14,26 @@ namespace jfaulkner
         public int cost;
         public int hCost;
 
+        List<Node> neighbours;
+
         public Node(bool _isPassable, Vector3 _worldPos, int _gridX, int _grixY)
         {
             isPassable = _isPassable;
             worldPos = _worldPos;
             gridX = _gridX;
             gridY = _grixY;
+        }
+
+        //Neighbours list. 
+        //Unsure if necessary
+        public Node(bool _isPassable, Vector3 _worldPos, int _gridX, int _grixY, List<Node> _neighbours)
+        {
+            isPassable = _isPassable;
+            worldPos = _worldPos;
+            gridX = _gridX;
+            gridY = _grixY;
+
+            neighbours = _neighbours;
         }
     }
 }
