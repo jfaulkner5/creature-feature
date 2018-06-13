@@ -16,14 +16,17 @@ namespace EthansProject {
             grid = NodeManager.instance;
             tempTarg = Target;
         }
-
+        public bool recalculatePath = true;
         // Update is called once per frame
         void Update() {
 
             if (!NodeManager.instance._initialized)
                 return;
+
+            if (!recalculatePath)
+                return;
             PathingManager.FindPath(gameObject.transform.position, tempTarg);
-            
+            recalculatePath = false;
             return;
             if (grid.nodes.Count > 0)
             {

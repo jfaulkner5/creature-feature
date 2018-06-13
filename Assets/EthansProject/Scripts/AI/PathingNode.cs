@@ -12,7 +12,7 @@ namespace EthansProject
         {
             get
             {
-                return costH + costG;
+                return costH + costG + node.spacialInfo.y;
             }
         }
 

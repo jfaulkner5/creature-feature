@@ -11,17 +11,17 @@ namespace EthansProject
         public override void OnInspectorGUI()
         {
             NodeManager grid = FindObjectOfType<NodeManager>();
+            TerrainGen terrGen = FindObjectOfType<TerrainGen>();
 
             if (GUILayout.Button("Update AI"))
             {
-               // grid.CreateGrid();
+                terrGen.GenerateTerrain();
             }
              
             if (GUILayout.Button("Debug PathData: " + grid.debugMode))
             {
                 if (grid.debugMode)
                     grid.debugMode = false;
-
                 else
                     grid.debugMode = true;
 

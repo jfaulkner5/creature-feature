@@ -20,19 +20,29 @@ namespace EthansProject
         /// <param name="endPoint"></param>
         public static void FindPath(Vector3 startPoint, Vector3 endPoint)
         {
+            openList.Clear();
+            closedList.Clear();
+            grid.path.Clear();
+
+            NodeManager.instance.StatusUpdate("Now starting A* pathing");
+
             PathingNode startNode = grid.NodeFromWorldPoint(startPoint);
             PathingNode endNode = grid.NodeFromWorldPoint(endPoint);
             openList.Add(startNode);
           //  Debug.Log(startNode.node.spacialInfo + " : " + endNode.node.spacialInfo);
             while (openList.Count > 0)
             {
+                NodeManager.instance.StatusUpdate("Now running A* pathing");
+
                 //Hack: Un-preforment
                 PathingNode currentNode = openList[0];
                 for (int i = 0; i < openList.Count; i++)
                 {
-                    Debug.Log(openList[i]);
+                   
                     if (openList[i].CostF < currentNode.CostF || (openList[i].CostF == currentNode.CostF && openList[i].costG < currentNode.costG))
                     {
+                        NodeManager.instance.StatusUpdate("Now running checks on cost to get from node to node");
+
                         currentNode = openList[i];
                     }
                 }
@@ -41,14 +51,16 @@ namespace EthansProject
 
                 if (currentNode == endNode)
                 {
-                    grid.nodes = RetacePath(startNode, endNode);
-                    return;
+                    grid.path = RetacePath(startNode, endNode);
+                    Debug.Log("YESSSSSSSSSSS");
+                    break;
                 }
+               
                  
 
                 foreach (PathingNode neigbouringNode in grid.GetNeigbours(currentNode))
                 {
-
+                    NodeManager.instance.StatusUpdate("Now running neigbouring checks");
                     if (!neigbouringNode.traverable || closedList.Contains(neigbouringNode))
                         continue;
 
@@ -69,8 +81,9 @@ namespace EthansProject
                         openList.Add(neigbouringNode);
                     }
                 }
-
+               
             }
+                    Debug.Log("What?? Couldn't path from: " + startNode.node.spacialInfo + " -> " + endNode.node.spacialInfo);
         }
 
         /// <summary>
@@ -81,6 +94,8 @@ namespace EthansProject
         /// <returns></returns>
         static List<PathingNode> RetacePath(PathingNode startNode, PathingNode endNode)
         {
+            NodeManager.instance.StatusUpdate("Now running a retrace path to return the path to target");
+
             List<PathingNode> path = new List<PathingNode>();
             PathingNode currNode = endNode;
 
@@ -101,7 +116,7 @@ namespace EthansProject
         /// <param name="nodeA"></param>
         /// <param name="nodeB"></param>
         /// <returns></returns>
-        static int GetDistance(PathingNode nodeA, PathingNode nodeB)
+        static float GetDistance(PathingNode nodeA, PathingNode nodeB)
         {
             int distanceX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
             int distanceY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
@@ -111,7 +126,7 @@ namespace EthansProject
                 return 14 * distanceY + 10 * (distanceX - distanceY);
             }
 
-            return 14 * distanceX + 10 * (distanceY - distanceX);
+           return 14 * distanceX + 10 * (distanceY - distanceX);
 
         }
 
