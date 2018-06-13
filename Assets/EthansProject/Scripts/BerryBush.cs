@@ -13,7 +13,12 @@ public class BerryBush : MonoBehaviour
     public float randomnessPercent = 10;
 
     public bool hassBerries = true;
+    public bool debug_takeBerries;
 
+    GameObject berries
+    {
+        get { return transform.GetChild(0).gameObject; }
+    }
     // Use this for initialization
     void Start()
     {
@@ -22,7 +27,12 @@ public class BerryBush : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {      
+    {
+        if (debug_takeBerries)
+        {
+            debug_takeBerries = false;
+            TakeBerries();
+        }
 
         if (currentRate > 0)
             {
@@ -43,13 +53,16 @@ public class BerryBush : MonoBehaviour
         currentBerryCount = InitBerryCount + Mathf.RoundToInt(randChance);
         hassBerries = true;
 
-        print(currentBerryCount + ", " + randChance);
+        berries.SetActive(true);
+      //  print(currentBerryCount + ", " + randChance);
     }
 
     public int TakeBerries()
     {
         hassBerries = false;
         currentRate = berryRegrowthRate;
+
+        berries.SetActive(false);
 
         return currentBerryCount;
     }

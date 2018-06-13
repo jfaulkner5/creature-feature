@@ -6,15 +6,13 @@ namespace EthansProject {
        
         public Vector3 Target
         {
-            get { return GetClosestTarget(); }
+            get { return GetClosestBerryBush(); }
         }
          
-        NodeManager grid;
         Vector3 tempTarg;
         // Use this for initialization
         void Start() {
-            grid = NodeManager.instance;
-            tempTarg = Target;
+          
         }
         public bool recalculatePath = true;
         // Update is called once per frame
@@ -25,34 +23,43 @@ namespace EthansProject {
 
             if (!recalculatePath)
                 return;
+
+            tempTarg = Target;
             PathingManager.FindPath(gameObject.transform.position, tempTarg);
             recalculatePath = false;
             return;
-            if (grid.nodes.Count > 0)
+
+            if (NodeManager.instance.nodes.Count > 0)
             {
-                for (int i = 0; i < grid.nodes.Count; i++)
+                for (int i = 0; i < NodeManager.instance.nodes.Count; i++)
                 {
-                    while (Vector3.Distance(transform.position, grid.nodes[i].node.spacialInfo) > 0.5f)
+                    while (Vector3.Distance(transform.position, NodeManager.instance.nodes[i].node.spacialInfo) > 0.5f)
                     {
-                        transform.position = Vector3.Lerp(transform.position, grid.nodes[i].node.spacialInfo, 0.5f);
+                        transform.position = Vector3.Lerp(transform.position, NodeManager.instance.nodes[i].node.spacialInfo, 0.5f);
                     }
                 }
             }
         }
          
-        Vector3 GetClosestTarget()
+        Vector3 GetClosestBerryBush()
         {
             GameObject[] gos;
             gos = GameObject.FindGameObjectsWithTag("Berry");
             GameObject closest = null;
             float distance = Mathf.Infinity;
             Vector3 position = transform.position;
+
             foreach (GameObject go in gos)
             {
+                if (!go.GetComponent<BerryBush>().hassBerries)
+                    continue;
+
                 Vector3 diff = go.transform.position - position;
                 float curDistance = diff.sqrMagnitude;
+
                 if (curDistance < distance)
                 {
+                  
                     closest = go;
                     distance = curDistance;
                 }

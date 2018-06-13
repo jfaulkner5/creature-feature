@@ -160,9 +160,13 @@ namespace EthansProject
 
             if (grid != null)
             {
+
                 foreach (PathingNode n in grid)
                 {
-                    Gizmos.color = (n.traverable) ? Color.white : Color.red;
+                    if(n.traverable)
+                        Gizmos.color = Color.white;
+                    else
+                        continue;
 
                     if (path != null && path.Contains(n))
                         Gizmos.color = Color.blue;
