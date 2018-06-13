@@ -366,7 +366,7 @@ GameObject:
   - component: {fileID: 233445007}
   - component: {fileID: 233445006}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: unknown object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -921,7 +921,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   gridWorldSize: {x: 20, y: 20}
-  nodeRad: 0.5
+  nodeRad: 0.25
   nodeDiam: 0
   gridSizeX: 1
   gridSizeY: 1
