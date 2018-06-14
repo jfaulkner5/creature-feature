@@ -5,27 +5,23 @@ using UnityEngine;
 namespace BensDroneFleet
 {
 
-    public class PathGrid : MonoBehaviour
+    public static class PathGrid
     {             
-        public LayerMask unwalkableMask;
-        public Vector2 gridWorldSize;
-        public float nodeRadious;
-        Node[,] grid;
+        public static LayerMask unwalkableMask;
+        public static Vector2 gridWorldSize;
+        public static float nodeRadious;
+        public static Node[,] grid;
 
-        float nodeDiameter;
-        int gridSizeX, gridSizeY;
+        static float nodeDiameter { get { return nodeRadious * 2; } }
+        static int gridSizeX { get { return Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);} }
+        static int gridSizeY { get { return Mathf.RoundToInt(gridWorldSize.y / nodeDiameter); } }
 
-        private void Start()
+        static Transform transform;
+        
+        public static void CreateGrid(Transform _transform)
         {
-            nodeDiameter = nodeRadious * 2;
-            gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-            gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+            transform = _transform;
 
-            CreateGrid();
-        }
-
-        void CreateGrid()
-        {
             grid = new Node[gridSizeX, gridSizeY];
             Vector3 worldBotLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
 
@@ -40,7 +36,7 @@ namespace BensDroneFleet
             }
         }
 
-        public List<Node> GetNeighbours(Node node)
+        public static List<Node> GetNeighbours(Node node)
         {
             List<Node> neighbours = new List<Node>();
             for (int x = -1; x <= 1; x++)
@@ -65,7 +61,7 @@ namespace BensDroneFleet
             return neighbours;
         }
 
-        public Node NodeFromWorldPoint(Vector3 WorldPosition)
+        public static Node NodeFromWorldPoint(Vector3 WorldPosition)
         {
             float percentX = (WorldPosition.x - transform.position.x + gridWorldSize.x / 2) / gridWorldSize.x;
             float percentY = (WorldPosition.z - transform.position.z + gridWorldSize.y / 2) / gridWorldSize.y;
@@ -76,34 +72,33 @@ namespace BensDroneFleet
             int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
 
             return grid[x, y];
-        }
+        }       
 
-        public List<Node> path;
+    // Requires a path
+    //    private static void OnDrawGizmos()
+    //    {
+    //        if (grid != null)
+    //        {
 
-        private void OnDrawGizmos()
-        {
-            if (grid != null)
-            {
+    //            foreach (Node node in grid)
+    //            {
+    //                Gizmos.color = (node.walkable) ? Color.white : Color.red;
+    //                if (path != null)
+    //                {
+    //                    if (path.Contains(node))
+    //                    {
+    //                        Gizmos.color = Color.black;
+    //                    }
+    //                }      
+    //                Gizmos.DrawSphere(node.worldPosition,(nodeDiameter/2));
+    //            }
+    //        }
+    //    }
 
-                foreach (Node node in grid)
-                {
-                    Gizmos.color = (node.walkable) ? Color.white : Color.red;
-                    if (path != null)
-                    {
-                        if (path.Contains(node))
-                        {
-                            Gizmos.color = Color.black;
-                        }
-                    }      
-                    Gizmos.DrawSphere(node.worldPosition,(nodeDiameter/2));
-                }
-            }
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-        }
+    //    private void OnDrawGizmosSelected()
+    //    {
+    //        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+    //    }
     }
 
     public class Node

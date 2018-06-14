@@ -4,36 +4,31 @@ using UnityEngine;
 
 namespace BensDroneFleet {
 
-    public class Pathfinding : MonoBehaviour
+    public static class Pathfinding
     {
-        public Transform Seeker;
-        public Transform Target;
-        public bool updatePath;
-
-        PathGrid grid;
-
-        private void Update()
+        /// <summary>
+        /// Finds path from location to location by converting the Locations to Nodes first.
+        /// </summary>
+        /// <param name="startPos"></param>
+        /// <param name="targetPos"></param>
+        /// <returns></returns>
+        public static List<Node> FindPath(Vector3 startPos, Vector3 targetPos)
         {
-            if (updatePath)
-            {
-                updatePath = false;
-                grid.path = FindPath(Seeker.position, Target.position);
-            }            
+            Node startNode = PathGrid.NodeFromWorldPoint(startPos);
+            Node endNode = PathGrid.NodeFromWorldPoint(targetPos);
+
+            return FindPath(startNode, endNode);
         }
 
-        private void Awake()
+        /// <summary>
+        /// Finds Path from nodes to Node.
+        /// </summary>
+        /// <param name="startNode"></param>
+        /// <param name="endNode"></param>
+        /// <returns></returns>
+        public static List<Node> FindPath(Node startNode, Node endNode)        
         {
-            grid = GetComponent<PathGrid>();
-            if (grid == null)
-            {
-                Debug.LogError("CurrantlyRequires a built grid on same gameobject");
-            }
-        }
-
-        List<Node> FindPath(Vector3 startPos, Vector3 targetPos)
-        {
-            Node startNode = grid.NodeFromWorldPoint(startPos);
-            Node endNode = grid.NodeFromWorldPoint(targetPos);
+            
 
             List<Node> openSet = new List<Node>();
             List<Node> closedSet = new List<Node>();
@@ -63,7 +58,7 @@ namespace BensDroneFleet {
                     return RetracePath(startNode, endNode);
                 }
 
-                foreach (Node neighbour in grid.GetNeighbours(currantNode))
+                foreach (Node neighbour in PathGrid.GetNeighbours(currantNode))
                 {
                     if (!neighbour.walkable || closedSet.Contains(neighbour))
                     {
@@ -90,7 +85,7 @@ namespace BensDroneFleet {
             return null;
         }
 
-        List<Node> RetracePath(Node startNode, Node endNode)
+        static List<Node> RetracePath(Node startNode, Node endNode)
         {
             List<Node> path = new List<Node>();
             Node currnatNode = endNode;
@@ -105,7 +100,7 @@ namespace BensDroneFleet {
             return path;
         }
 
-        int GetDistance(Node nodeA, Node nodeB)
+        static int GetDistance(Node nodeA, Node nodeB)
         {
             int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
             int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
