@@ -13,7 +13,7 @@ namespace EthansProject
             NodeManager grid = FindObjectOfType<NodeManager>();
             TerrainGen terrGen = FindObjectOfType<TerrainGen>();
 
-            if (GUILayout.Button("Update AI"))
+            if (GUILayout.Button("Update Mesh"))
             {
                 terrGen.GenerateTerrain();
             }

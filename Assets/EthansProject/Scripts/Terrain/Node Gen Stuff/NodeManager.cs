@@ -105,7 +105,7 @@ namespace EthansProject
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public string status;
+        private string status;
         public List<PathingNode> GetNeigbours(PathingNode node)
         {
             StatusUpdate("Now trying to get a list of neigbours");
@@ -163,7 +163,7 @@ namespace EthansProject
 
                 foreach (PathingNode n in grid)
                 {
-                    if(n.traverable)
+                    if (n.traverable)
                         Gizmos.color = Color.white;
                     else
                         continue;

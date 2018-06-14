@@ -52,7 +52,7 @@ namespace EthansProject
                 if (currentNode == endNode)
                 {
                     grid.path = RetacePath(startNode, endNode);
-                    Debug.Log("YESSSSSSSSSSS");
+                    Debug.Log("Path successful");
                     break;
                 }
                

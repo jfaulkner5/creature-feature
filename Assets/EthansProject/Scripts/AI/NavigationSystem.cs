@@ -51,6 +51,7 @@ namespace EthansProject {
             GameObject closest = null;
             float distance = Mathf.Infinity;
             Vector3 position = transform.position;
+          
 
             foreach (GameObject go in gos)
             {

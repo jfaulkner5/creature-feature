@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Terrain
-  m_Shader: {fileID: 4800000, guid: d89ecf6a4b2dcfb40a6b4cb29620e1e5, type: 3}
+  m_Shader: {fileID: 4800000, guid: a843d939ab8017240b2f6fc0c2a736ca, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -91,6 +91,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _WireThickness: 100
     - _ZWrite: 1
     - testScale: 1
     m_Colors:
@@ -101,3 +102,4 @@ Material:
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _WireColor: {r: 0, g: 0, b: 0, a: 1}

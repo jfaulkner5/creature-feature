@@ -13,6 +13,9 @@ namespace EthansProject
         public float height;
         public bool traverableRegion;
 
+        public GameObject objToSpawnForRegion;
+        public float noiseCap = 0.4f;
+        public float spawnPossiblity = 3;
     }
 
     [RequireComponent(typeof(Terrain))]
@@ -32,6 +35,10 @@ namespace EthansProject
         public float passStrengthScale;
         public float passStrength;
         public float passNoiseScalse;
+
+        public float min = 0.9f;
+        public float max = 1.1f;
+
 
         // Use this for initialization
         void Start()
@@ -81,10 +88,11 @@ namespace EthansProject
                     for (int z = 0; z < terrainData.heightmapHeight; ++z)
                     {
                         heightMap[x, z] += currentStrength * 2f * newNoiseScale * (Mathf.PerlinNoise(newxScale * x / terrainData.heightmapWidth,
-                                                                                newzScale * z / terrainData.heightmapHeight) - 0.5f);
+                                                                                newzScale * z / terrainData.heightmapHeight) - 0.5f) * UnityEngine.Random.Range(min, max);
 
                     }
                 }
+                // 
                 currentStrength *= passStrengthScale;
                 newxScale *= passStrengthScale;
                 newzScale *= passStrengthScale;
@@ -114,15 +122,9 @@ namespace EthansProject
 
                     //if inbetween height spawn a object
                     //Hack: make better object gen system.
-                    if (height > 10 && height < 15)
-                    {
-                        GameObject prefab = SpawnObject();
-                        if (prefab != null)
-                        {
-                            GameObject newObj = Instantiate(prefab, vertices[vertIndex], Quaternion.identity);
-                            genedObjs.Add(newObj);
-                        }
-                    }
+
+                    SpawnObject(vertices[vertIndex], x, z, height);
+
                     //Builds the vertices
                     if ((x < (terrainData.heightmapWidth - 1)) && (z < (terrainData.heightmapHeight - 1)))
                     {
@@ -148,17 +150,35 @@ namespace EthansProject
 
         }
 
-        GameObject SpawnObject()
+        void SpawnObject(Vector3 vertPoint, int x, int z, float currentHeight)
         {
-            int objToSpawn = UnityEngine.Random.Range(0, objPrefabs.Length);
-            float objProbabillity = UnityEngine.Random.Range(0f, 100f);
 
-            if (objProbabillity <= 5)
+            for (int i = 0; i < regions.Length; i++)
             {
-                return objPrefabs[objToSpawn];
+                if (currentHeight <= regions[i].height)
+                {
+                    if (!regions[i].objToSpawnForRegion)
+                        return;
+
+                    float noise = Mathf.PerlinNoise(x / (float)terrainComp.terrainData.heightmapWidth, z / (float)terrainComp.terrainData.heightmapHeight);
+                    //print(noise);
+                    if (noise <= regions[i].noiseCap)
+                    {
+
+                        int objToSpawn = UnityEngine.Random.Range(0, objPrefabs.Length);
+                        float objProbabillity = UnityEngine.Random.Range(0f, 100f);
+
+                        if (objProbabillity <= regions[i].spawnPossiblity)
+                        {
+                            GameObject newObj = Instantiate(regions[i].objToSpawnForRegion, vertPoint, Quaternion.identity);
+                            genedObjs.Add(newObj);
+                        }
+
+                    }
+                }
             }
 
-            return null;
+
         }
 
         /// <summary>
