@@ -25,10 +25,13 @@ namespace EthansProject
         public float ZScale = 1f;
         public float NoiseScale = 0.1f;
         public int NumPasses = 4;
-        public float noiseZmount;
+        public float baseHeight;
         public RegionData[] regions;
-        public GameObject objPrefab;
+        public GameObject[] objPrefabs;
         List<GameObject> genedObjs = new List<GameObject>();
+        public float passStrengthScale;
+        public float passStrength;
+        public float passNoiseScalse;
 
         // Use this for initialization
         void Start()
@@ -38,11 +41,14 @@ namespace EthansProject
 
         public void GenerateTerrain()
         {
+            // Runs through the gernerated objects and deletes them and clears the list to that objects like trees are still there when world is regened
             for (int i = 0; i < genedObjs.Count; i++)
             {
                 Destroy(genedObjs[i]);
             }
+
             genedObjs.Clear();
+
             // retrieve the terrain
             terrainComp = GetComponent<Terrain>();
             mfComp = GetComponent<MeshFilter>();
@@ -51,33 +57,38 @@ namespace EthansProject
             TerrainData terrainData = terrainComp.terrainData;
             NodeManager.instance.newData = terrainData;
 
-            terrainData.RefreshPrototypes();
             // retrieve the height map
             float[,] heightMap = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, terrainData.heightmapHeight);
 
+            //Resets the height map
             for (int x = 0; x < terrainData.heightmapWidth; ++x)
             {
                 for (int z = 0; z < terrainData.heightmapHeight; ++z)
                 {
-                    heightMap[x, z] = noiseZmount;
+                    heightMap[x, z] = baseHeight;
                 }
             }
-
+            float currentStrength = passStrength;
+            float newxScale = XScale;
+            float newzScale = ZScale;
+            float newNoiseScale = NoiseScale;
             // run each individual pass
             for (int pass = 0; pass < NumPasses; ++pass)
             {
+                //Generate noise
                 for (int x = 0; x < terrainData.heightmapWidth; ++x)
                 {
                     for (int z = 0; z < terrainData.heightmapHeight; ++z)
                     {
-                        heightMap[x, z] += 2f * NoiseScale * (Mathf.PerlinNoise(XScale * x / terrainData.heightmapWidth,
-                                                                                ZScale * z / terrainData.heightmapHeight) - 0.5f);
+                        heightMap[x, z] += currentStrength * 2f * newNoiseScale * (Mathf.PerlinNoise(newxScale * x / terrainData.heightmapWidth,
+                                                                                newzScale * z / terrainData.heightmapHeight) - 0.5f);
+
                     }
                 }
-
-                float newXScale = XScale * 1.5f;
-                float newZScale = ZScale * 1.5f;
-                float newNoiseScale = NoiseScale * 0.5f;
+                currentStrength *= passStrengthScale;
+                newxScale *= passStrengthScale;
+                newzScale *= passStrengthScale;
+                newNoiseScale *= passNoiseScalse;
             }
 
             terrainData.SetHeights(0, 0, heightMap);
@@ -88,31 +99,31 @@ namespace EthansProject
             Color[] colorMap = new Color[vertices.Length];
             // build up the vertices and triangles
             int vertIndex = 0;
+
+            //Generate the mesh vertices and objects
             for (int x = 0; x < terrainData.heightmapWidth; x++)
             {
                 for (int z = 0; z < terrainData.heightmapHeight; z++)
                 {
                     float height = terrainData.GetHeight(x, z);
                     vertices[vertIndex] = new Vector3(x, height, z);
-
+                    //Check the vert for its colour
                     colorMap[vertIndex] = CheckForColorRegion(height);
-
+                    // place a node.
                     NodeManager.instance.CreateNode(vertices[vertIndex], terrainData, x, z, CheckForTraversableRegion(height));
 
-
+                    //if inbetween height spawn a object
+                    //Hack: make better object gen system.
                     if (height > 10 && height < 15)
                     {
-
-
-                        float objProbabillity = UnityEngine.Random.Range(0f, 100f);
-
-                        if (objProbabillity <= 5)
+                        GameObject prefab = SpawnObject();
+                        if (prefab != null)
                         {
-                            GameObject newObj = Instantiate(objPrefab, vertices[vertIndex], Quaternion.identity);
+                            GameObject newObj = Instantiate(prefab, vertices[vertIndex], Quaternion.identity);
                             genedObjs.Add(newObj);
                         }
                     }
-
+                    //Builds the vertices
                     if ((x < (terrainData.heightmapWidth - 1)) && (z < (terrainData.heightmapHeight - 1)))
                     {
                         triangles[(vertIndex * 6) + 0] = vertIndex + 1;
@@ -122,12 +133,13 @@ namespace EthansProject
                         triangles[(vertIndex * 6) + 4] = vertIndex;
                         triangles[(vertIndex * 6) + 5] = vertIndex + 1;
                     }
-
                     ++vertIndex;
                 }
             }
+
             mfComp.mesh.vertices = vertices;
             mfComp.mesh.triangles = triangles;
+
             mfComp.mesh.colors = colorMap;
 
             mfComp.mesh.RecalculateBounds();
@@ -136,6 +148,24 @@ namespace EthansProject
 
         }
 
+        GameObject SpawnObject()
+        {
+            int objToSpawn = UnityEngine.Random.Range(0, objPrefabs.Length);
+            float objProbabillity = UnityEngine.Random.Range(0f, 100f);
+
+            if (objProbabillity <= 5)
+            {
+                return objPrefabs[objToSpawn];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// checks the passed through height for its assigned colour in the regions
+        /// </summary>
+        /// <param name="currentHeight"></param>
+        /// <returns></returns>
         private Color CheckForColorRegion(float currentHeight)
         {
             NodeManager.instance.StatusUpdate("Now checking for region and coloring accordingly");
@@ -152,6 +182,11 @@ namespace EthansProject
             return Color.red;
         }
 
+        /// <summary>
+        /// Checks of the current hieght is a traversable region
+        /// </summary>
+        /// <param name="currentHeight"></param>
+        /// <returns></returns>
         bool CheckForTraversableRegion(float currentHeight)
         {
             for (int i = 0; i < regions.Length; i++)

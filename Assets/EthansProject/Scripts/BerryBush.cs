@@ -19,6 +19,7 @@ public class BerryBush : MonoBehaviour
     {
         get { return transform.GetChild(0).gameObject; }
     }
+
     // Use this for initialization
     void Start()
     {

@@ -1174,3 +1174,4 @@ MonoBehaviour:
   currentBerryCount: 0
   randomnessPercent: 10
   hassBerries: 1
+  debug_takeBerries: 0

@@ -28,7 +28,7 @@ namespace EthansProject {
             PathingManager.FindPath(gameObject.transform.position, tempTarg);
             recalculatePath = false;
             return;
-
+            // Dosnt work just yet
             if (NodeManager.instance.nodes.Count > 0)
             {
                 for (int i = 0; i < NodeManager.instance.nodes.Count; i++)
@@ -40,7 +40,10 @@ namespace EthansProject {
                 }
             }
         }
-         
+         /// <summary>
+         /// Returns the closest berry bush that has berries.
+         /// </summary>
+         /// <returns></returns>
         Vector3 GetClosestBerryBush()
         {
             GameObject[] gos;
