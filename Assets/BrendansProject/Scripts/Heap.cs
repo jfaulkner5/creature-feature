@@ -1,13 +1,8 @@
-﻿using System.Collections;
-using System;
-using UnityEngine;
-
-
+﻿using System;
 namespace BrendansProject
 {
     public class Heap<T> where T : IHeapItem<T>
     {
-
 
         T[] items;
         int currentItemCount;
@@ -15,6 +10,19 @@ namespace BrendansProject
         public Heap(int maxHeapSize)
         {
             items = new T[maxHeapSize];
+        }
+
+        public int Count
+        {
+            get
+            {
+                return currentItemCount;
+            }
+        }
+
+        public bool Contains(T item)
+        {
+            return Equals(items[item.HeapIndex], item);
         }
 
         public void Add(T item)
@@ -35,23 +43,9 @@ namespace BrendansProject
             return firstItem;
         }
 
-        public int Count
-        {
-            get
-            {
-                return currentItemCount;
-            }
-
-        }
-
         public void UpdateItem(T item)
         {
             SortUp(item);
-        }
-
-        public bool Contains(T item)
-        {
-            return Equals(items[item.HeapIndex], item);
         }
 
         void SortDown(T item)
@@ -65,6 +59,7 @@ namespace BrendansProject
                 if (childIndexLeft < currentItemCount)
                 {
                     swapIndex = childIndexLeft;
+
                     if (childIndexRight < currentItemCount)
                     {
                         if (items[childIndexLeft].CompareTo(items[childIndexRight]) < 0)
@@ -81,12 +76,15 @@ namespace BrendansProject
                     {
                         return;
                     }
+
                 }
                 else
+                {
                     return;
+                }
+
             }
         }
-
 
         void SortUp(T item)
         {
@@ -98,12 +96,12 @@ namespace BrendansProject
                 if (item.CompareTo(parentItem) > 0)
                 {
                     Swap(item, parentItem);
-
                 }
                 else
                 {
                     break;
                 }
+
                 parentIndex = (item.HeapIndex - 1) / 2;
             }
         }
@@ -115,9 +113,7 @@ namespace BrendansProject
             int itemAIndex = itemA.HeapIndex;
             itemA.HeapIndex = itemB.HeapIndex;
             itemB.HeapIndex = itemAIndex;
-
         }
-
     }
 
     public interface IHeapItem<T> : IComparable<T>

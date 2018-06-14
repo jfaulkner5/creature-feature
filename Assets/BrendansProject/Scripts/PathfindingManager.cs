@@ -1,56 +1,48 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Diagnostics;
-
 namespace BrendansProject
 {
-
-    public class Pathfinding : MonoBehaviour
+    public class PathfindingManager : MonoBehaviour
     {
 
         public Transform seeker, target;
 
         LevelGrid levelGrid;
 
-        private void Awake()
+        void Awake()
         {
             levelGrid = GetComponent<LevelGrid>();
         }
 
-        private void Update()
+        void Update()
         {
-            if (Input.GetButtonDown("Jump"))
+            
+
+            if (Input.GetButton("Jump"))
             {
                 FindPath(seeker.position, target.position);
             }
-        }
 
+        }
 
         void FindPath(Vector3 startPos, Vector3 targetPos)
         {
 
-            Stopwatch sw = new Stopwatch();
-
-            Node startNode = levelGrid.NodeFromWorldPoint(startPos);
-            Node targetNode = levelGrid.NodeFromWorldPoint(targetPos);
+            Node startNode = levelGrid.GetNodeFromWorldPoint(startPos);
+            Node targetNode = levelGrid.GetNodeFromWorldPoint(targetPos);
 
             Heap<Node> openSet = new Heap<Node>(levelGrid.MaxSize);
             HashSet<Node> closedSet = new HashSet<Node>();
-
             openSet.Add(startNode);
 
             while (openSet.Count > 0)
             {
                 Node currentNode = openSet.RemoveFirst();
-
                 closedSet.Add(currentNode);
 
                 if (currentNode == targetNode)
                 {
-                    sw.Stop();
-                    print("Path Found in " + sw.ElapsedMilliseconds + "ms");
-
                     RetracePath(startNode, targetNode);
                     return;
                 }
@@ -70,16 +62,17 @@ namespace BrendansProject
                         neighbour.parent = currentNode;
 
                         if (!openSet.Contains(neighbour))
-                        {
                             openSet.Add(neighbour);
+                        else
+                        {
+                            //openSet.UpdateItem(neighbour);
                         }
                     }
                 }
             }
         }
 
-
-        private void RetracePath(Node startNode, Node endNode)
+        void RetracePath(Node startNode, Node endNode)
         {
             List<Node> path = new List<Node>();
             Node currentNode = endNode;
@@ -89,24 +82,22 @@ namespace BrendansProject
                 path.Add(currentNode);
                 currentNode = currentNode.parent;
             }
-
             path.Reverse();
 
             levelGrid.path = path;
 
         }
 
-
         int GetDistance(Node nodeA, Node nodeB)
         {
-            int distX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
-            int distY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
+            int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
+            int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
 
-            if (distX > distY)
-                return 14 * distX + 10 * (distX - distY);
-            return 14 * distX + 10 * (distY - distX);
-
+            if (dstX > dstY)
+                return 14 * dstY + 10 * (dstX - dstY);
+            return 14 * dstX + 10 * (dstY - dstX);
         }
+
 
     }
 }

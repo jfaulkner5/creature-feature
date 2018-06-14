@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
+﻿using UnityEngine;
 namespace BrendansProject
 {
     public class Node : IHeapItem<Node>
@@ -10,20 +6,13 @@ namespace BrendansProject
 
         public bool walkable;
         public Vector3 worldPosition;
+        public int gridX;
+        public int gridY;
 
-        public int gridX, gridY;
-
-        public int gCost, hCost;
-
+        public int gCost;
+        public int hCost;
         public Node parent;
-
-        public int FCost
-        {
-            get
-            {
-                return gCost + hCost;
-            }
-        }
+        int heapIndex;
 
         public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY)
         {
@@ -33,24 +22,34 @@ namespace BrendansProject
             gridY = _gridY;
         }
 
-        public int HeapIndex {
-            get {
-                return HeapIndex;
-            }
-            set
+        public int fCost
+        {
+            get
             {
-                HeapIndex = value;
+                return gCost + hCost;
             }
         }
 
-        public int CompareTo(Node nodeToCompare) {
-            int compare = FCost.CompareTo(nodeToCompare.FCost);
+        public int HeapIndex
+        {
+            get
+            {
+                return heapIndex;
+            }
+            set
+            {
+                heapIndex = value;
+            }
+        }
+
+        public int CompareTo(Node nodeToCompare)
+        {
+            int compare = fCost.CompareTo(nodeToCompare.fCost);
             if (compare == 0)
             {
                 compare = hCost.CompareTo(nodeToCompare.hCost);
             }
             return -compare;
         }
-
     }
 }
