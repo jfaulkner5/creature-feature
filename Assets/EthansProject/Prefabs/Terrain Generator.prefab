@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 23256785016460020}
   - component: {fileID: 33922983403961594}
   - component: {fileID: 114462704301721342}
+  - component: {fileID: 64358845236340968}
   m_Layer: 0
   m_Name: Terrain Generator
   m_TagString: Untagged
@@ -60,7 +61,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: b4c2abf02d3a9194aab744ecca93b3a0, type: 2}
+  - {fileID: 2100000, guid: ecc8e3065ec6915448efb174bcf6a24d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,6 +88,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1635518949272750}
   m_Mesh: {fileID: 0}
+--- !u!64 &64358845236340968
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1635518949272750}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
 --- !u!114 &114446017774876100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -98,10 +113,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de1965e95afe30d44bad1708d9c0cd1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  XScale: 5
-  ZScale: 5
-  NoiseScale: 0.1
-  NumPasses: 4
+  XScale: 3
+  ZScale: 3
+  NoiseScale: 0.25
+  NumPasses: 3
+  baseHeight: 0.2
+  regions:
+  - regionName: Warter
+    regionColor: {r: 0.19999999, g: 0.6484455, b: 0.6784314, a: 1}
+    betweenHeight: {x: -10, y: 1}
+    traverableRegion: 0
+    objectsToSpawn: []
+  - regionName: Sand
+    regionColor: {r: 0.9098269, g: 0.9433962, b: 0.4494482, a: 1}
+    betweenHeight: {x: 1, y: 5}
+    traverableRegion: 1
+    objectsToSpawn: []
+  - regionName: GrassLands
+    regionColor: {r: 0.5986395, g: 1, b: 0, a: 1}
+    betweenHeight: {x: 5, y: 15}
+    traverableRegion: 1
+    objectsToSpawn:
+    - objToSpawnForRegion: {fileID: 1940547415336294, guid: e0610d802a776944f9742cea3e48c541,
+        type: 2}
+      useNoise: 0
+      noiseCap: 0
+      spawnPossiblity: 2
+    - objToSpawnForRegion: {fileID: 1397154756662402, guid: 89d7a4b788600854c9fba821c46ce67a,
+        type: 2}
+      useNoise: 1
+      noiseCap: 0.4
+      spawnPossiblity: 3
+  - regionName: Mountains
+    regionColor: {r: 0.25490198, g: 0.27450982, b: 0.2901961, a: 1}
+    betweenHeight: {x: 15, y: 30}
+    traverableRegion: 1
+    objectsToSpawn:
+    - objToSpawnForRegion: {fileID: 1526404116997638, guid: 80588ad531ed81f4ca4d43db22b5af84,
+        type: 2}
+      useNoise: 0
+      noiseCap: 0
+      spawnPossiblity: 2
+  - regionName: SnowLands
+    regionColor: {r: 1, g: 1, b: 1, a: 1}
+    betweenHeight: {x: 30, y: 80}
+    traverableRegion: 1
+    objectsToSpawn: []
+  passStrengthScale: 0.2
+  passStrength: 1.8
+  passNoiseScalse: 2
+  min: 0.94
+  max: 1.01
 --- !u!114 &114462704301721342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,8 +178,10 @@ MonoBehaviour:
   unwalkableMask:
     serializedVersion: 2
     m_Bits: 512
-  nodeRadius: 0.1
+  nodeRadius: 0.3
+  newData: {fileID: 0}
   debugMode: 1
+  _initialized: 0
 --- !u!154 &154953766689617930
 TerrainCollider:
   m_ObjectHideFlags: 1
@@ -126,8 +190,8 @@ TerrainCollider:
   m_GameObject: {fileID: 1635518949272750}
   m_Material: {fileID: 0}
   m_Enabled: 1
-  m_TerrainData: {fileID: 15600000, guid: a1c206760745dfe4a98a8d7fd707881f, type: 2}
-  m_EnableTreeColliders: 1
+  m_TerrainData: {fileID: 15600000, guid: cab08aed84c464047867b72514850bdc, type: 2}
+  m_EnableTreeColliders: 0
 --- !u!218 &218381110553786930
 Terrain:
   m_ObjectHideFlags: 1
@@ -136,7 +200,7 @@ Terrain:
   m_GameObject: {fileID: 1635518949272750}
   m_Enabled: 1
   serializedVersion: 3
-  m_TerrainData: {fileID: 15600000, guid: a1c206760745dfe4a98a8d7fd707881f, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: cab08aed84c464047867b72514850bdc, type: 2}
   m_TreeDistance: 2000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
@@ -157,5 +221,5 @@ Terrain:
   m_LegacyShininess: 0.078125
   m_MaterialTemplate: {fileID: 0}
   m_BakeLightProbesForTrees: 1
-  m_ScaleInLightmap: 0.0512
+  m_ScaleInLightmap: 1
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}

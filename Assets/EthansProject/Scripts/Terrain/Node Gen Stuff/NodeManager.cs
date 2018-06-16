@@ -39,6 +39,11 @@ namespace EthansProject
         public bool debugMode = true;
         float nodeDiameter;
 
+        public int MaxSize
+        {
+            get { return gridSizeX * gridSizeZ; }
+        }
+
         public bool _initialized = false;
 
         public void Initialize()
@@ -171,7 +176,7 @@ namespace EthansProject
                     if (path != null && path.Contains(n))
                         Gizmos.color = Color.blue;
 
-                    Gizmos.DrawSphere(n.node.spacialInfo, nodeDiameter / 2);
+                    Gizmos.DrawCube(n.node.spacialInfo, Vector3.one *  nodeDiameter / 2);
                 }
             }
         }
