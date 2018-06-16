@@ -7,9 +7,9 @@ namespace BensDroneFleet
 
     public static class PathGrid
     {             
-        public static LayerMask unwalkableMask;
-        public static Vector2 gridWorldSize;
-        public static float nodeRadious;
+        static LayerMask unwalkableMask;
+        static Vector2 gridWorldSize = new Vector2(16,16);
+        static float nodeRadious;
         public static Node[,] grid;
 
         static float nodeDiameter { get { return nodeRadious * 2; } }
@@ -18,19 +18,28 @@ namespace BensDroneFleet
 
         static Transform transform;
         
-        public static void CreateGrid(Transform _transform)
+        public static void CreateGrid(LayerMask _unwalkableMask,int _x,int _z,float _nodeRadious,Transform _transform)
         {
-            transform = _transform;
+            {
+                unwalkableMask = _unwalkableMask;
+                gridWorldSize.x = _x;
+                gridWorldSize.y = _z;
+                nodeRadious = _nodeRadious;
+                _transform.position += new Vector3(-8, 0, -8);
+
+                transform = _transform;
+            }            
 
             grid = new Node[gridSizeX, gridSizeY];
-            Vector3 worldBotLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
+            // Vector3 worldBotLeft = transform.position - Vector3.right * gridWorldSize.x - Vector3.forward * gridWorldSize.y;
+            Vector3 worldBotLeft = transform.position + new Vector3(-.5f,0,-0.5f);
 
             for (int x = 0; x < gridSizeX; x++)
             {
                 for (int y = 0; y < gridSizeY; y++)
                 {
                     Vector3 worldPoint = worldBotLeft + Vector3.right * (x * nodeDiameter + nodeRadious) + Vector3.forward * (y * nodeDiameter + nodeRadious);
-                    bool walkable = !(Physics.CheckCapsule(worldPoint,worldPoint + new Vector3(0,1,0), nodeRadious,unwalkableMask));
+                    bool walkable = !(Physics.CheckCapsule(worldPoint,worldPoint + new Vector3(0,1,0), nodeRadious - 0.1f,unwalkableMask));
                     grid[x, y] = new Node(walkable, worldPoint,x,y);
                 }
             }
