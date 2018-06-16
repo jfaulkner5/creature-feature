@@ -11,4 +11,13 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: MapList_WorldList
   m_EditorClassIdentifier: Assembly-CSharp::MapList
-  list: []
+  list:
+  - {fileID: 2800000, guid: ff8e0c21e6f7a254aacfa5981f5f232e, type: 3}
+  - {fileID: 2800000, guid: a1d833d06e2677240a965be15f98432b, type: 3}
+  - {fileID: 2800000, guid: d750d9134ae7e1e46b167c37817de491, type: 3}
+  - {fileID: 2800000, guid: 48887863169a57f4d9b7df10b1474b25, type: 3}
+  - {fileID: 2800000, guid: 31ffe3bdc8cada943a2b7b80a64ce3f7, type: 3}
+  - {fileID: 2800000, guid: 7b8c47fcfd2177442bded89815d1f88f, type: 3}
+  - {fileID: 2800000, guid: df5aa4331f7989e4d86e8dbc7f4220eb, type: 3}
+  - {fileID: 2800000, guid: 2b4548cd240ca844cae3f0547dbc4488, type: 3}
+  - {fileID: 2800000, guid: 4772b6ac1b6d396489699c403f893004, type: 3}
