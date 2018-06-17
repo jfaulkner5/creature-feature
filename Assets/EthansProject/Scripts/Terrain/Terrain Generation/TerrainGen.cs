@@ -169,6 +169,9 @@ namespace EthansProject
 
         void SpawnObject(Vector3 vertPoint, int x, int z, float currentHeight)
         {
+            float noise = Mathf.PerlinNoise(x / (float)terrainComp.terrainData.heightmapWidth, z / (float)terrainComp.terrainData.heightmapHeight) * R_Float / 2;
+            noise *= R_Float;
+            Mathf.Clamp01(noise);
             //Looping through regions
             for (int i = 0; i < regions.Length; i++)
             {
@@ -176,7 +179,6 @@ namespace EthansProject
                 if (isBetween(regions[i].betweenHeight, currentHeight))
                 {
                     //Creating a noise
-                    float noise = Mathf.PerlinNoise(x / (float)terrainComp.terrainData.heightmapWidth, z / (float)terrainComp.terrainData.heightmapHeight) * R_Float / 2;
                     //print(noise);
                     //Looping through the regions objects to spawn
                     for (int xIndex = 0; xIndex < regions[i].objectsToSpawn.Length; xIndex++)
@@ -195,12 +197,16 @@ namespace EthansProject
                         }
 
                         // Runs a random roll to see if it can generate a object
-                        int objProbabillity = UnityEngine.Random.Range(1, 200);
+                        int objProbabillity = UnityEngine.Random.Range(1, 500);
 
                         // if the possiblity is lower than a certain amount - spawn the object                   
                         if (regions[i].objectsToSpawn[xIndex].spawnPossiblity > objProbabillity)
                         {
-                            GameObject newObj = Instantiate(regions[i].objectsToSpawn[xIndex].objToSpawnForRegion, vertPoint, Quaternion.identity);
+                            Vector3 newRot = new Vector3(0, UnityEngine.Random.Range(0, 360), 0);
+          
+                            GameObject newObj = Instantiate(regions[i].objectsToSpawn[xIndex].objToSpawnForRegion, vertPoint, Quaternion.Euler(newRot));
+
+                            newObj.transform.localScale *= R_Float;
                             genedObjs.Add(newObj);
                             return;
                         }

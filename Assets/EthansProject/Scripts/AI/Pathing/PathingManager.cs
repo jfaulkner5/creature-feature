@@ -16,7 +16,7 @@ namespace EthansProject
         /// </summary>
         /// <param name="startPoint"></param>
         /// <param name="endPoint"></param>
-        public static void FindPath(Vector3 startPoint, Vector3 endPoint)
+        public static List<PathingNode> FindPath(Vector3 startPoint, Vector3 endPoint)
         {
             PathingNode startNode = grid.NodeFromWorldPoint(startPoint);
             PathingNode endNode = grid.NodeFromWorldPoint(endPoint);
@@ -44,8 +44,8 @@ namespace EthansProject
                 {
                     grid.path = RetacePath(startNode, endNode);
                     sw.Stop();
-                    UnityEngine.Debug.Log("Path successful. Time Taken: " + sw.ElapsedMilliseconds + "ms");
-                    break;
+//                    UnityEngine.Debug.Log("Path successful. Time Taken: " + sw.ElapsedMilliseconds + "ms");
+                    return RetacePath(startNode, endNode);
                 }
                
                  
@@ -79,7 +79,9 @@ namespace EthansProject
                 }
                
             }
-            UnityEngine.Debug.Log("Path Not Found! Couldn't path from: " + startNode.node.spacialInfo + " -> " + endNode.node.spacialInfo);
+          //  UnityEngine.Debug.Log("Path Not Found! Couldn't path from: " + startNode.node.spacialInfo + " -> " + endNode.node.spacialInfo);
+            return null;
+
         }
 
         /// <summary>
@@ -101,7 +103,7 @@ namespace EthansProject
                 currNode = currNode.parent;
             }
 
-            path.Reverse();
+            
 
             return path;
         }

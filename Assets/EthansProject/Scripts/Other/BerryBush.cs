@@ -61,6 +61,9 @@ namespace EthansProject
 
         public int TakeBerries()
         {
+            if (!hassBerries)
+                return 0;
+
             hassBerries = false;
             currentRate = berryRegrowthRate;
 
