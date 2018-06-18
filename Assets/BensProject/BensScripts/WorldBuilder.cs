@@ -22,8 +22,9 @@ namespace BensDroneFleet {
         public MapList mapList_WorldList;
 
         //
-        int xWidth { get { return (WorldSize > 0) ? WorldSize * 16 : 16; } }
-        int zWidth { get { return (WorldSize > 0) ? WorldSize * 16 : 16; } }
+        int gridSize { get { return (WorldSize > 0) ? WorldSize * 16 : 16; } }
+        int xWidth { get { return gridSize; } }
+        int zWidth { get { return gridSize; } }
 
         Color[] pixels;
 
@@ -52,18 +53,45 @@ namespace BensDroneFleet {
 
         // Use this for initialization
         void Start() {
-            texture = new Texture2D(16, 16);
-            texture = (Texture2D)mapList_WorldList.list[Random.Range(0, mapList_WorldList.list.Count - 1)];
-            pixels = texture.GetPixels();
-
+            
+            Setup();
             CreateGridRandom();
 
-            PathGrid.CreateGrid(mask, 16, 16, .5f, transform);
-    }
+            PathGrid.CreateGrid(mask, gridSize, gridSize, .5f, transform);
+        }
+
+        void Setup()
+        {
+            texture = new Texture2D(gridSize, gridSize);
+            Texture2D image;
+
+            int imageCount = WorldSize * WorldSize;
+            
+            for (int xIndex = 0; xIndex < WorldSize; xIndex++)
+            {
+                for (int zIndex = 0; zIndex < WorldSize; zIndex++)
+                {
+                    MapList map = (xIndex == 0 && zIndex == 0) ? mapList_HomeList : mapList_WorldList;
+                    image = (Texture2D)map.list[Random.Range(0, map.list.Count - 1)];
+
+                    texture.SetPixels(xIndex * 16, zIndex * 16, image.width, image.height, image.GetPixels(), 0);
+                }
+            }
+
+            /*
+             * WHAT WAS IS DOING HERE??
+             * 
+             * This ^^ is getting images and applying them to parts of the larger texture that will need to be flipped before being fed into the grid.
+             */
+            
+            pixels = texture.GetPixels();
+
+            grid = new GameObject[xWidth, zWidth];
+
+        }
 
         void CreateGridRandom()
-        {
-            grid = new GameObject[xWidth, zWidth];
+        {            
             for (int x = 0; x < xWidth; x++)
             {
                 for (int z = 0; z < zWidth; z++)
@@ -104,7 +132,7 @@ namespace BensDroneFleet {
 
         Color GetPixelFromPosition(int x, int z, Color[] array)
         {
-            return array[x * 16 + z];
+            return array[x * gridSize + z];
         }
 
         #region VerticalPos
