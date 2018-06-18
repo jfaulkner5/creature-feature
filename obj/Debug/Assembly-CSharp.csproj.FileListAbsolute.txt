@@ -170,3 +170,8 @@ C:\Users\etilley3\Documents\creature-feature\obj\Debug\Assembly-CSharp.csproj.Co
 C:\Users\etilley3\Documents\creature-feature\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 C:\Users\etilley3\Documents\creature-feature\obj\Debug\Assembly-CSharp.dll
 C:\Users\etilley3\Documents\creature-feature\obj\Debug\Assembly-CSharp.pdb
+C:\Users\etilley3\Documents\creature-feature\Temp\bin\Debug\KdTreeLib.dll
+C:\Users\etilley3\Documents\creature-feature\Temp\bin\Debug\pb_Stl.dll
+C:\Users\etilley3\Documents\creature-feature\Temp\bin\Debug\Poly2Tri.dll
+C:\Users\etilley3\Documents\creature-feature\Temp\bin\Debug\ProBuilderCore-Unity5.dll
+C:\Users\etilley3\Documents\creature-feature\Temp\bin\Debug\ProBuilderMeshOps-Unity5.dll

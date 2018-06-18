@@ -8,6 +8,8 @@ namespace EthansProject
     {
         public List<PathingNode> agentPath = new List<PathingNode>();
         public float moveSpeed = 10;
+        public Vector3 destination;
+        public bool atDestination;
         //TODO: temp...
         public AgentStorage Storage
         {
@@ -18,7 +20,7 @@ namespace EthansProject
         // Use this for initialization
         void Start()
         {
-
+          
         }
 
         // Update is called once per frame
@@ -29,6 +31,7 @@ namespace EthansProject
 
         public void ActionFinished()
         {
+            atDestination = false;
 
         }
 
@@ -45,22 +48,32 @@ namespace EthansProject
 
         public bool MoveAgent(GOAPAction nextAction)
         {
+            //destination
+            //has the destination been reached
+            
+
+
+            Debug.Log("Moving");
             float step = moveSpeed * Time.deltaTime;
-            agentPath = PathingManager.FindPath(gameObject.transform.position, nextAction.target.transform.position);
+            destination = nextAction.target.transform.position;
+
+            if(!atDestination)
+                agentPath = PathingManager.FindPath(gameObject.transform.position, nextAction.target.transform.position);
+
+
+
             for (int i = 0; i < agentPath.Count; i++)
-            {
-                while (gameObject.transform.position != agentPath[i].node.spacialInfo)
-                {
+            {                
                     gameObject.transform.position = 
                         Vector3.MoveTowards(gameObject.transform.position, agentPath[i].node.spacialInfo, step);
 
-                }                
+                                
             }
             if (Vector3.Distance(gameObject.transform.position, nextAction.target.transform.position) <= 3.5f)
             {
                 // we are at the target location, we are done
                 nextAction.SetInRange(true);
-              
+                atDestination = true;
                 return true;
             }
             else return false;
@@ -70,7 +83,7 @@ namespace EthansProject
 
         public void PlanAborted(GOAPAction aborter)
         {
-            agentPath.Clear();
+            
 
         }
 
@@ -81,6 +94,7 @@ namespace EthansProject
 
         public void PlanFound(HashSet<KeyValuePair<string, object>> goal, Queue<GOAPAction> actions)
         {
+
         }
     }
 }

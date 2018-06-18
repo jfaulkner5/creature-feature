@@ -196,7 +196,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0bb82a3eb67d724dbedb08a9549be83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.01
+  moveSpeed: 1
+  destination: {x: 0, y: 0, z: 0}
+  atDestination: 0
 --- !u!4 &29168527
 Transform:
   m_ObjectHideFlags: 0
@@ -636,7 +638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceCount: 0
-  resourceCapacity: 100
+  resourceCapacity: 1000
 --- !u!65 &1935894906
 BoxCollider:
   m_ObjectHideFlags: 0

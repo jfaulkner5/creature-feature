@@ -8,11 +8,13 @@ namespace EthansProject
     {
         private Stack<FSMState> stateStack = new Stack<FSMState>();
         public delegate void FSMState(FSM fsm, GameObject gameObject);
-
         public void Update(GameObject gameObject)
         {
-            if (stateStack.Peek() != null)
-                stateStack.Peek().Invoke(this, gameObject);
+
+            FSMState peekState = stateStack.Peek();
+
+            if (peekState != null)
+                peekState.Invoke(this, gameObject);
 
         }
 
