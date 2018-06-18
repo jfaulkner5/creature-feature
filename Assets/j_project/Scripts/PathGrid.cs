@@ -7,24 +7,23 @@ using System.Linq;
 namespace jfaulkner
 {
 
-    public class PathGrid : MonoBehaviour
+    public static class PathGrid : MonoBehaviour
     {
         //Filters the player level to make it easier to find ojects that are considered obsticles
-        public LayerMask obstacleMask;
+        static LayerMask obstacleMask;
 
-        public Vector2 gridWorldSize;
-        public float nodeRad;
-        public float nodeDiam;
-        public int gridSizeX;
-        public int gridSizeY;
+        static Vector2 gridWorldSize;
+        static float nodeRad;
+        static float nodeDiam;
+        static int gridSize;
 
-        Node[,] levelGrid;
+        static   Node[,] levelGrid;
 
-        List<Node> neighbours;
-        List<Node> path;
+        static List<Node> neighbours;
+        static List<Node> path;
 
 
-        private void OnDrawGizmos()
+        private static void OnDrawGizmos()
         {
             if (levelGrid != null)
             {
@@ -45,28 +44,26 @@ namespace jfaulkner
 
         }
 
-        private void OnDrawGizmosSelected()
+        private static void OnDrawGizmosSelected()
         {
 
         }
 
-        public void Start()
+        public static void Start()
         {
             nodeDiam = nodeRad * 2;
-            gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiam);
-            gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiam);
+            gridSize = Mathf.RoundToInt(gridWorldSize.x / nodeDiam);
 
             CreateGrid();
         }
 
-        void CreateGrid()
+        public static void CreateGrid()
         {
-            levelGrid = new Node[gridSizeX, gridSizeY];
-            Vector3 worldBotLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
-
-            for (int x = 0; x < gridSizeX; x++)
+            levelGrid = new Node[gridSize, gridSize];
+           
+            for (int x = 0; x < gridSize; x++)
             {
-                for (int y = 0; y < gridSizeY; y++)
+                for (int y = 0; y < gridSize; y++)
                 {
                     Vector3 worldPoint = worldBotLeft + Vector3.right * (x * nodeDiam + nodeRad) + Vector3.forward * (y * nodeDiam + nodeRad);
                     bool passable = !(Physics.CheckCapsule(worldPoint, worldPoint + new Vector3(0, 1, 0), nodeRad, obstacleMask));
@@ -77,9 +74,20 @@ namespace jfaulkner
             }
         }
 
-        #region Untested code
+        public static Node ConvertFromWorldPoint(Vector3 worldPoint)
+        {
+            float posX = (worldPoint.x - transform.position.x + gridWorldSize.x / 2) / gridWorldSize.x;
+            float posY = (worldPoint.z - transform.position.z + gridWorldSize.y / 2) / gridWorldSize.y;
+            posX = Mathf.Clamp01(posX);
+            posY = Mathf.Clamp01(posY);
 
-        public List<Node> GetNeighbourNodes(Node node)
+            int x = Mathf.RoundToInt((gridSize - 1) * posX);
+            int y = Mathf.RoundToInt((gridSize - 1) * posY);
+
+            return levelGrid[x, y];
+        }
+        
+        public static List<Node> GetNeighbourNodes(Node node)
         {
             neighbours = new List<Node>();
             for (int x = -1; x <= 1; x++)
@@ -91,10 +99,10 @@ namespace jfaulkner
                         continue;
                     }
 
-                    int neighbourCheckX = node.gridX + x;
-                    int neighbourCheckY = node.gridY + y;
+                    int neighbourCheckX = node.gridPosX + x;
+                    int neighbourCheckY = node.gridPosY + y;
 
-                    if (neighbourCheckX >= 0 && neighbourCheckX < gridSizeX && neighbourCheckY >= 0 && neighbourCheckY < gridSizeY)
+                    if (neighbourCheckX >= 0 && neighbourCheckX < gridSize && neighbourCheckY >= 0 && neighbourCheckY < gridSize)
                     {
                         neighbours.Add(levelGrid[neighbourCheckX, neighbourCheckY]);
                     }
@@ -102,8 +110,6 @@ namespace jfaulkner
             }
             return neighbours;
         }
-
-        #endregion
 
     }
 }
