@@ -9,6 +9,10 @@ namespace BensDroneFleet {
         [Header("WorldSettings")]
         [Tooltip("World size is mesures in 16x16 chunks. This value is currantly min clamped at 1")]
         public int WorldSize;
+        [Range(0.1f,1)]
+        public float WallBias = 0.8f;
+        public Vector2 seedOffset;
+        public float perlinMod = 2;
         [Tooltip("The Grid Object")]
         public GameObject gridObject;
         public LayerMask mask;
@@ -52,7 +56,7 @@ namespace BensDroneFleet {
             texture = (Texture2D)mapList_WorldList.list[Random.Range(0, mapList_WorldList.list.Count - 1)];
             pixels = texture.GetPixels();
 
-            CreateGridFromHome();
+            CreateGridRandom();
 
             PathGrid.CreateGrid(mask, 16, 16, .5f, transform);
     }
@@ -65,7 +69,11 @@ namespace BensDroneFleet {
                 for (int z = 0; z < zWidth; z++)
                 {
                     GameObject newGridObject = Instantiate<GameObject>(gridObject, this.transform);
-                    newGridObject.transform.position = new Vector3(x, VerticalPos(80), z);
+                    newGridObject.transform.position = new Vector3(x, VerticalPos(WallBias,x,z) - 0.5f, z);
+                    if (newGridObject.transform.position.y > -.5f)
+                    {
+                        newGridObject.layer = 9;
+                    }
                     grid[x, z] = newGridObject;
                 }
             }
@@ -112,11 +120,24 @@ namespace BensDroneFleet {
         /// <summary>
         /// Will return a bias random 0 or 1. Where the roll is less than the bias it will return a 0.
         /// </summary>
-        /// <param name="bias"></param>
+        /// <param name="bias"> Use 0-1 values</param>
         /// <returns></returns>
         float VerticalPos(float bias)
         {
+            bias *= 100;
             return (Random.Range(0, 100) < bias) ? 0 : 1;
+        }
+        /// <summary>
+        /// Will return a bias 0 or 1. as a result of perlin noise, if the roll is less than the bias it will return a 0;
+        /// </summary>
+        /// <param name="bias">Use 0-1 values</param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        float VerticalPos(float bias,float x, float y)
+        {
+            float Y = (Mathf.PerlinNoise((x + seedOffset.x) / xWidth, (y + seedOffset.y) / zWidth));
+            return (Y < bias) ? 0 : 1;
         }
         #endregion
     }

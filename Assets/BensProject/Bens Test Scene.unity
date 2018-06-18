@@ -141,6 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WorldSize: 1
+  WallBias: 0.4
+  seedOffset: {x: 0, y: 0}
+  perlinMod: 5
   gridObject: {fileID: 1396315674944236, guid: 8bee6811df5b7ce44845e4e6a41cd8bb, type: 2}
   mask:
     serializedVersion: 2
