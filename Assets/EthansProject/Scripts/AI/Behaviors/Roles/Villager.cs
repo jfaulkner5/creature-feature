@@ -46,54 +46,112 @@ namespace EthansProject
             return worldData;
         }
 
+        int index = 0;
+        Vector3 currentPos;
+
+        Vector3[] path;
+        void CheckPoint()
+        {
+            print("setting new point");
+
+            currentPos = path[index];
+        }
+
+        void StepAgent()
+        {
+            if (path == null)
+            {
+                print("no path");
+
+                AssignPath();
+                return;
+            }
+         
+            float step = moveSpeed * Time.deltaTime;
+            if (Vector3.Distance(transform.position, currentPos) <= 0.2f)
+            {
+                if (index < path.Length - 1)
+                {
+                    print("index had maxed " + index);
+                    index++;
+                    CheckPoint();
+                }
+            }
+            else
+            {
+                print("moving");
+                transform.position = Vector3.MoveTowards(transform.position, currentPos, step);
+            }
+        }
+        bool needPath = true;
         public bool MoveAgent(GOAPAction nextAction)
         {
             //destination
             //has the destination been reached
-            
+            if (!NodeManager.instance._initialized)
+            {
+                print("havnt inited yet");
 
+                return false;
+            }
 
-            Debug.Log("Moving");
-            float step = moveSpeed * Time.deltaTime;
             destination = nextAction.target.transform.position;
 
-            if(!atDestination)
-                agentPath = PathingManager.FindPath(gameObject.transform.position, nextAction.target.transform.position);
 
 
-
-            for (int i = 0; i < agentPath.Count; i++)
-            {                
-                    gameObject.transform.position = 
-                        Vector3.MoveTowards(gameObject.transform.position, agentPath[i].node.spacialInfo, step);
-
-                                
-            }
+            // Don't touch this.
             if (Vector3.Distance(gameObject.transform.position, nextAction.target.transform.position) <= 3.5f)
             {
                 // we are at the target location, we are done
                 nextAction.SetInRange(true);
+                needPath = true;
                 atDestination = true;
                 return true;
             }
-            else return false;
+            else
+            {
+
+                StepAgent();
+              
+                AssignPath();
+
+                return false;
+            }
+        }
+
+        void AssignPath()
+        {
+            if (!needPath)
+                return;
+            print("assigning ");
+
+            needPath = false;
+            agentPath = PathingManager.FindPath(gameObject.transform.position, destination);
+            path = new Vector3[agentPath.Count];
+            for (int i = 0; i < agentPath.Count; i++)
+            {
+                path[i] = agentPath[i].node.spacialInfo;
+            }
         }
 
           
 
         public void PlanAborted(GOAPAction aborter)
         {
-            
+            Debug.LogWarning("Plan aborted by the action: " + aborter);
 
         }
 
         public void PlanFailed(HashSet<KeyValuePair<string, object>> goal, Queue<GOAPAction> actions)
         {
+            Debug.LogWarning("Plan failed!");
 
         }
 
         public void PlanFound(HashSet<KeyValuePair<string, object>> goal, Queue<GOAPAction> actions)
         {
+            Debug.LogWarning("Plan found!");
+
 
         }
     }
