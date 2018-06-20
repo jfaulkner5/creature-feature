@@ -22,7 +22,7 @@ namespace jfaulkner
 
         public Node[,] levelGrid;
 
-
+        
         public List<Node> path;
 
         //HACK erase afterwards
@@ -51,6 +51,8 @@ namespace jfaulkner
             }
 
         }
+
+        public void Awake()
 
         public void Awake()
         {
@@ -94,7 +96,7 @@ namespace jfaulkner
         //HELP shouldn't this be in the pathfinding system? 
         public List<Node> GetPath()
         {
-            return PathFinding.FindPath(levelGrid[0, 0], levelGrid[7, 5]);
+            return PathFinding.FindPath(levelGrid[0,0],levelGrid[7,5]);
         }
         //TODO | Is it necessary to reverse from node to worldpoint?
         public Node ConvertFromWorldPoint(Vector3 worldPoint)
@@ -110,29 +112,7 @@ namespace jfaulkner
             return levelGrid[x, y];
         }
 
-        //public List<Node> GetNeighbourNodes(Node node)
-        //{
-        //    neighbourNodes = new List<Node>();
-        //    for (int x = -1; x <= 1; x++)
-        //    {
-        //        for (int y = -1; y <= 1; y++)
-        //        {
-        //            if (x == 0 && y == 0)
-        //            {
-        //                continue;
-        //            }
 
-        //            int neighbourCheckX = node.gridPosX + x;
-        //            int neighbourCheckY = node.gridPosY + y;
-
-        //            if (neighbourCheckX >= 0 && neighbourCheckX < gridSize && neighbourCheckY >= 0 && neighbourCheckY < gridSize)
-        //            {
-        //                neighbours.Add(levelGrid[neighbourCheckX, neighbourCheckY]);
-        //            }
-        //        }
-        //    }
-        //    return neighbours;
-        //}
 
     }
 }
