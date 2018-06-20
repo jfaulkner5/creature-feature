@@ -6,24 +6,28 @@ using System.Linq;
 
 namespace jfaulkner
 {
-
-    public static class PathGrid : MonoBehaviour
+    [System.Serializable]
+    public class PathGrid : MonoBehaviour
     {
         //Filters the player level to make it easier to find ojects that are considered obsticles
-        static LayerMask obstacleMask;
+        public LayerMask obstacleMask;
 
-        static Vector2 gridWorldSize;
-        static float nodeRad;
-        static float nodeDiam;
-        static int gridSize;
+        public Vector2 gridWorldSize;
+        public float nodeRad;
+        public float nodeDiam;
+        public int gridSize;
 
-        static   Node[,] levelGrid;
+        public Node[,] levelGrid;
 
-        static List<Node> neighbours;
-        static List<Node> path;
+        public List<Node> neighbours;
+        public List<Node> path;
 
+        public GameObject _gameObject;
+        Vector3 testMin;
+        Vector3 testCenter;
+        Vector3 worldBotLeft;
 
-        private static void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             if (levelGrid != null)
             {
@@ -44,23 +48,35 @@ namespace jfaulkner
 
         }
 
-        private static void OnDrawGizmosSelected()
+        private void OnDrawGizmosSelected()
         {
 
         }
 
-        public static void Start()
+        public void Start()
         {
             nodeDiam = nodeRad * 2;
             gridSize = Mathf.RoundToInt(gridWorldSize.x / nodeDiam);
 
+#if UNITY_EDITOR
+            //hacky stuff for test
+            testMin = _gameObject.GetComponent<Collider>().bounds.min;
+            testCenter = _gameObject.GetComponent<Collider>().bounds.center;
+            worldBotLeft = testMin;
+            Debug.Log("Unity Editor");
+#endif
             CreateGrid();
+
+
         }
 
-        public static void CreateGrid()
+        public void CreateGrid()
         {
             levelGrid = new Node[gridSize, gridSize];
-           
+            //Vector3 worldBotLeft = new Vector3(0, 0, 0);
+            
+
+
             for (int x = 0; x < gridSize; x++)
             {
                 for (int y = 0; y < gridSize; y++)
@@ -74,7 +90,7 @@ namespace jfaulkner
             }
         }
 
-        public static Node ConvertFromWorldPoint(Vector3 worldPoint)
+        public Node ConvertFromWorldPoint(Vector3 worldPoint)
         {
             float posX = (worldPoint.x - transform.position.x + gridWorldSize.x / 2) / gridWorldSize.x;
             float posY = (worldPoint.z - transform.position.z + gridWorldSize.y / 2) / gridWorldSize.y;
@@ -86,8 +102,8 @@ namespace jfaulkner
 
             return levelGrid[x, y];
         }
-        
-        public static List<Node> GetNeighbourNodes(Node node)
+
+        public List<Node> GetNeighbourNodes(Node node)
         {
             neighbours = new List<Node>();
             for (int x = -1; x <= 1; x++)
