@@ -52,15 +52,14 @@ namespace jfaulkner
 
         }
 
-        public void Awake()
 
-        public void Awake()
+        public void Start()
         {
             nodeDiam = nodeRad * 2;
             gridSize = Mathf.RoundToInt(gridWorldSize.x / nodeDiam);
 
 #if UNITY_EDITOR
-            //hacky stuff for test
+            //HACK stuff for test
             testMin = _gameObject.GetComponent<Collider>().bounds.min;
             //testCenter = _gameObject.GetComponent<Collider>().bounds.center;
             worldBotLeft = testMin;
@@ -68,7 +67,6 @@ namespace jfaulkner
 #endif
             CreateGrid();
             path = GetPath();
-
 
         }
 
@@ -78,8 +76,7 @@ namespace jfaulkner
             levelGrid = new Node[gridSize, gridSize];
             //Vector3 worldBotLeft = new Vector3(0, 0, 0);
 
-
-
+            //TODO add in override for unknown grid size, where start/end point are. q
             for (int x = 0; x < gridSize; x++)
             {
                 for (int y = 0; y < gridSize; y++)
@@ -93,11 +90,6 @@ namespace jfaulkner
             }
         }
 
-        //HELP shouldn't this be in the pathfinding system? 
-        public List<Node> GetPath()
-        {
-            return PathFinding.FindPath(levelGrid[0,0],levelGrid[7,5]);
-        }
         //TODO | Is it necessary to reverse from node to worldpoint?
         public Node ConvertFromWorldPoint(Vector3 worldPoint)
         {
