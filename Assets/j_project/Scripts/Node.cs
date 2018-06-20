@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace jfaulkner
 {
-    public class Node : MonoBehaviour
+    public class Node
     {
         public Node parent;
         public bool isPassable;
@@ -16,9 +16,9 @@ namespace jfaulkner
         public int gridPosX;
         public int gridPosY;
 
-        public double g { get; set; }               // Distance from start to this node
-        public double h { get; set; }               // Heuristic (guess) distance from this node to goal
-        public double f { get; set; }               // Distance from start + heuristic distance
+        public double G { get; set; }               // Distance from start to this node
+        public double H { get; set; }               // Heuristic (guess) distance from this node to goal
+        public double F { get; set; }               // Distance from start + heuristic distance
 
 
         public List<Node> neighbors = new List<Node>();         // All succesors to node
@@ -31,19 +31,19 @@ namespace jfaulkner
             gridPosY = _grixPosY;
         }
 
-        public void calculate_G_Cost(Node other)
+        public void Calculate_G_Cost(Node other)
         {
-            g = other.getG() + Math.Sqrt((Xpos - other.Xpos) * (Xpos - other.Xpos) + (Ypos - other.Ypos) * (Ypos - other.Ypos));
+            G = other.GetG() + Math.Sqrt((Xpos - other.Xpos) * (Xpos - other.Xpos) + (Ypos - other.Ypos) * (Ypos - other.Ypos));
         }
 
-        public double getG()
+        public double GetG()
         {
-            return g;
+            return G;
         }
 
         public double GetH()
         {
-            return h;
+            return H;
         }
 
 
