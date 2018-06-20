@@ -9,6 +9,9 @@ namespace jfaulkner
     [System.Serializable]
     public class PathGrid : MonoBehaviour
     {
+        //HACK node generator instance
+        public static PathGrid instance;
+
         //Filters the player level to make it easier to find ojects that are considered obsticles
         public LayerMask obstacleMask;
 
@@ -19,12 +22,13 @@ namespace jfaulkner
 
         public Node[,] levelGrid;
 
-        public List<Node> neighbours;
+
         public List<Node> path;
 
+        //HACK erase afterwards
         public GameObject _gameObject;
         Vector3 testMin;
-        Vector3 testCenter;
+        //Vector3 testCenter;
         Vector3 worldBotLeft;
 
         private void OnDrawGizmos()
@@ -35,25 +39,20 @@ namespace jfaulkner
                 foreach (Node node in levelGrid)
                 {
                     Gizmos.color = (node.isPassable) ? Color.grey : Color.red;
-                    //if (path != null)
-                    //{
-                    //    if (path.Contains(node))
-                    //    {
-                    //        Gizmos.color = Color.green;
-                    //    }
-                    //}
+                    if (path != null)
+                    {
+                        if (path.Contains(node))
+                        {
+                            Gizmos.color = Color.green;
+                        }
+                    }
                     Gizmos.DrawSphere(node.worldPos, (nodeDiam / 2));
                 }
             }
 
         }
 
-        private void OnDrawGizmosSelected()
-        {
-
-        }
-
-        public void Start()
+        public void Awake()
         {
             nodeDiam = nodeRad * 2;
             gridSize = Mathf.RoundToInt(gridWorldSize.x / nodeDiam);
@@ -61,20 +60,22 @@ namespace jfaulkner
 #if UNITY_EDITOR
             //hacky stuff for test
             testMin = _gameObject.GetComponent<Collider>().bounds.min;
-            testCenter = _gameObject.GetComponent<Collider>().bounds.center;
+            //testCenter = _gameObject.GetComponent<Collider>().bounds.center;
             worldBotLeft = testMin;
             Debug.Log("Unity Editor");
 #endif
             CreateGrid();
+            path = GetPath();
 
 
         }
 
+        //TODO call from game manager only
         public void CreateGrid()
         {
             levelGrid = new Node[gridSize, gridSize];
             //Vector3 worldBotLeft = new Vector3(0, 0, 0);
-            
+
 
 
             for (int x = 0; x < gridSize; x++)
@@ -90,6 +91,12 @@ namespace jfaulkner
             }
         }
 
+        //HELP shouldn't this be in the pathfinding system? 
+        public List<Node> GetPath()
+        {
+            return PathFinding.FindPath(levelGrid[0, 0], levelGrid[7, 5]);
+        }
+        //TODO | Is it necessary to reverse from node to worldpoint?
         public Node ConvertFromWorldPoint(Vector3 worldPoint)
         {
             float posX = (worldPoint.x - transform.position.x + gridWorldSize.x / 2) / gridWorldSize.x;
@@ -103,29 +110,29 @@ namespace jfaulkner
             return levelGrid[x, y];
         }
 
-        public List<Node> GetNeighbourNodes(Node node)
-        {
-            neighbours = new List<Node>();
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    if (x == 0 && y == 0)
-                    {
-                        continue;
-                    }
+        //public List<Node> GetNeighbourNodes(Node node)
+        //{
+        //    neighbourNodes = new List<Node>();
+        //    for (int x = -1; x <= 1; x++)
+        //    {
+        //        for (int y = -1; y <= 1; y++)
+        //        {
+        //            if (x == 0 && y == 0)
+        //            {
+        //                continue;
+        //            }
 
-                    int neighbourCheckX = node.gridPosX + x;
-                    int neighbourCheckY = node.gridPosY + y;
+        //            int neighbourCheckX = node.gridPosX + x;
+        //            int neighbourCheckY = node.gridPosY + y;
 
-                    if (neighbourCheckX >= 0 && neighbourCheckX < gridSize && neighbourCheckY >= 0 && neighbourCheckY < gridSize)
-                    {
-                        neighbours.Add(levelGrid[neighbourCheckX, neighbourCheckY]);
-                    }
-                }
-            }
-            return neighbours;
-        }
+        //            if (neighbourCheckX >= 0 && neighbourCheckX < gridSize && neighbourCheckY >= 0 && neighbourCheckY < gridSize)
+        //            {
+        //                neighbours.Add(levelGrid[neighbourCheckX, neighbourCheckY]);
+        //            }
+        //        }
+        //    }
+        //    return neighbours;
+        //}
 
     }
 }
