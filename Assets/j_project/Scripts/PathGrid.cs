@@ -53,7 +53,7 @@ namespace jfaulkner
         }
 
 
-        public void Start()
+        public void Awake()
         {
             nodeDiam = nodeRad * 2;
             gridSize = Mathf.RoundToInt(gridWorldSize.x / nodeDiam);
@@ -90,6 +90,11 @@ namespace jfaulkner
             }
         }
 
+        //HELP shouldn't this be in the pathfinding system? 
+        public List<Node> GetPath()
+        {
+            return PathFinding.FindPath(levelGrid[0,0],levelGrid[7,5]);
+        }
         //TODO | Is it necessary to reverse from node to worldpoint?
         public Node ConvertFromWorldPoint(Vector3 worldPoint)
         {
