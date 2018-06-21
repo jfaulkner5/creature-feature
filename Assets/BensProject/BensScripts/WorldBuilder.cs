@@ -13,7 +13,10 @@ namespace BensDroneFleet {
         public float WallBias = 0.8f;
         public Vector2 seedOffset;
         public float perlinMod = 2;
+        [Tooltip("0 is ground")]
+        public Material wallMat;
         [Tooltip("The Grid Object")]
+        public bool showNavLocations;
         public GameObject gridObject;
         public LayerMask mask;
         
@@ -38,7 +41,7 @@ namespace BensDroneFleet {
 
         private void OnDrawGizmos()
         {
-            if (PathGrid.grid != null)
+            if (PathGrid.grid != null && showNavLocations)
             {
                 for (int x = 0; x < xWidth; x++)
                 {
@@ -53,18 +56,18 @@ namespace BensDroneFleet {
 
         // Use this for initialization
         void Start() {
-            
             Setup();
-            CreateGridRandom();
-
-            PathGrid.CreateGrid(mask, gridSize, gridSize, .5f, transform);
         }
 
         void Setup()
         {
+            
+            #region createLevelImage
+            // This creates a fliped image, but. oh well...
+
             texture = new Texture2D(gridSize, gridSize);
             Texture2D image;
-
+            
             int imageCount = WorldSize * WorldSize;
             
             for (int xIndex = 0; xIndex < WorldSize; xIndex++)
@@ -78,29 +81,34 @@ namespace BensDroneFleet {
                 }
             }
 
-            /*
-             * WHAT WAS IS DOING HERE??
-             * 
-             * This ^^ is getting images and applying them to parts of the larger texture that will need to be flipped before being fed into the grid.
-             */
-            
+            #endregion
+
             pixels = texture.GetPixels();
 
             grid = new GameObject[xWidth, zWidth];
 
+            CreateGridFromHome();
+
+            PathGrid.CreateGrid(mask, gridSize, gridSize, .5f, transform);
         }
 
         void CreateGridRandom()
-        {            
+        {
+            Material mat = new Material(wallMat);
             for (int x = 0; x < xWidth; x++)
             {
                 for (int z = 0; z < zWidth; z++)
                 {
                     GameObject newGridObject = Instantiate<GameObject>(gridObject, this.transform);
-                    newGridObject.transform.position = new Vector3(x, VerticalPos(WallBias,x,z) - 0.5f, z);
+                    newGridObject.transform.position = new Vector3(x, VerticalPos(WallBias,x,z) - 0.5f, z);                    
                     if (newGridObject.transform.position.y > -.5f)
                     {
                         newGridObject.layer = 9;
+                        Material mesh = GetComponent<Renderer>().material;
+                        if (mesh)
+                        {
+                            mesh = mat;
+                        }
                     }
                     grid[x, z] = newGridObject;
                 }
@@ -115,7 +123,7 @@ namespace BensDroneFleet {
                 for (int z = 0; z < zWidth; z++)
                 {
                     GameObject newGridObject = Instantiate<GameObject>(gridObject, this.transform);
-                    newGridObject.transform.position = new Vector3(x, -0.5f + GetVerticalFromColor(GetPixelFromPosition(x, z, pixels)), z);
+                    newGridObject.transform.position = new Vector3(x, -0.5f + GetVerticalFromPixelWithNoise(x,z,pixels, WallBias), z);
                     if (newGridObject.transform.position.y > -.5f)
                     {
                         newGridObject.layer = 9;
@@ -124,19 +132,47 @@ namespace BensDroneFleet {
                 }
             }
         }
+        /// <summary>
+        /// Converts 2d position into the 1d position of the color array. using gridSize as its scaler.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="z"></param>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        Color GetPixelFromPosition(int x, int z, Color[] array)
+        {
+            return array[(x * gridSize) + z];
+        }
 
+        /// <summary>
+        /// uses gets the gray colour and then applys noise.
+        /// Will return a bias 0 or 1. as a result of perlin noise, if the roll is less than the bias it will return a 0.
+        /// </summary>
+        /// <param name="x">position</param>
+        /// <param name="z">position</param>
+        /// <param name="pixels">the Image array</param>
+        /// <param name="bias">Use 0-1 values</param>
+        /// <returns> 0-1 position</returns>
+        float GetVerticalFromPixelWithNoise(int x, int z, Color[] pixels, float bias)
+        {
+            float color = GetVerticalFromColor(GetPixelFromPosition(x, z, pixels));
+            float Y = (Mathf.PerlinNoise((x + seedOffset.x) / xWidth, (z + seedOffset.y) / zWidth));
+            Debug.Log("posX: " + x +" posZ: "+ z + " return: " + Mathf.Clamp((color - Y),0,1));            
+            return(Mathf.Clamp((color - Y), 0, 1) < bias) ? 0 : 1;          
+            
+        }
+
+        /// <summary>
+        /// Returns a 0-1 based on the grayscale colour.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         float GetVerticalFromColor(Color color)
         {
             return color.grayscale;
         }
 
-        Color GetPixelFromPosition(int x, int z, Color[] array)
-        {
-            return array[x * gridSize + z];
-        }
-
-        #region VerticalPos
-
+        #region VerticalPos        
         /// <summary>
         /// Returns a random 0 or 1;
         /// </summary>

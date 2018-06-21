@@ -140,10 +140,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95c41210d3285884dad67413b530c62d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WorldSize: 1
-  WallBias: 0.4
-  seedOffset: {x: 0, y: 0}
+  WorldSize: 4
+  WallBias: 0.6
+  seedOffset: {x: -5, y: 2}
   perlinMod: 5
+  wallMat: {fileID: 2100000, guid: 2f3a4fd6c9a10d84e8c4b64269eaca5c, type: 2}
+  showNavLocations: 1
   gridObject: {fileID: 1396315674944236, guid: 8bee6811df5b7ce44845e4e6a41cd8bb, type: 2}
   mask:
     serializedVersion: 2
