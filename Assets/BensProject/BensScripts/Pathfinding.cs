@@ -14,17 +14,12 @@ namespace BensDroneFleet {
         /// <returns></returns>
         public static List<Node> FindPath(Vector3 startPos, Vector3 targetPos)
         {
-            Debug.Log(startPos + " - " + targetPos);
+            //Debug.Log(startPos + " - " + targetPos);
 
             Node startNode = PathGrid.NodeFromWorldPoint(startPos);
-            Node endNode = PathGrid.NodeFromWorldPoint(targetPos);
-
-            if (startNode.walkable && endNode.walkable)
-            {
-                return FindPath(startNode, endNode);
-            }
-            Debug.Log("destination not walkable");
-            return null;
+            Node endNode = PathGrid.NodeFromWorldPoint(targetPos);            
+            
+            return FindPath(startNode, endNode);
         }
 
         /// <summary>
@@ -35,10 +30,12 @@ namespace BensDroneFleet {
         /// <returns></returns>
         public static List<Node> FindPath(Node startNode, Node endNode)        
         {
-            
 
-            List<Node> openSet = PathGrid.permOpen;
-            List<Node> closedSet = PathGrid.permClosed;
+
+            List<Node> openSet = new List<Node>();
+            List<Node> closedSet = new List<Node>(PathGrid.permClosed);
+
+            List<Node> returnList = new List<Node>();
 
             openSet.Add(startNode);
             
@@ -61,8 +58,9 @@ namespace BensDroneFleet {
                 closedSet.Add(currantNode);
 
                 if (currantNode == endNode)
-                {                        
-                    return RetracePath(startNode, endNode);
+                {
+                    returnList = RetracePath(startNode, endNode);
+                    break;
                 }
 
                 foreach (Node neighbour in PathGrid.GetNeighbours(currantNode))
@@ -88,17 +86,43 @@ namespace BensDroneFleet {
                 }                
             }
 
-            Debug.LogError(closedSet.Count);
-            return null;
+            if (returnList.Count != 0)
+            {                
+                Reset(openSet, closedSet);
+                return returnList;
+            }
+            else
+            {
+                Debug.LogWarning("could not find path");
+                Reset(openSet, closedSet);
+                List<Node> default_ = new List<Node>();
+                default_.Add(startNode);
+                return default_;
+            }            
+        }
+
+        static void Reset(List<Node> A, List<Node> B)
+        {
+            foreach (Node node in A)
+            {
+                node.Rest();
+            }
+            foreach (Node node in B)
+            {
+                node.Rest();
+            }
         }
 
         static List<Node> RetracePath(Node startNode, Node endNode)
         {
             List<Node> path = new List<Node>();
             Node currnatNode = endNode;
+            
 
             while (currnatNode != startNode)
-            {
+            {                
+                currnatNode.BackPath = true;
+
                 path.Add(currnatNode);
                 if (currnatNode.parant == null)
                 {

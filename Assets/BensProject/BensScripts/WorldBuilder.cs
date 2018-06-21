@@ -37,6 +37,7 @@ namespace BensDroneFleet {
 
         private void OnValidate()
         {
+
         }
 
         private void OnDrawGizmos()
@@ -47,7 +48,18 @@ namespace BensDroneFleet {
                 {
                     for (int z = 0; z < zWidth; z++)
                     {
-                        Gizmos.color = (PathGrid.grid[x, z].walkable) ? Color.green:Color.red;
+                        if (PathGrid.grid[x, z].BackPath)
+                        {
+                            Gizmos.color = Color.blue;
+                        }
+                        else if (PathGrid.grid[x, z].walkable)
+                        {
+                            Gizmos.color = Color.green;
+                        }
+                        else
+                        {
+                            Gizmos.color = Color.red;
+                        }
                         Gizmos.DrawSphere(PathGrid.grid[x, z].worldPosition, .1f);
                     }
                 }

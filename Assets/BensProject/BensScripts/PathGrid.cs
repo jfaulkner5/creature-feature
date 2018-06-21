@@ -27,9 +27,8 @@ namespace BensDroneFleet
                 gridWorldSize.x = _x;
                 gridWorldSize.y = _z;
                 nodeRadious = _nodeRadious;
-                _transform.position += new Vector3(-8, 0, -8);
 
-                transform = _transform;
+                transform =_transform;
             }            
                         
             grid = new Node[gridSizeX, gridSizeY];
@@ -85,16 +84,49 @@ namespace BensDroneFleet
 
         public static Node NodeFromWorldPoint(Vector3 WorldPosition)
         {
-            float percentX = (WorldPosition.x - transform.position.x + gridWorldSize.x / 2) / gridWorldSize.x;
-            float percentY = (WorldPosition.z - transform.position.z + gridWorldSize.y / 2) / gridWorldSize.y;
-            percentX = Mathf.Clamp01(percentX);
-            percentY = Mathf.Clamp01(percentY);
+            //float percentX = (WorldPosition.x - transform.position.x + gridWorldSize.x / 2) / gridWorldSize.x;
+            //float percentY = (WorldPosition.z - transform.position.z + gridWorldSize.y / 2) / gridWorldSize.y;
+            //percentX = Mathf.Clamp01(percentX);
+            //percentY = Mathf.Clamp01(percentY);
 
-            int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
-            int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
+            //int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
+            //int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
+
+            int x = Mathf.Clamp(Mathf.RoundToInt(WorldPosition.x),0, gridSizeX -1);
+            int y = Mathf.Clamp(Mathf.RoundToInt(WorldPosition.z),0, gridSizeY -1);
+
+            Debug.Log("x: "+ x + " y: " + y);
+            Debug.Log("Find " + WorldPosition + " - node " + grid[x, y].worldPosition);
+            if (!grid[x, y].walkable)
+            {
+                List<Node> neighbours = GetNeighbours(grid[x, y]);
+
+                if (neighbours.Count != 0)
+                {
+                    Node closest = neighbours[0];
+                    float distance = Vector3.Distance(neighbours[0].worldPosition, WorldPosition);
+                    for (int index = 1; index < neighbours.Count; index++)
+                    {
+                        float nDist = Vector3.Distance(neighbours[index].worldPosition, WorldPosition);
+                        if (nDist < distance)
+                        {
+                            closest = neighbours[index];
+                            distance = nDist;
+                        }
+                    }
+                    return grid[closest.gridX, closest.gridY];
+                }
+                Debug.LogWarning("found out of walkable");
+                return null;
+            }
 
             return grid[x, y];
         }       
+
+        public static Vector3 GetNewLocation()
+        {
+            return new Vector3(Random.Range(0, gridWorldSize.x - 1), 0, Random.Range(0, gridWorldSize.x - 1));
+        }
 
     // Requires a path
     //    private static void OnDrawGizmos()
@@ -125,6 +157,8 @@ namespace BensDroneFleet
 
     public class Node
     {
+        public bool BackPath = false;
+
         public bool walkable;
         public Vector3 worldPosition;
 
@@ -143,6 +177,14 @@ namespace BensDroneFleet
             worldPosition = _worldPosition;
             gridX = _gridX;
             gridY = _grixY;
+        }
+
+        public void Rest()
+        {
+            BackPath = false;
+            parant = null;
+            gCost = 0;
+            hCost = 0;
         }
     }
 }

@@ -11,11 +11,14 @@ namespace BensDroneFleet
         List<Node> path = new List<Node>();
 
 
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
-            if (path != null)
+
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(destination, 1.1f);
+
+            if (path != null && path.Count > 1)
             {
-                Gizmos.color = Color.cyan;
                 Gizmos.DrawWireSphere(path[path.Count - 1].worldPosition, 0.5f);
 
                 for (int i = 0; i < path.Count; i++)
@@ -30,40 +33,28 @@ namespace BensDroneFleet
         }
         
         private void Update()
-        {
-            if (path != null)
+        {               
+            if (path.Count > 0)
             {
-                if (Vector3.Distance(transform.position, destination) < .2f && path.Count - 1 > 0)
+                if (Vector3.Distance(transform.position, destination) < .2f)
                 {
                     path.RemoveAt(0);
+                    if (path.Count == 0)
+                    {
+                        path = Pathfinding.FindPath(transform.position, PathGrid.GetNewLocation());
+                        destination = path[0].worldPosition;
+                    }
                     destination = path[0].worldPosition;
                 }
 
-                if (path.Count > 0)
-                {
-                    transform.position += transform.forward * speed * Time.deltaTime;
-                    transform.LookAt(destination, transform.up);
-                }
-                else
-                {
-                    path = Pathfinding.FindPath(transform.position, GetRandPos());
-                }
+                transform.position += transform.forward * speed * Time.deltaTime;
+                transform.LookAt(destination, transform.up);
             }
             else
             {
-                Debug.Log("Path Null");
-                path = Pathfinding.FindPath(transform.position, GetRandPos());
-            }           
-        }
-
-        Vector3 GetRandPos()
-        {
-            return new Vector3(GetRandom(), 0, GetRandom());
-        }
-
-        float GetRandom()
-        {
-            return Random.Range(0, PathGrid.gridWorldSize.x);
+                path = Pathfinding.FindPath(transform.position, PathGrid.GetNewLocation());
+                destination = path[0].worldPosition;
+            }
         }
     }
 }
