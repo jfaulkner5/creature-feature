@@ -157,7 +157,7 @@ namespace BensDroneFleet {
         {
             float color = GetVerticalFromColor(GetPixelFromPosition(x, z, pixels));
             float Y = (Mathf.PerlinNoise((x + seedOffset.x) / xWidth, (z + seedOffset.y) / zWidth));
-            Debug.Log("posX: " + x +" posZ: "+ z + " return: " + Mathf.Clamp((color - Y),0,1));            
+            //Debug.Log("posX: " + x +" posZ: "+ z + " return: " + Mathf.Clamp((color - Y),0,1));            
             return(Mathf.Clamp((color - Y), 0, 1) < bias) ? 0 : 1;          
             
         }

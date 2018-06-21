@@ -8,9 +8,11 @@ namespace BensDroneFleet
     public static class PathGrid
     {             
         static LayerMask unwalkableMask;
-        static Vector2 gridWorldSize = new Vector2(16,16);
+        public static Vector2 gridWorldSize = new Vector2(16,16);
         static float nodeRadious;
         public static Node[,] grid;
+        public static List<Node> permOpen = new List<Node>();
+        public static List<Node> permClosed = new List<Node>();
 
         static float nodeDiameter { get { return nodeRadious * 2; } }
         static int gridSizeX { get { return Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);} }
@@ -20,7 +22,7 @@ namespace BensDroneFleet
         
         public static void CreateGrid(LayerMask _unwalkableMask,int _x,int _z,float _nodeRadious,Transform _transform)
         {
-            {
+            { // Setup Data
                 unwalkableMask = _unwalkableMask;
                 gridWorldSize.x = _x;
                 gridWorldSize.y = _z;
@@ -29,20 +31,31 @@ namespace BensDroneFleet
 
                 transform = _transform;
             }            
-
+                        
             grid = new Node[gridSizeX, gridSizeY];
             // Vector3 worldBotLeft = transform.position - Vector3.right * gridWorldSize.x - Vector3.forward * gridWorldSize.y;
             Vector3 worldBotLeft = transform.position + new Vector3(-.5f,0,-0.5f);
 
+            //actualy make the grid
             for (int x = 0; x < gridSizeX; x++)
             {
                 for (int y = 0; y < gridSizeY; y++)
                 {
                     Vector3 worldPoint = worldBotLeft + Vector3.right * (x * nodeDiameter + nodeRadious) + Vector3.forward * (y * nodeDiameter + nodeRadious);
-                    bool walkable = !(Physics.CheckCapsule(worldPoint,worldPoint + new Vector3(0,1,0), nodeRadious - 0.1f,unwalkableMask));
+                    bool walkable = !(Physics.CheckCapsule(worldPoint,worldPoint + new Vector3(0,1,0), nodeRadious - 0.1f,unwalkableMask));                    
                     grid[x, y] = new Node(walkable, worldPoint,x,y);
+                    if (walkable)
+                    {
+                        permOpen.AddSafe(grid[x, y],false);
+                    }
+                    else
+                    {
+                        permClosed.AddSafe(grid[x, y],false);
+                    }
                 }
             }
+
+            // hide zones
         }
 
         public static List<Node> GetNeighbours(Node node)

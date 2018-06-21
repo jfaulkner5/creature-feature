@@ -14,10 +14,17 @@ namespace BensDroneFleet {
         /// <returns></returns>
         public static List<Node> FindPath(Vector3 startPos, Vector3 targetPos)
         {
+            Debug.Log(startPos + " - " + targetPos);
+
             Node startNode = PathGrid.NodeFromWorldPoint(startPos);
             Node endNode = PathGrid.NodeFromWorldPoint(targetPos);
 
-            return FindPath(startNode, endNode);
+            if (startNode.walkable && endNode.walkable)
+            {
+                return FindPath(startNode, endNode);
+            }
+            Debug.Log("destination not walkable");
+            return null;
         }
 
         /// <summary>
@@ -30,8 +37,8 @@ namespace BensDroneFleet {
         {
             
 
-            List<Node> openSet = new List<Node>();
-            List<Node> closedSet = new List<Node>();
+            List<Node> openSet = PathGrid.permOpen;
+            List<Node> closedSet = PathGrid.permClosed;
 
             openSet.Add(startNode);
             
@@ -40,7 +47,7 @@ namespace BensDroneFleet {
 
                 Node currantNode = openSet[0];
 
-                for (int index = 1; index < openSet.Count; index++) // the problem is that it is looping for < openSet.count but on the first run the count is 1 and it starts at 1. so the loop bales.
+                for (int index = 1; index < openSet.Count; index++)
                 {
                     //Debug.LogError(index);
 
@@ -93,6 +100,10 @@ namespace BensDroneFleet {
             while (currnatNode != startNode)
             {
                 path.Add(currnatNode);
+                if (currnatNode.parant == null)
+                {
+                    Debug.LogError(currnatNode.worldPosition);
+                }
                 currnatNode = currnatNode.parant;
             }
 
