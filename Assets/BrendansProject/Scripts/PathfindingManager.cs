@@ -1,93 +1,158 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System;
+
 namespace BrendansProject
 {
+    /// <summary>
+    /// Handles finding a path using A* algorithm
+    /// </summary>
+    [RequireComponent(typeof(NodeGrid))] // PathfindingManager requires NodeGrid to be on the same gameobject
     public class PathfindingManager : MonoBehaviour
     {
 
-        public Transform seeker, target;
-
-        LevelGrid levelGrid;
+        NodeGrid nodeGrid; // The grid to use for pathfinding
 
         void Awake()
         {
-            levelGrid = GetComponent<LevelGrid>();
+            nodeGrid = GetComponent<NodeGrid>();
         }
 
-        void Update()
-        {
-            
-
-            if (Input.GetButton("Jump"))
-            {
-                FindPath(seeker.position, target.position);
-            }
-
-        }
-
-        void FindPath(Vector3 startPos, Vector3 targetPos)
+        /// <summary>
+        /// Calculaes the shortest path to a target.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="callback"></param>
+        public void FindPath(PathRequest request, Action<PathResult> callback)
         {
 
-            Node startNode = levelGrid.GetNodeFromWorldPoint(startPos);
-            Node targetNode = levelGrid.GetNodeFromWorldPoint(targetPos);
+            // Used for debugging the pathfinding time elapsed
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
-            Heap<Node> openSet = new Heap<Node>(levelGrid.MaxSize);
-            HashSet<Node> closedSet = new HashSet<Node>();
-            openSet.Add(startNode);
+            Vector3[] waypoints = new Vector3[0]; // A vector 3 Array for the waypoints
+            bool pathSuccess = false;
 
-            while (openSet.Count > 0)
+            // Start and Target nodes
+            Node startNode = nodeGrid.NodeFromWorldPoint(request.pathStart);
+            Node targetNode = nodeGrid.NodeFromWorldPoint(request.pathEnd);
+            startNode.parent = startNode;
+
+            // Loop through nodes to determine best path
+            if (startNode.walkable && targetNode.walkable)
             {
-                Node currentNode = openSet.RemoveFirst();
-                closedSet.Add(currentNode);
+                Heap<Node> openSet = new Heap<Node>(nodeGrid.MaxSize); // Heap(List) of possible nodes to travel
+                HashSet<Node> closedSet = new HashSet<Node>(); // List of nodes to ignore
+                openSet.Add(startNode);
 
-                if (currentNode == targetNode)
+                while (openSet.Count > 0)
                 {
-                    RetracePath(startNode, targetNode);
-                    return;
-                }
+                    Node currentNode = openSet.RemoveFirst();
+                    closedSet.Add(currentNode);
 
-                foreach (Node neighbour in levelGrid.GetNeighbours(currentNode))
-                {
-                    if (!neighbour.walkable || closedSet.Contains(neighbour))
+                    // Change pathSuccess to true if a valid path is found
+                    if (currentNode == targetNode)
                     {
-                        continue;
+                        sw.Stop();
+                        //print ("Path found: " + sw.ElapsedMilliseconds + " ms");
+                        pathSuccess = true;
+                        break; // Exit pathfinding loop
                     }
 
-                    int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
-                    if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
+                    foreach (Node neighbour in nodeGrid.GetNeighbours(currentNode))
                     {
-                        neighbour.gCost = newMovementCostToNeighbour;
-                        neighbour.hCost = GetDistance(neighbour, targetNode);
-                        neighbour.parent = currentNode;
+                        if (!neighbour.walkable || closedSet.Contains(neighbour))
+                        { // Skip if cannot travel to neighbour
+                            continue;
+                        }
 
-                        if (!openSet.Contains(neighbour))
-                            openSet.Add(neighbour);
-                        else
+                        // Calculate movement cost of neighbour
+                        int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour) + neighbour.movementPenalty;
+
+                        // Add or update neighbour if lowest gCost
+                        if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                         {
-                            //openSet.UpdateItem(neighbour);
+                            neighbour.gCost = newMovementCostToNeighbour;
+                            neighbour.hCost = GetDistance(neighbour, targetNode);
+                            neighbour.parent = currentNode;
+
+                            if (!openSet.Contains(neighbour))
+                                openSet.Add(neighbour);
+                            else
+                                openSet.UpdateItem(neighbour);
                         }
                     }
                 }
             }
+
+            // Retrace a succesful path when a path is found
+            if (pathSuccess)
+            {
+                waypoints = RetracePath(startNode, targetNode);
+                pathSuccess = waypoints.Length > 0;
+            }
+
+            callback(new PathResult(waypoints, pathSuccess, request.callback));
         }
 
-        void RetracePath(Node startNode, Node endNode)
+
+        /// <summary>
+        /// Returns a path of nodes using the node parents.
+        /// </summary>
+        /// <param name="startNode"></param>
+        /// <param name="endNode"></param>
+        /// <returns></returns>
+        Vector3[] RetracePath(Node startNode, Node endNode)
         {
             List<Node> path = new List<Node>();
             Node currentNode = endNode;
 
+            // Loop until the start of the path
             while (currentNode != startNode)
             {
                 path.Add(currentNode);
                 currentNode = currentNode.parent;
             }
-            path.Reverse();
-
-            levelGrid.path = path;
+            Vector3[] waypoints = SimplifyPath(path);
+            Array.Reverse(waypoints);
+            return waypoints;
 
         }
 
+        /// <summary>
+        /// Simplifies the path into waypoints where path changes direction.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        Vector3[] SimplifyPath(List<Node> path)
+        {
+            List<Vector3> waypoints = new List<Vector3>();
+            Vector2 previousDirection = Vector2.zero;
+
+            for (int i = 1; i < path.Count; i++)
+            {
+
+                //Detect if direction changes
+                Vector2 newDirection = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
+
+                if (newDirection != previousDirection)
+                {
+                    waypoints.Add(path[i].worldPosition);
+                }
+
+                previousDirection = newDirection;
+            }
+            return waypoints.ToArray();
+        }
+
+        /// <summary>
+        /// Calculate the distance using the Manhattan distance
+        /// </summary>
+        /// <param name="nodeA"></param>
+        /// <param name="nodeB"></param>
+        /// <returns></returns>
         int GetDistance(Node nodeA, Node nodeB)
         {
             int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
@@ -97,7 +162,5 @@ namespace BrendansProject
                 return 14 * dstY + 10 * (dstX - dstY);
             return 14 * dstX + 10 * (dstY - dstX);
         }
-
-
     }
 }
