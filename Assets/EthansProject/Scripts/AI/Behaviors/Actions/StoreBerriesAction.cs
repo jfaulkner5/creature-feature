@@ -6,6 +6,12 @@ namespace EthansProject {
 
         public bool droppedOffResource = false;
         ResourceSupply targetResourceSupply;
+        public enum GatherType
+        {
+            BerryGatherer,
+            WoodGatherer
+        }
+        public GatherType CurrGatherType = GatherType.BerryGatherer;
         public AgentStorage Storage
         {
             get { return GetComponent<AgentStorage>(); }
@@ -13,15 +19,16 @@ namespace EthansProject {
 
         public StoreBerriesAction()
         {
-            AddPrecondition("hasBerries", true);
-            AddEffect("hasBerries", false);
-            AddEffect("collectBerries", true);
+            AddPrecondition("hasResource", true);
+            AddEffect("hasResource", false);
+            AddEffect("collectResource", true);
         }
 
         public override bool CheckProcPreconditions(GameObject agent)
         {
             GameObject[] gos;
-            gos = GameObject.FindGameObjectsWithTag("Storage");
+
+            gos = (CurrGatherType == GatherType.BerryGatherer) ? GameObject.FindGameObjectsWithTag("BerryStorage") : GameObject.FindGameObjectsWithTag("WoodStorage");
             GameObject closest = null;
             float distance = Mathf.Infinity;
             Vector3 position = agent.transform.position;
@@ -29,7 +36,10 @@ namespace EthansProject {
             foreach (GameObject go in gos)
             {
                 if (go.GetComponent<ResourceSupply>().resourceCount >= go.GetComponent<ResourceSupply>().resourceCapacity)
+                {
+                    UnityEngine.Debug.LogWarning("Resource " + go.name + "was full");
                     continue;
+                }
 
                 Vector3 diff = go.transform.position - position;
                 float curDistance = diff.sqrMagnitude;
@@ -41,7 +51,10 @@ namespace EthansProject {
                 }
             }
             if (closest == null)
+            {
+                UnityEngine.Debug.LogWarning("Resource storage not found");
                 return false;
+            }
 
             target = closest;
             targetResourceSupply = closest.GetComponent<ResourceSupply>();
@@ -57,11 +70,10 @@ namespace EthansProject {
         {
             if (!droppedOffResource)
             {
-
-                targetResourceSupply.resourceCount += Storage.berriesHolding;
+                targetResourceSupply.resourceCount += Storage.resourceHolding;
                 // targetResourceSupply.StoreResource(Storage.berriesHolding);
                 droppedOffResource = true;
-                Storage.berriesHolding = 0;
+                Storage.resourceHolding = 0;
                 return true;
             }
             return false;
@@ -74,10 +86,9 @@ namespace EthansProject {
 
         public override void Reset()
         {
-            Storage.berriesHolding = 0;
+            Storage.resourceHolding = 0;
             droppedOffResource = false;
             targetResourceSupply = null;
-
         }
     }
 }

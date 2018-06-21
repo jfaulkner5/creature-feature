@@ -1198,9 +1198,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d714f6cce4125544dae3f8030813277b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  berryRegrowthRate: 30
-  InitBerryCount: 10
-  currentBerryCount: 0
+  ResourceType: 0
+  regrowthRate: 60
+  InitCount: 10
+  currentCount: 0
   randomnessPercent: 10
-  hassBerries: 1
-  debug_takeBerries: 0
+  hasResource: 1
+  debug_Take: 0

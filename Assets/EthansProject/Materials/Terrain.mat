@@ -107,7 +107,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WireThickness: 566
+    - _WireThickness: 337
     - _ZWrite: 1
     - testScale: 1
     m_Colors:

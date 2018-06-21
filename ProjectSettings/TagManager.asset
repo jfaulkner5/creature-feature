@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Berry
   - Storage
+  - Tree
+  - BerryStorage
+  - WoodStorage
   layers:
   - Default
   - TransparentFX

@@ -14,7 +14,7 @@ namespace EthansProject
         {
             HashSet<KeyValuePair<string, object>> goal = new HashSet<KeyValuePair<string, object>>();
 
-            goal.Add(new KeyValuePair<string, object>("collectBerries", true));
+            goal.Add(new KeyValuePair<string, object>("collectResource", true));
             return goal;
         }
     }

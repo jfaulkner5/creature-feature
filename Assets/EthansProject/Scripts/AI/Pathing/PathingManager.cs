@@ -79,7 +79,7 @@ namespace EthansProject
                 }
                
             }
-          //  UnityEngine.Debug.Log("Path Not Found! Couldn't path from: " + startNode.node.spacialInfo + " -> " + endNode.node.spacialInfo);
+            UnityEngine.Debug.LogError("Path Not Found! Couldn't path from: " + startNode.node.spacialInfo + " -> " + endNode.node.spacialInfo);
             return null;
 
         }
@@ -103,8 +103,8 @@ namespace EthansProject
                 currNode = currNode.parent;
             }
 
-            
 
+            path.Reverse();
             return path;
         }
 

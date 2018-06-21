@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EthansProject
 {
-    public abstract class Villager : MonoBehaviour, IGOAP          
+    public abstract class Villager : MonoBehaviour, IGOAP
     {
         public List<PathingNode> agentPath = new List<PathingNode>();
         public float moveSpeed = 10;
@@ -20,7 +20,7 @@ namespace EthansProject
         // Use this for initialization
         void Start()
         {
-          
+
         }
 
         // Update is called once per frame
@@ -36,13 +36,12 @@ namespace EthansProject
         }
 
         public abstract HashSet<KeyValuePair<string, object>> CreateGoalState();
-       
+
 
         public HashSet<KeyValuePair<string, object>> GetWorldState()
         {
             HashSet<KeyValuePair<string, object>> worldData = new HashSet<KeyValuePair<string, object>>();
-            worldData.Add(new KeyValuePair<string, object>("hasBerries", (Storage.berriesHolding > 0)));
-            worldData.Add(new KeyValuePair<string, object>("hasWood", (Storage.logsHolding > 0)));
+            worldData.Add(new KeyValuePair<string, object>("hasResource", (Storage.resourceHolding > 0)));
             return worldData;
         }
 
@@ -52,7 +51,6 @@ namespace EthansProject
         Vector3[] path;
         void CheckPoint()
         {
-            print("setting new point");
 
             currentPos = path[index];
         }
@@ -61,8 +59,6 @@ namespace EthansProject
         {
             if (path == null)
             {
-                print("no path");
-
                 AssignPath();
                 return;
             }
@@ -72,14 +68,13 @@ namespace EthansProject
             {
                 if (index < path.Length - 1)
                 {
-                    print("index had maxed " + index);
                     index++;
                     CheckPoint();
                 }
             }
             else
             {
-                print("moving");
+                if(currentPos != Vector3.zero)
                 transform.position = Vector3.MoveTowards(transform.position, currentPos, step);
             }
         }
@@ -97,7 +92,7 @@ namespace EthansProject
 
             destination = nextAction.target.transform.position;
 
-
+            AssignPath();
 
             // Don't touch this.
             if (Vector3.Distance(gameObject.transform.position, nextAction.target.transform.position) <= 3.5f)
@@ -105,25 +100,22 @@ namespace EthansProject
                 // we are at the target location, we are done
                 nextAction.SetInRange(true);
                 needPath = true;
+                index = 0;
                 atDestination = true;
                 return true;
             }
             else
             {
-
                 StepAgent();
               
-                AssignPath();
-
                 return false;
             }
         }
 
         void AssignPath()
         {
-            if (!needPath)
+            if (!needPath || agentPath == null)
                 return;
-            print("assigning ");
 
             needPath = false;
             agentPath = PathingManager.FindPath(gameObject.transform.position, destination);
@@ -132,6 +124,7 @@ namespace EthansProject
             {
                 path[i] = agentPath[i].node.spacialInfo;
             }
+            CheckPoint();
         }
 
           

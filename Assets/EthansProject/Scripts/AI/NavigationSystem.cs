@@ -55,7 +55,7 @@ namespace EthansProject {
 
             foreach (GameObject go in gos)
             {
-                if (!go.GetComponent<BerryBush>().hassBerries)
+                if (!go.GetComponent<BerryBush>().hasResource)
                     continue;
 
                 Vector3 diff = go.transform.position - position;
