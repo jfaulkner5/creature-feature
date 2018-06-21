@@ -119,6 +119,8 @@ namespace jfaulkner
             return myPathFinding.FindPath(_startPos, _endPos);
         }
 
+
+        //TODO shouldn't be in the game manager
         public List<Node> GetNeighbourNodes(Node node)
         {
            List<Node> neighbourNodes = new List<Node>();
@@ -142,6 +144,20 @@ namespace jfaulkner
                 }
             }
             return neighbourNodes;
+        }
+
+        //TODO De-spaghetti
+        public Node ConvertFromWorldPoint(Vector3 worldPoint)
+        {
+            float posX = (worldPoint.x - /*transform.position.x*/ +myPathGrid.gridWorldSize.x / 2) / myPathGrid.gridWorldSize.x;
+            float posY = (worldPoint.z - /*transform.position.z*/ +myPathGrid.gridWorldSize.y / 2) / myPathGrid.gridWorldSize.y;
+            posX = Mathf.Clamp01(posX);
+            posY = Mathf.Clamp01(posY);
+
+            int x = Mathf.RoundToInt((myPathGrid.gridSize - 1) * posX);
+            int y = Mathf.RoundToInt((myPathGrid.gridSize - 1) * posY);
+
+            return levelGrid[x, y];
         }
 
     }

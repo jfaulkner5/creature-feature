@@ -67,19 +67,7 @@ namespace jfaulkner
             return newLevelGrid;
         }
 
-        //TODO | Is it necessary to reverse from node to worldpoint?
-        public Node ConvertFromWorldPoint(Vector3 worldPoint)
-        {
-            float posX = (worldPoint.x - /*transform.position.x*/ + gridWorldSize.x / 2) / gridWorldSize.x;
-            float posY = (worldPoint.z - /*transform.position.z*/ + gridWorldSize.y / 2) / gridWorldSize.y;
-            posX = Mathf.Clamp01(posX);
-            posY = Mathf.Clamp01(posY);
 
-            int x = Mathf.RoundToInt((gridSize - 1) * posX);
-            int y = Mathf.RoundToInt((gridSize - 1) * posY);
-
-            return levelGrid[x, y];
-        }
 
 
 

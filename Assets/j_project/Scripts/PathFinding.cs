@@ -11,10 +11,8 @@ namespace jfaulkner
 
         public List<Node> FindPath(Vector3 startPos, Vector3 finishPos)
         {
-            //Node startNode = ConvertFromWorldPoint(startPos);
-            //Node endNode = ConvertFromWorldPoint(finishPos);
-
-            Node startNode = null, endNode = null;
+            Node startNode = GameManager.Instance.ConvertFromWorldPoint(startPos);
+            Node endNode = GameManager.Instance.ConvertFromWorldPoint(finishPos);
             
             return FindPath(startNode, endNode);
         }
