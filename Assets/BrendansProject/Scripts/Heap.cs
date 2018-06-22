@@ -76,7 +76,10 @@ namespace BrendansProject
         }
 
 
-
+        /// <summary>
+        /// Move an item down the list if its priority is lower than its parent
+        /// </summary>
+        /// <param name="item"></param>
         private void SortDown(T item)
         {
             while (true)

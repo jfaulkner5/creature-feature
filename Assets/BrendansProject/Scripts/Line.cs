@@ -21,6 +21,11 @@ namespace BrendansProject
 
         bool approachSide;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pointOnLine"></param>
+        /// <param name="pointPerpendicularToLine"></param>
         public Line(Vector2 pointOnLine, Vector2 pointPerpendicularToLine)
         {
             float dx = pointOnLine.x - pointPerpendicularToLine.x;
@@ -52,16 +57,31 @@ namespace BrendansProject
             approachSide = GetSide(pointPerpendicularToLine);
         }
 
+        /// <summary>
+        /// Determine which side of the line the vector2 is on
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         bool GetSide(Vector2 p)
         {
             return (p.x - pointOnLine_1.x) * (pointOnLine_2.y - pointOnLine_1.y) > (p.y - pointOnLine_1.y) * (pointOnLine_2.x - pointOnLine_1.x);
         }
 
+        /// <summary>
+        /// Check is has crossed a line
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public bool HasCrossedLine(Vector2 p)
         {
             return GetSide(p) != approachSide;
         }
 
+        /// <summary>
+        /// Float that returns the distance from a point to the next intersect
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public float DistanceFromPoint(Vector2 p)
         {
             float yInterceptPerpendicular = p.y - gradientPerpendicular * p.x;
@@ -70,6 +90,10 @@ namespace BrendansProject
             return Vector2.Distance(p, new Vector2(intersectX, intersectY));
         }
 
+        /// <summary>
+        /// Draw line gizmos
+        /// </summary>
+        /// <param name="length"></param>
         public void DrawWithGizmos(float length)
         {
             Vector3 lineDir = new Vector3(1, 0, gradient).normalized;

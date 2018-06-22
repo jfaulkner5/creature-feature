@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace BrendansProject
 {
@@ -22,8 +23,35 @@ namespace BrendansProject
 
         private void Start()
         {
+            target = GetClosestEnemy(ProcGenerator.instance.targets); // Find the closest target
+            print(target);
             StartCoroutine(UpdatePath());
         }
+
+        /// <summary>
+        /// Find the closest tranform to the unit from the provided list.
+        /// </summary>
+        /// <param name="enemies"></param>
+        /// <returns></returns>
+        Transform GetClosestEnemy(List<Transform> enemies)
+        {
+            Transform bestTarget = null;
+            float closestDistanceSqr = Mathf.Infinity;
+            Vector3 currentPosition = transform.position;
+            foreach (Transform potentialTarget in enemies)
+            {
+                Vector3 directionToTarget = potentialTarget.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    bestTarget = potentialTarget;
+                }
+            }
+
+            return bestTarget;
+        }
+
 
         /// <summary>
         /// If path has been found and sucessfully reaches the target follow the path.
@@ -42,7 +70,7 @@ namespace BrendansProject
         }
 
         /// <summary>
-        /// 
+        /// Ticks through path requests so it is not being called every frame.
         /// </summary>
         /// <returns></returns>
         IEnumerator UpdatePath()

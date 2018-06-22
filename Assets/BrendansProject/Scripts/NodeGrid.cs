@@ -12,7 +12,6 @@ namespace BrendansProject
 
         public bool displayGridGizmos; // Toggle grid gizmos on/off
 
-        public Vector2 gridWorldSize; // Defines the area in worldsize that the grid will cover
         public float nodeRadius; // How much space each individual node covers
         private float nodeDiameter; // Used to Determine how many nodes can fit in the grid
 
@@ -26,7 +25,8 @@ namespace BrendansProject
         public TerrainType[] walkableRegions;
 
         Node[,] nodeGrid; // 2 Dimentional array used to represent the node grid
-
+        
+        private Vector2 gridWorldSize; // Defines the area in worldsize that the grid will cover
 
         int gridSizeX, gridSizeY;
 
@@ -39,9 +39,13 @@ namespace BrendansProject
         {
             nodeDiameter = nodeRadius * 2;
 
+            gridWorldSize = ProcGenerator.instance.GetWorldSize();
+
             // Convert the world size(mtrs) into node amounts using the nodes diameter
             gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter); // Round value so there are no partial nodes
             gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+
+
 
             // Add all walkable regions to the Regions dictoinary
             foreach (TerrainType region in walkableRegions)
@@ -50,8 +54,7 @@ namespace BrendansProject
                 walkableRegionsDictionary.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty); // Add terrainMask value to dictionary using Mathf.log
             }
 
-            //TODO use one map
-            ProcGenerator.instance.Generate();
+            ProcGenerator.instance.Generate(); // Generate city map first
             CreateGrid();
         }
 
@@ -65,12 +68,6 @@ namespace BrendansProject
                 return gridSizeX * gridSizeY;
             }
         }
-
-       //void Update()
-       // {
-       //     if(Input.GetButton("Jump"))
-       //     CreateGrid();
-       // }
 
         /// <summary>
         /// Find each point a walkable node is going to occupy in world space. 
@@ -154,6 +151,7 @@ namespace BrendansProject
                     penaltiesVerticalPass[x, 0] += penaltiesHorizontalPass[x, sampleY];
                 }
 
+                // Determine & set blur amount using the kernal size
                 int blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, 0] / (kernelSize * kernelSize));
                 nodeGrid[x, 0].movementPenalty = blurredPenalty;
 
@@ -166,6 +164,7 @@ namespace BrendansProject
                     blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, y] / (kernelSize * kernelSize));
                     nodeGrid[x, y].movementPenalty = blurredPenalty;
 
+                    // Ensure penalty has does not go over the max value
                     if (blurredPenalty > penaltyMax)
                     {
                         penaltyMax = blurredPenalty;
@@ -211,7 +210,7 @@ namespace BrendansProject
         }
 
         /// <summary>
-        /// Convert a node position into a world point.
+        /// Refernece a node in the nodeGrid using a world point.
         /// </summary>
         /// <param name="worldPosition"></param>
         /// <returns></returns>
@@ -231,6 +230,12 @@ namespace BrendansProject
             //Optimised values
             int x = Mathf.FloorToInt(Mathf.Min((gridSizeX * percentX), gridSizeX - 1)); //int x = Mathf.RoundToInt((gridSizeX-1) * percentX);
             int y = Mathf.FloorToInt(Mathf.Min((gridSizeY * percentY), gridSizeY - 1)); //int y = Mathf.RoundToInt((gridSizeY-1) * percentY);
+
+            // if no node is found goto closest
+            if (nodeGrid[x, y] == null)
+                print("Find Closest Node");
+            print(nodeGrid[x, y].gridX);
+            // Search neighbours left right up down and first that isnt null is closest
 
             return nodeGrid[x, y];
         }
@@ -255,13 +260,13 @@ namespace BrendansProject
         }
 
         /// <summary>
-        /// 
+        /// Class for soring terrain type information
         /// </summary>
         [System.Serializable]
         public class TerrainType
         {
-            public LayerMask terrainMask;
-            public int terrainPenalty;
+            public LayerMask terrainMask; //Each terrain has a different mask.
+            public int terrainPenalty; // Movement penalty for a terrain type.
         }
 
 

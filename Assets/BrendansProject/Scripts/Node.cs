@@ -82,7 +82,7 @@ namespace BrendansProject
             {
                 compare = hCost.CompareTo(nodeToCompare.hCost);
             }
-            return -compare; // Because nodes are reveresed return negative compare. 
+            return -compare; // Because nodes are reversed return negative compare. 
         }
     }
 }

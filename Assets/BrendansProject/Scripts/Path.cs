@@ -10,11 +10,18 @@ namespace BrendansProject
     public class Path
     {
 
-        public readonly Vector3[] lookPoints;
+        public readonly Vector3[] lookPoints; // Array of lookpoints
         public readonly Line[] turnBoundaries;
         public readonly int finishLineIndex;
         public readonly int slowDownIndex;
 
+        /// <summary>
+        /// Convert waypoints into smooth lookpoints using turn boundaries
+        /// </summary>
+        /// <param name="waypoints"></param>
+        /// <param name="startPos"></param>
+        /// <param name="turnDst"></param>
+        /// <param name="stoppingDst"></param>
         public Path(Vector3[] waypoints, Vector3 startPos, float turnDst, float stoppingDst)
         {
             lookPoints = waypoints;
@@ -43,11 +50,19 @@ namespace BrendansProject
             }
         }
 
+        /// <summary>
+        /// Convert a vector 3 to a vector 2
+        /// </summary>
+        /// <param name="v3"></param>
+        /// <returns></returns>
         Vector2 V3ToV2(Vector3 v3)
         {
             return new Vector2(v3.x, v3.z);
         }
 
+        /// <summary>
+        /// Draw look points and lines with gizmos
+        /// </summary>
         public void DrawWithGizmos()
         {
 
