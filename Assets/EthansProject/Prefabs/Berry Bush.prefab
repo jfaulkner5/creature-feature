@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 4140684105982570}
   - component: {fileID: 33924479636454876}
   - component: {fileID: 23349295020248508}
+  - component: {fileID: 65271380760952406}
   - component: {fileID: 114867077157412068}
   m_Layer: 0
   m_Name: Berry
@@ -1090,6 +1091,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65271380760952406
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1159321409352914}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65300706160642122
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1185,9 +1198,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d714f6cce4125544dae3f8030813277b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  berryRegrowthRate: 9999999
-  InitBerryCount: 10
-  currentBerryCount: 0
+  ResourceType: 0
+  regrowthRate: 60
+  InitCount: 10
+  currentCount: 0
   randomnessPercent: 10
-  hassBerries: 1
-  debug_takeBerries: 0
+  hasResource: 1
+  debug_Take: 0

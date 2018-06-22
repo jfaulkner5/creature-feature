@@ -6,15 +6,22 @@ namespace EthansProject
 {
     public class BerryBush : MonoBehaviour
     {
-        public float berryRegrowthRate;
-        float currentRate;
+        public enum ResourceTypes
+        {
+            Berry,
+            Wood
+        }
+        public ResourceTypes ResourceType = ResourceTypes.Berry;
 
-        public int InitBerryCount = 10;
-        public int currentBerryCount;
+        public float regrowthRate;
+        public float currentRate;
+
+        public int InitCount = 10;
+        public int currentCount;
         public float randomnessPercent = 10;
 
-        public bool hassBerries = true;
-        public bool debug_takeBerries;
+        public bool hasResource = true;
+        public bool debug_Take;
 
         GameObject Berries
         {
@@ -24,15 +31,16 @@ namespace EthansProject
         // Use this for initialization
         void Start()
         {
-            currentBerryCount = InitBerryCount;
+            regrowthRate *= Random.Range(0.5f, 1.5f);
+            currentCount = InitCount;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (debug_takeBerries)
+            if (debug_Take)
             {
-                debug_takeBerries = false;
+                debug_Take = false;
                 TakeBerries();
             }
 
@@ -42,7 +50,7 @@ namespace EthansProject
             }
             else
             {
-                if (!hassBerries)
+                if (!hasResource)
                     BerriesRegrew();
             }
         }
@@ -50,10 +58,10 @@ namespace EthansProject
         void BerriesRegrew()
         {
             int randChance = (int)Random.Range(-randomnessPercent, randomnessPercent);
-            float newBerryCount = InitBerryCount * randChance;
-
-            currentBerryCount = InitBerryCount + Mathf.RoundToInt(randChance);
-            hassBerries = true;
+            float newBerryCount = InitCount * randChance;
+            currentRate = regrowthRate + randChance;
+            currentCount = InitCount + Mathf.RoundToInt(randChance);
+            hasResource = true;
 
             Berries.SetActive(true);
             //  print(currentBerryCount + ", " + randChance);
@@ -61,15 +69,15 @@ namespace EthansProject
 
         public int TakeBerries()
         {
-            if (!hassBerries)
+            if (!hasResource)
                 return 0;
 
-            hassBerries = false;
-            currentRate = berryRegrowthRate;
+            hasResource = false;
+            currentRate = regrowthRate;
 
             Berries.SetActive(false);
 
-            return currentBerryCount;
+            return currentCount;
         }
     }
 }

@@ -4,8 +4,16 @@ namespace EthansProject
 {
     public class GatherBerriesAction : GOAPAction
     {
+        public enum GatherType
+        {
+            BerryGatherer,
+            WoodGatherer
+        }
+        public GatherType CurrGatherType = GatherType.BerryGatherer;
         public bool hasBerries = false;
         BerryBush targetBerryResource;
+
+
         public AgentStorage Storage
         {
             get { return GetComponent<AgentStorage>(); }
@@ -13,22 +21,34 @@ namespace EthansProject
 
         public GatherBerriesAction()
         {
-            AddPrecondition("hasBerries", false);
-            AddEffect("hasBerries", true);
-            
+            AddPrecondition("hasResource", false);
+            AddEffect("hasResource", true);
+
         }
 
         public override bool CheckProcPreconditions(GameObject agent)
         {
             GameObject[] gos;
-            gos = GameObject.FindGameObjectsWithTag("Berry");
+     
+            gos = (CurrGatherType == GatherType.BerryGatherer) ? GameObject.FindGameObjectsWithTag("Berry") : GameObject.FindGameObjectsWithTag("Tree");
             GameObject closest = null;
             float distance = Mathf.Infinity;
             Vector3 position = agent.transform.position;
+            if (gos.Length == 0)
+            {
+                Debug.LogError("No resource for " + gameObject.name);
+            }
+
 
             foreach (GameObject go in gos)
             {
-                 if (!go.GetComponent<BerryBush>().hassBerries)
+                BerryBush bBush = go.GetComponent<BerryBush>();
+                if (bBush == null)
+                {
+                    UnityEngine.Debug.LogWarning("Resource " + go.name + " did not have the script");
+                    continue;
+                }
+                if (!go.GetComponent<BerryBush>().hasResource)
                     continue;
 
                 Vector3 diff = go.transform.position - position;
@@ -41,7 +61,11 @@ namespace EthansProject
                 }
             }
             if (closest == null)
+            {
+                UnityEngine.Debug.LogWarning("Resource not found");
+
                 return false;
+            }
 
             target = closest;
             targetBerryResource = closest.GetComponent<BerryBush>();
@@ -55,11 +79,13 @@ namespace EthansProject
 
         public override bool Preform(GameObject agent)
         {
-            if (!hasBerries && targetBerryResource.hassBerries)
+            if (!hasBerries && targetBerryResource.hasResource)
             {
-                Storage.berriesHolding += targetBerryResource.TakeBerries();
+              
+                Storage.resourceHolding += targetBerryResource.TakeBerries();
+              
+
                 hasBerries = true;
-                
                 return true;
             }
             return false;
@@ -72,10 +98,10 @@ namespace EthansProject
 
         public override void Reset()
         {
-            Storage.berriesHolding = 0;
+            Storage.resourceHolding = 0;
             hasBerries = false;
             targetBerryResource = null;
-            
+
         }
     }
 }

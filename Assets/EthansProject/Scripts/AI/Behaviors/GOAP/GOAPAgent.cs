@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 namespace EthansProject
@@ -19,12 +20,9 @@ namespace EthansProject
         private IGOAP dataProvider;
         private GOAPPlanner planner;
 
-
-
         // Use this for initialization
         void Start()
         {
-         
             stateMachine = new FSM();
             availableActions = new HashSet<GOAPAction>();
             currentActions = new Queue<GOAPAction>();
@@ -33,13 +31,13 @@ namespace EthansProject
             CreateIdleState();
             CreateMoveToState();
             CreatePerformActionState();
-            stateMachine.PushState(idleState);
+            stateMachine.pushState(idleState);
             LoadActions();
         }
 
         // Update is called once per frame
         void Update()
-        {            
+        {
             stateMachine.Update(gameObject);
         }
 
@@ -70,7 +68,6 @@ namespace EthansProject
 
         private void CreateIdleState()
         {
-          
             idleState = (fsm, gameObj) =>
             {
                 // GOAP planning
@@ -87,18 +84,19 @@ namespace EthansProject
                     currentActions = plan;
                     dataProvider.PlanFound(goal, plan);
 
-                    fsm.PopState(); // move to PerformAction state
-                    fsm.PushState(prefromActionState);
+                    fsm.popState(); // move to PerformAction state
+                    fsm.pushState(prefromActionState);
 
                 }
                 else
                 {
-                    //couldn't get a plan
+                    // ugh, we couldn't get a plan
                     Debug.Log("<color=orange>Failed Plan:</color>" + prettyPrint(goal));
                     dataProvider.PlanFailed(goal, currentActions);
-                    fsm.PopState(); // move back to IdleAction state
-                    fsm.PushState(idleState);
+                    fsm.popState(); // move back to IdleAction state
+                    fsm.pushState(idleState);
                 }
+
             };
         }
 
@@ -112,17 +110,17 @@ namespace EthansProject
                 if (action.RequiresInRange() && action.target == null)
                 {
                     Debug.Log("<color=red>Fatal error:</color> Action requires a target but has none. Planning failed. You did not assign the target in your Action.checkProceduralPrecondition()");
-                    fsm.PopState(); // move
-                    fsm.PopState(); // perform
-                    fsm.PushState(idleState);
+                    fsm.popState(); // move
+                    fsm.popState(); // perform
+                    fsm.pushState(idleState);
                     return;
                 }
 
                 // get the agent to move itself
                 if (dataProvider.MoveAgent(action))
                 {
-                    fsm.PopState();
-                }            
+                    fsm.popState();
+                }               
             };
         }
 
@@ -137,8 +135,8 @@ namespace EthansProject
                 {
                     // no actions to perform
                     Debug.Log("<color=red>Done actions</color>");
-                    fsm.PopState();
-                    fsm.PushState(idleState);
+                    fsm.popState();
+                    fsm.pushState(idleState);
                     dataProvider.ActionFinished();
                     return;
                 }
@@ -164,8 +162,8 @@ namespace EthansProject
                         if (!success)
                         {
                             // action failed, we need to plan again
-                            fsm.PopState();
-                            fsm.PushState(idleState);
+                            fsm.popState();
+                            fsm.pushState(idleState);
                             dataProvider.PlanAborted(action);
                         }
                     }
@@ -173,16 +171,15 @@ namespace EthansProject
                     {
                         // we need to move there first
                         // push moveTo state
-                        fsm.PushState(moveToState);
+                        fsm.pushState(moveToState);
                     }
 
                 }
                 else
                 {
-                    Debug.Log(gameObj + " Entered Idle Mode");
                     // no actions left, move to Plan state
-                    fsm.PopState();
-                    fsm.PushState(idleState);
+                    fsm.popState();
+                    fsm.pushState(idleState);
                     dataProvider.ActionFinished();
                 }
 

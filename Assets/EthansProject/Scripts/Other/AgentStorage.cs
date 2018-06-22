@@ -5,7 +5,6 @@ namespace EthansProject
 {
     public class AgentStorage : MonoBehaviour
     {
-        public int berriesHolding;
-        public int logsHolding;
+        public int resourceHolding;
     }
 }
