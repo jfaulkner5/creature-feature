@@ -91,7 +91,7 @@ namespace EthansProject
                 grid = new PathingNode[newData.heightmapWidth, newData.heightmapHeight];
 
             Vector3 nodeOffset = new Vector3(0, nodeRadius, 0);
-            Vector3 newNodePoint = vertPoint + nodeOffset;
+            Vector3 newNodePoint = vertPoint;
 
             bool walkable = !(Physics.CheckSphere(newNodePoint, nodeRadius, unwalkableMask));
 
@@ -166,12 +166,9 @@ namespace EthansProject
             if (grid != null)
             {
 
-                foreach (PathingNode n in grid)
+                foreach (PathingNode n in path)
                 {
-                    if (n.traverable)
-                        Gizmos.color = Color.white;
-                    else
-                        continue;
+                  
 
                     if (path != null && path.Contains(n))
                         Gizmos.color = Color.blue;

@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace EthansProject
 {
+    /// <summary>
+    /// Runs through all the available actions and pieces them together to find one 
+    /// that result in completing a goal and uses the cost of them to determine the best one.
+    /// </summary>
     public class GOAPPlanner
     {
 
@@ -69,6 +71,7 @@ namespace EthansProject
             return queue;
 
         }
+
         private bool BuildGraph(BranchNode parent, List<BranchNode> nodes, HashSet<GOAPAction> usableActions, HashSet<KeyValuePair<string, object>> goal)
         {
             bool foundOne = false;

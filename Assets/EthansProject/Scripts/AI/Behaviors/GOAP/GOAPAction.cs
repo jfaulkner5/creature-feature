@@ -26,7 +26,7 @@ public abstract class GOAPAction : MonoBehaviour {
        
     }
 
-    // Hack:-------------VVVVV <- why's this blue?!?!
+    //      -------------VVVVV <- why's this blue?!?!  - Found out that Reset is a mono method that is called when the user hits the Reset button in the Inspector's context menu or when adding the component the first time... coool, another thing that could have been usefull
     public abstract void Reset();
 
     public abstract bool IsDone();

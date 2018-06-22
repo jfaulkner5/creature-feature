@@ -142,8 +142,8 @@ MonoBehaviour:
     - objToSpawnForRegion: {fileID: 1397154756662402, guid: 89d7a4b788600854c9fba821c46ce67a,
         type: 2}
       useNoise: 1
-      noiseCap: 0.4
-      spawnPossiblity: 3
+      noiseCap: 0.1
+      spawnPossiblity: 60
   - regionName: Mountains
     regionColor: {r: 0.25490198, g: 0.27450982, b: 0.2901961, a: 1}
     betweenHeight: {x: 15, y: 30}
@@ -151,9 +151,9 @@ MonoBehaviour:
     objectsToSpawn:
     - objToSpawnForRegion: {fileID: 1526404116997638, guid: 80588ad531ed81f4ca4d43db22b5af84,
         type: 2}
-      useNoise: 0
-      noiseCap: 0
-      spawnPossiblity: 2
+      useNoise: 1
+      noiseCap: 0.11
+      spawnPossiblity: 80
   - regionName: SnowLands
     regionColor: {r: 1, g: 1, b: 1, a: 1}
     betweenHeight: {x: 30, y: 80}
@@ -188,7 +188,7 @@ TerrainCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1635518949272750}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d37ccd8b8b7e6744d87c930ed7c338e2, type: 2}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: cab08aed84c464047867b72514850bdc, type: 2}
   m_EnableTreeColliders: 0

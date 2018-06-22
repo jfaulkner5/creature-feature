@@ -64,9 +64,17 @@ namespace EthansProject
             for (int i = 0; i < genedObjs.Count; i++)
             {
                 Destroy(genedObjs[i]);
+
+              
             }
 
             genedObjs.Clear();
+
+            if (genedObjs.Count > 0)
+            {
+                GenerateTerrain();
+                return;
+            }
 
             // retrieve the terrain
             terrainComp = GetComponent<Terrain>();
@@ -197,7 +205,7 @@ namespace EthansProject
                         }
 
                         // Runs a random roll to see if it can generate a object
-                        int objProbabillity = UnityEngine.Random.Range(1, 500);
+                        float objProbabillity = UnityEngine.Random.Range(0.1f, 500.0f);
 
                         // if the possiblity is lower than a certain amount - spawn the object                   
                         if (regions[i].objectsToSpawn[xIndex].spawnPossiblity > objProbabillity)

@@ -1,14 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
+/// <summary>
+/// Holds all the core methods for the abstract Roles(Villager.cs) to inherit from.
+/// </summary>
 public interface IGOAP
 {
 
     HashSet<KeyValuePair<string, object>> GetWorldState();
 
     HashSet<KeyValuePair<string, object>> CreateGoalState();
-    
 
     void PlanFailed(HashSet<KeyValuePair<string, object>> goal, Queue<GOAPAction> actions);
 

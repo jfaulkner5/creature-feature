@@ -1,13 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
+
 namespace EthansProject
 {
+    /// <summary>
+    /// Core house of holding states for the GOAP to access and to add.
+    /// </summary>
     public class FSM
     {
         private Stack<FSMState> stateStack = new Stack<FSMState>();
         public delegate void FSMState(FSM fsm, GameObject gameObject);
+
         public void Update(GameObject gameObject)
         {
 
@@ -18,14 +21,14 @@ namespace EthansProject
 
         }
 
-        public void pushState(FSMState state)
+        public void PushState(FSMState state)
         {
             stateStack.Push(state);
         }
 
-        public void popState()
+        public FSMState PopState()
         {
-            stateStack.Pop();
+            return stateStack.Pop();
         }
     }
 }

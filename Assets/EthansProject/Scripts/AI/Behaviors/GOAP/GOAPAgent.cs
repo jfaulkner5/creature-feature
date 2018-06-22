@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 namespace EthansProject
@@ -20,9 +19,12 @@ namespace EthansProject
         private IGOAP dataProvider;
         private GOAPPlanner planner;
 
+
+
         // Use this for initialization
         void Start()
         {
+         
             stateMachine = new FSM();
             availableActions = new HashSet<GOAPAction>();
             currentActions = new Queue<GOAPAction>();
@@ -31,13 +33,13 @@ namespace EthansProject
             CreateIdleState();
             CreateMoveToState();
             CreatePerformActionState();
-            stateMachine.pushState(idleState);
+            stateMachine.PushState(idleState);
             LoadActions();
         }
 
         // Update is called once per frame
         void Update()
-        {
+        {            
             stateMachine.Update(gameObject);
         }
 
@@ -68,6 +70,7 @@ namespace EthansProject
 
         private void CreateIdleState()
         {
+          
             idleState = (fsm, gameObj) =>
             {
                 // GOAP planning
@@ -84,19 +87,18 @@ namespace EthansProject
                     currentActions = plan;
                     dataProvider.PlanFound(goal, plan);
 
-                    fsm.popState(); // move to PerformAction state
-                    fsm.pushState(prefromActionState);
+                    fsm.PopState(); // move to PerformAction state
+                    fsm.PushState(prefromActionState);
 
                 }
                 else
                 {
-                    // ugh, we couldn't get a plan
+                    //couldn't get a plan
                     Debug.Log("<color=orange>Failed Plan:</color>" + prettyPrint(goal));
                     dataProvider.PlanFailed(goal, currentActions);
-                    fsm.popState(); // move back to IdleAction state
-                    fsm.pushState(idleState);
+                    fsm.PopState(); // move back to IdleAction state
+                    fsm.PushState(idleState);
                 }
-
             };
         }
 
@@ -110,33 +112,17 @@ namespace EthansProject
                 if (action.RequiresInRange() && action.target == null)
                 {
                     Debug.Log("<color=red>Fatal error:</color> Action requires a target but has none. Planning failed. You did not assign the target in your Action.checkProceduralPrecondition()");
-                    fsm.popState(); // move
-                    fsm.popState(); // perform
-                    fsm.pushState(idleState);
+                    fsm.PopState(); // move
+                    fsm.PopState(); // perform
+                    fsm.PushState(idleState);
                     return;
                 }
 
                 // get the agent to move itself
                 if (dataProvider.MoveAgent(action))
                 {
-                    fsm.popState();
-                }
-
-                /*MovableComponent movable = (MovableComponent) gameObj.GetComponent(typeof(MovableComponent));
-                if (movable == null) {
-                    Debug.Log("<color=red>Fatal error:</color> Trying to move an Agent that doesn't have a MovableComponent. Please give it one.");
-                    fsm.popState(); // move
-                    fsm.popState(); // perform
-                    fsm.pushState(idleState);
-                    return;
-                }
-                float step = movable.moveSpeed * Time.deltaTime;
-                gameObj.transform.position = Vector3.MoveTowards(gameObj.transform.position, action.target.transform.position, step);
-                if (gameObj.transform.position.Equals(action.target.transform.position) ) {
-                    // we are at the target location, we are done
-                    action.setInRange(true);
-                    fsm.popState();
-                }*/
+                    fsm.PopState();
+                }            
             };
         }
 
@@ -151,8 +137,8 @@ namespace EthansProject
                 {
                     // no actions to perform
                     Debug.Log("<color=red>Done actions</color>");
-                    fsm.popState();
-                    fsm.pushState(idleState);
+                    fsm.PopState();
+                    fsm.PushState(idleState);
                     dataProvider.ActionFinished();
                     return;
                 }
@@ -178,8 +164,8 @@ namespace EthansProject
                         if (!success)
                         {
                             // action failed, we need to plan again
-                            fsm.popState();
-                            fsm.pushState(idleState);
+                            fsm.PopState();
+                            fsm.PushState(idleState);
                             dataProvider.PlanAborted(action);
                         }
                     }
@@ -187,15 +173,16 @@ namespace EthansProject
                     {
                         // we need to move there first
                         // push moveTo state
-                        fsm.pushState(moveToState);
+                        fsm.PushState(moveToState);
                     }
 
                 }
                 else
                 {
+                    Debug.Log(gameObj + " Entered Idle Mode");
                     // no actions left, move to Plan state
-                    fsm.popState();
-                    fsm.pushState(idleState);
+                    fsm.PopState();
+                    fsm.PushState(idleState);
                     dataProvider.ActionFinished();
                 }
 

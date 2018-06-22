@@ -52,34 +52,30 @@ namespace EthansProject
         Vector3[] path;
         void CheckPoint()
         {
-            print("setting new point");
 
             currentPos = path[index];
         }
 
         void StepAgent()
         {
-            if (path == null)
+            if (path == null || currentPos == Vector3.zero)
             {
-                print("no path");
-
                 AssignPath();
                 return;
             }
          
             float step = moveSpeed * Time.deltaTime;
-            if (Vector3.Distance(transform.position, currentPos) <= 0.2f)
+            if (Vector3.Distance(transform.position, currentPos) <= 0.8f)
             {
                 if (index < path.Length - 1)
                 {
-                    print("index had maxed " + index);
                     index++;
                     CheckPoint();
                 }
             }
             else
             {
-                print("moving");
+                // moves to zero at the start because current Pos is zero at the begining.....
                 transform.position = Vector3.MoveTowards(transform.position, currentPos, step);
             }
         }
@@ -90,7 +86,6 @@ namespace EthansProject
             //has the destination been reached
             if (!NodeManager.instance._initialized)
             {
-                print("havnt inited yet");
 
                 return false;
             }
@@ -123,15 +118,17 @@ namespace EthansProject
         {
             if (!needPath)
                 return;
-            print("assigning ");
 
             needPath = false;
             agentPath = PathingManager.FindPath(gameObject.transform.position, destination);
+          
             path = new Vector3[agentPath.Count];
             for (int i = 0; i < agentPath.Count; i++)
             {
                 path[i] = agentPath[i].node.spacialInfo;
             }
+            currentPos = path[0];
+            index = 0;
         }
 
           

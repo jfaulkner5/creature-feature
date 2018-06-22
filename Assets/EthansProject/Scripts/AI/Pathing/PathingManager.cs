@@ -71,7 +71,7 @@ namespace EthansProject
                         }
                         else
                         {
-                            //openList.UpdateItem(neigbouringNode);
+                            openList.UpdateItem(neigbouringNode);
                         }
 
                        
@@ -103,7 +103,7 @@ namespace EthansProject
                 currNode = currNode.parent;
             }
 
-            
+            path.Reverse();
 
             return path;
         }
