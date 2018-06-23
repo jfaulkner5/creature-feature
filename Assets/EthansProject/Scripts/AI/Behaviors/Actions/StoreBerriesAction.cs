@@ -26,38 +26,42 @@ namespace EthansProject {
 
         public override bool CheckProcPreconditions(GameObject agent)
         {
-            GameObject[] gos;
+            List<ResourceSupply> sources = new List<ResourceSupply>();
 
-            gos = (CurrGatherType == GatherType.BerryGatherer) ? GameObject.FindGameObjectsWithTag("BerryStorage") : GameObject.FindGameObjectsWithTag("WoodStorage");
-            GameObject closest = null;
+            sources = (CurrGatherType == GatherType.BerryGatherer) ? WorldInfo.berrySorages : WorldInfo.treeStorages;
+            ResourceSupply closest = null;
             float distance = Mathf.Infinity;
             Vector3 position = agent.transform.position;
 
-            foreach (GameObject go in gos)
+            if (sources.Count == 0)
             {
-                if (go.GetComponent<ResourceSupply>().resourceCount >= go.GetComponent<ResourceSupply>().resourceCapacity)
-                {
-                    UnityEngine.Debug.LogWarning("Resource " + go.name + "was full");
-                    continue;
-                }
+                Debug.LogError("No resource for " + gameObject.name);
+            }
 
-                Vector3 diff = go.transform.position - position;
+
+            foreach (ResourceSupply source in sources)
+            {
+             
+
+               
+                Vector3 diff = source.transform.position - position;
                 float curDistance = diff.sqrMagnitude;
 
                 if (curDistance < distance)
                 {
-                    closest = go;
+                    closest = source;
                     distance = curDistance;
                 }
             }
             if (closest == null)
             {
-                UnityEngine.Debug.LogWarning("Resource storage not found");
+                UnityEngine.Debug.LogWarning("Resource supply not found");
+
                 return false;
             }
 
-            target = closest;
-            targetResourceSupply = closest.GetComponent<ResourceSupply>();
+            target = closest.gameObject;
+            targetResourceSupply = closest;
             return closest != null;
         }
 
@@ -68,7 +72,7 @@ namespace EthansProject {
 
         public override bool Preform(GameObject agent)
         {
-            if (!droppedOffResource)
+            if (!droppedOffResource && targetResourceSupply.resourceCount < targetResourceSupply.resourceCapacity)
             {
                 targetResourceSupply.resourceCount += Storage.resourceHolding;
                 // targetResourceSupply.StoreResource(Storage.berriesHolding);

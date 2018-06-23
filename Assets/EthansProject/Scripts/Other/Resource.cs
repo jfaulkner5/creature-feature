@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EthansProject
 {
-    public class BerryBush : MonoBehaviour
+    public class Resource : MonoBehaviour
     {
         public enum ResourceTypes
         {
@@ -28,9 +28,46 @@ namespace EthansProject
             get { return transform.GetChild(0).gameObject; }
         }
 
+        void AddResource()
+        {
+
+            switch (ResourceType)
+            {
+                case ResourceTypes.Berry:
+                    WorldInfo.berryBushes.Add(this);
+                    break;
+                case ResourceTypes.Wood:
+                    WorldInfo.trees.Add(this);
+
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        void RemoveResource()
+        {
+
+            switch (ResourceType)
+            {
+                case ResourceTypes.Berry:
+                    WorldInfo.berryBushes.Remove(this);
+                    break;
+                case ResourceTypes.Wood:
+                    WorldInfo.trees.Remove(this);
+
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
         // Use this for initialization
         void Start()
         {
+            AddResource();
             regrowthRate *= Random.Range(0.5f, 1.5f);
             currentCount = InitCount;
         }
@@ -57,12 +94,12 @@ namespace EthansProject
 
         void BerriesRegrew()
         {
+            hasResource = true;
             int randChance = (int)Random.Range(-randomnessPercent, randomnessPercent);
             float newBerryCount = InitCount * randChance;
             currentRate = regrowthRate + randChance;
             currentCount = InitCount + Mathf.RoundToInt(randChance);
-            hasResource = true;
-
+            AddResource();
             Berries.SetActive(true);
             //  print(currentBerryCount + ", " + randChance);
         }
@@ -77,7 +114,11 @@ namespace EthansProject
 
             Berries.SetActive(false);
 
+            RemoveResource();
+
             return currentCount;
+
+
         }
     }
 }

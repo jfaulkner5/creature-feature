@@ -31,7 +31,7 @@ namespace EthansProject
             CreateIdleState();
             CreateMoveToState();
             CreatePerformActionState();
-            stateMachine.pushState(idleState);
+            stateMachine.PushState(idleState);
             LoadActions();
         }
 
@@ -84,8 +84,8 @@ namespace EthansProject
                     currentActions = plan;
                     dataProvider.PlanFound(goal, plan);
 
-                    fsm.popState(); // move to PerformAction state
-                    fsm.pushState(prefromActionState);
+                    fsm.PopState(); // move to PerformAction state
+                    fsm.PushState(prefromActionState);
 
                 }
                 else
@@ -93,8 +93,8 @@ namespace EthansProject
                     // ugh, we couldn't get a plan
                     Debug.Log("<color=orange>Failed Plan:</color>" + prettyPrint(goal));
                     dataProvider.PlanFailed(goal, currentActions);
-                    fsm.popState(); // move back to IdleAction state
-                    fsm.pushState(idleState);
+                    fsm.PopState(); // move back to IdleAction state
+                    fsm.PushState(idleState);
                 }
 
             };
@@ -110,16 +110,16 @@ namespace EthansProject
                 if (action.RequiresInRange() && action.target == null)
                 {
                     Debug.Log("<color=red>Fatal error:</color> Action requires a target but has none. Planning failed. You did not assign the target in your Action.checkProceduralPrecondition()");
-                    fsm.popState(); // move
-                    fsm.popState(); // perform
-                    fsm.pushState(idleState);
+                    fsm.PopState(); // move
+                    fsm.PopState(); // perform
+                    fsm.PushState(idleState);
                     return;
                 }
 
                 // get the agent to move itself
                 if (dataProvider.MoveAgent(action))
                 {
-                    fsm.popState();
+                    fsm.PopState();
                 }               
             };
         }
@@ -135,8 +135,8 @@ namespace EthansProject
                 {
                     // no actions to perform
                     Debug.Log("<color=red>Done actions</color>");
-                    fsm.popState();
-                    fsm.pushState(idleState);
+                    fsm.PopState();
+                    fsm.PushState(idleState);
                     dataProvider.ActionFinished();
                     return;
                 }
@@ -162,8 +162,8 @@ namespace EthansProject
                         if (!success)
                         {
                             // action failed, we need to plan again
-                            fsm.popState();
-                            fsm.pushState(idleState);
+                            fsm.PopState();
+                            fsm.PushState(idleState);
                             dataProvider.PlanAborted(action);
                         }
                     }
@@ -171,15 +171,15 @@ namespace EthansProject
                     {
                         // we need to move there first
                         // push moveTo state
-                        fsm.pushState(moveToState);
+                        fsm.PushState(moveToState);
                     }
 
                 }
                 else
                 {
                     // no actions left, move to Plan state
-                    fsm.popState();
-                    fsm.pushState(idleState);
+                    fsm.PopState();
+                    fsm.PushState(idleState);
                     dataProvider.ActionFinished();
                 }
 

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.Collections.Generic;
 namespace EthansProject
 {
     public class GatherBerriesAction : GOAPAction
@@ -11,7 +11,7 @@ namespace EthansProject
         }
         public GatherType CurrGatherType = GatherType.BerryGatherer;
         public bool hasBerries = false;
-        BerryBush targetBerryResource;
+        Resource targetBerryResource;
 
 
         public AgentStorage Storage
@@ -28,35 +28,35 @@ namespace EthansProject
 
         public override bool CheckProcPreconditions(GameObject agent)
         {
-            GameObject[] gos;
-     
-            gos = (CurrGatherType == GatherType.BerryGatherer) ? GameObject.FindGameObjectsWithTag("Berry") : GameObject.FindGameObjectsWithTag("Tree");
+            List<Resource> sources = new List<Resource>();
+
+            sources = (CurrGatherType == GatherType.BerryGatherer) ? WorldInfo.berryBushes : WorldInfo.trees;
             GameObject closest = null;
             float distance = Mathf.Infinity;
             Vector3 position = agent.transform.position;
-            if (gos.Length == 0)
+
+            if (sources.Count == 0)
             {
                 Debug.LogError("No resource for " + gameObject.name);
             }
 
 
-            foreach (GameObject go in gos)
+            foreach (Resource source in sources)
             {
-                BerryBush bBush = go.GetComponent<BerryBush>();
+                Resource bBush = source.GetComponent<Resource>();
                 if (bBush == null)
                 {
-                    UnityEngine.Debug.LogWarning("Resource " + go.name + " did not have the script");
+                    UnityEngine.Debug.LogWarning("Resource " + source.name + " did not have the script");
                     continue;
                 }
-                if (!go.GetComponent<BerryBush>().hasResource)
-                    continue;
+                              
 
-                Vector3 diff = go.transform.position - position;
+                Vector3 diff = source.transform.position - position;
                 float curDistance = diff.sqrMagnitude;
 
                 if (curDistance < distance)
                 {
-                    closest = go;
+                    closest = source.gameObject;
                     distance = curDistance;
                 }
             }
@@ -68,7 +68,7 @@ namespace EthansProject
             }
 
             target = closest;
-            targetBerryResource = closest.GetComponent<BerryBush>();
+            targetBerryResource = closest.GetComponent<Resource>();
             return closest != null;
         }
 
