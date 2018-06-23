@@ -8,7 +8,7 @@ namespace BrendansProject
 {
     public class ProcGenerator : MonoBehaviour
     {
-
+        
         public static ProcGenerator instance;
 
         [Header("Map Settings")]
@@ -33,9 +33,13 @@ namespace BrendansProject
         public GameObject xStreets;
         public GameObject zStreets;
         public GameObject crossroad;
-           
+
 
         [Header("Spawnable Objects")]
+        public GameObject humans;//TODO make array 
+        public int minHumans = 1;
+        public int maxHumans = 5;
+        
         public GameObject zombies; //TODO make array
 
         public int minZombies = 20;
@@ -52,8 +56,12 @@ namespace BrendansProject
 
         private int[,] mapGrid;
 
-        private List<GameObject> corpses;
+        private float rayLength = 10;
+
+        public List<GameObject> corpses;
         public List<Transform> targets;
+
+        public GameObject[] forts;
 
 
         public int mapWidth
@@ -99,7 +107,7 @@ namespace BrendansProject
         /// </summary>
         public void Generate()
         {
-
+            
             float seed = Random.Range(0, 100); //random seed for perlin noise
 
             print("Map seed is " + seed); // Print out what the seed is for the generated map
@@ -119,8 +127,8 @@ namespace BrendansProject
             //build streets
             int x = 0;
 
-            //TODO remove magic numbers
-            for (int n = 0; n < 50; n++)
+            
+            for (int n = 0; n < mapWidth; n++)
             {
                 for (int h = 0; h < mapHeight; h++)
                 {
@@ -141,13 +149,33 @@ namespace BrendansProject
                     else
                         mapGrid[w, z] = -2;
                 }
-                z += Random.Range(5, 20); // Distance between streets
+                z += Random.Range(3, 15); // Distance between streets
                 if (z >= mapHeight) break;
             }
 
-            // Place corpses
+            // Place humans
+            int randHumans = Random.Range(minHumans, maxHumans); // Will spawn from destroyed buildings this is just testing
+            bool humanPlaced = false;
+            for (int h = 0; h < randHumans; h++)
+            {
+                humanPlaced = false;
+                while (humanPlaced == false)
+                {
+                    int randX = Random.Range(0, mapWidth);
+                    int randZ = Random.Range(0, mapHeight);
+                    if (mapGrid[randX, randZ] == -1 || mapGrid[randX, randZ] == -2 || mapGrid[randX, randZ] == -3)
+                    {
 
-            int randCorpses = Random.Range(minCorpses, maxCorpses);
+                        Vector3 pos = new Vector3(randX * buildingFootprint - gridOffsetX + buildingSizeOffset, 0.2f, randZ * buildingFootprint - gridOffsetY + buildingSizeOffset);
+                        GameObject go = Instantiate(humans, pos, Quaternion.identity, transform);
+                        targets.Add(go.transform); // add to target list for later reference
+                        humanPlaced = true;
+                    }
+                }
+                }
+                // Place corpses
+
+                int randCorpses = Random.Range(minCorpses, maxCorpses);
 
             bool corpsePlaced = false;
             for (int c = 0; c < randCorpses; c++)
@@ -217,7 +245,7 @@ namespace BrendansProject
                     Vector3 pos = new Vector3(w * buildingFootprint - gridOffsetX + buildingSizeOffset, 0, h * buildingFootprint - gridOffsetY + buildingSizeOffset);
 
 
-                    //TODO make better, spawn using the a range for each building type, create a class for buildings
+                    
                     switch (result)
                     {
                         case -3:
@@ -265,6 +293,7 @@ namespace BrendansProject
 
             // Place forts
             int randForts = Random.Range(minForts, maxForts);
+            forts = new GameObject[randForts];
             bool fortPlaced = false;
             for (int f = 0; f < randForts; f++)
             {
@@ -281,16 +310,18 @@ namespace BrendansProject
                         //print(randX + " , " + randZ);
 
                         // Raycast to see if there is a building
-                        Vector3 start = new Vector3(randX * buildingFootprint - gridOffsetX + buildingSizeOffset, 50, randZ * buildingFootprint - gridOffsetY + buildingSizeOffset);
+                        Vector3 start = new Vector3(randX * buildingFootprint - gridOffsetX + buildingSizeOffset, rayLength, randZ * buildingFootprint - gridOffsetY + buildingSizeOffset);
 
                         Ray ray = new Ray(start, -Vector3.up);
                         RaycastHit hit;
 
                         // Does the ray intersect any objects on the unwalkable layer
-                        if (Physics.Raycast(ray, out hit, 100f, layerMask))
+                        if (Physics.Raycast(ray, out hit, rayLength, layerMask))
 
                         {
+                            // Debug.DrawLine(start, hit.point, Color.green,20f); // Debug raycasts
                             //Debug.Log("Hit " + hit.collider.gameObject);
+
                             // Create a behaviour for the halo and enable it
                             Behaviour halo = (Behaviour)hit.collider.gameObject.GetComponent("Halo");
                             halo.enabled = true;
@@ -303,8 +334,8 @@ namespace BrendansProject
                             }
 
                             // Adds to the targets list which zombies will attack
-                            targets.Add(hit.collider.gameObject.transform);
-
+                            //targets.Add(hit.collider.gameObject.transform);
+                            forts[f] = hit.collider.gameObject;
                             fortPlaced = true;
                         }
                         else
@@ -331,5 +362,20 @@ namespace BrendansProject
             }
 
             }
+
+        /// <summary>
+        /// get world point from the map X,Y
+        /// </summary>
+        /// <param name="mapXY"></param>
+        /// <returns></returns>
+        public Vector3 WorldPointMapPoint(Vector2Int mapXY)
+        {
+            
+            Vector3 pos = new Vector3(mapXY.x * buildingFootprint - gridOffsetX + buildingSizeOffset, 0, mapXY.y * buildingFootprint - gridOffsetY + buildingSizeOffset);
+
+            return pos;
+
+        }
+
     }
 }

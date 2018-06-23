@@ -20,12 +20,13 @@ namespace BrendansProject
         Dictionary<int, int> walkableRegionsDictionary = new Dictionary<int, int>();
 
         public LayerMask unwalkableMask; // Layer that is not traversable
-        private LayerMask walkableMask;
+        private LayerMask walkableMask = 0;
 
         public TerrainType[] walkableRegions;
 
-        Node[,] nodeGrid; // 2 Dimentional array used to represent the node grid
-        
+
+        public Node[,] nodeGrid; // 2 Dimentional array used to represent the node grid
+
         private Vector2 gridWorldSize; // Defines the area in worldsize that the grid will cover
 
         int gridSizeX, gridSizeY;
@@ -56,6 +57,7 @@ namespace BrendansProject
 
             ProcGenerator.instance.Generate(); // Generate city map first
             CreateGrid();
+            GetFortNodes();
         }
 
         /// <summary>
@@ -89,9 +91,9 @@ namespace BrendansProject
                     int movementPenalty = 0;
 
 
-                    Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down); // 50 can be moved down as the terrain is flat
+                    Ray ray = new Ray(worldPoint + Vector3.up * 20, Vector3.down); // 50 can be moved down as the terrain is flat
                     RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, 100, walkableMask))
+                    if (Physics.Raycast(ray, out hit, 20, walkableMask))
                     {  // 100 can be moved down as the terrain is flat
                         walkableRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
                     }
@@ -210,54 +212,121 @@ namespace BrendansProject
         }
 
         /// <summary>
-        /// Refernece a node in the nodeGrid using a world point.
+        /// Get the node at the front of the fort.
         /// </summary>
-        /// <param name="worldPosition"></param>
-        /// <returns></returns>
-        public Node NodeFromWorldPoint(Vector3 worldPosition)
+        public void GetFortNodes()
         {
 
-            //Optimised values for determining the percetange in the grid (uses worldPosition.z not y because of orientation)
-            //float percentX = worldPosition.x / gridWorldSize.x + 0.5f; //float percentX = (worldPosition.x + gridWorldSize.x/2) / gridWorldSize.x;
-            //float percentY = worldPosition.z / gridWorldSize.y + 0.5f; //float percentY = (worldPosition.z + gridWorldSize.y/2) / gridWorldSize.y;
-            float percentX = (worldPosition.x - transform.position.x) / gridWorldSize.x + 0.5f - (nodeRadius / gridWorldSize.x);
-            float percentY = (worldPosition.z - transform.position.z) / gridWorldSize.y + 0.5f - (nodeRadius / gridWorldSize.y);
-
-            // Prevent the world position from being out of the array if player is out of the grid.
-            percentX = Mathf.Clamp01(percentX);
-            percentY = Mathf.Clamp01(percentY);
-
-            //Optimised values
-            int x = Mathf.FloorToInt(Mathf.Min((gridSizeX * percentX), gridSizeX - 1)); //int x = Mathf.RoundToInt((gridSizeX-1) * percentX);
-            int y = Mathf.FloorToInt(Mathf.Min((gridSizeY * percentY), gridSizeY - 1)); //int y = Mathf.RoundToInt((gridSizeY-1) * percentY);
-
-            // if no node is found goto closest
-            if (nodeGrid[x, y] == null)
-                print("Find Closest Node");
-            print(nodeGrid[x, y].gridX);
-            // Search neighbours left right up down and first that isnt null is closest
-
-            return nodeGrid[x, y];
-        }
-
-
-        /// <summary>
-        /// Displays gizmos in the editor window to show the grid
-        /// </summary>
-        void OnDrawGizmos()
-        {
-            Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-            if (nodeGrid != null && displayGridGizmos)
+            foreach (GameObject fort in ProcGenerator.instance.forts)
             {
-                foreach (Node n in nodeGrid)
-                {
 
-                    Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(penaltyMin, penaltyMax, n.movementPenalty));
-                    Gizmos.color = (n.walkable) ? Gizmos.color : Color.red;
-                    Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter));
-                }
+                // Set target post to closest walkable nodes world pos
+                fort.GetComponent<TargetInfo>().targetPos = GetClosestWalkable(NodeFromWorldPoint(fort.transform.position)).worldPosition;
+
+                ProcGenerator.instance.targets.Add(fort.transform);
+
             }
         }
+
+        /// <summary>
+        /// Get the closest walkable node to the specified node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public Node GetClosestWalkable(Node node)
+        {
+            Node walkableNode = null;
+
+            int closestCost = 10;
+
+            // Loop 
+            for (int x = 5; x >= -5; x--)
+            {
+                for (int y = 5; y >= -5; y--)
+                {
+                    if (x == 0 && y == 0)
+                        continue; // Skip if the node is the specified node
+
+                    int checkX = node.gridX + x;
+                    int checkY = node.gridY + y;
+
+                    // Check if the node is inside of the grid then return value
+                    if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY && nodeGrid[checkX, checkY].walkable)
+                    {
+                        // Get the cost of that node and then make closest
+                        int newX = x;
+                        int newY = y;
+
+                        if (newX < 0)
+                            newX = newX * -1;
+                        if (newY < 0)
+                            newY = newY * -1;
+                        if (closestCost > newX + newY)
+                        {
+                            closestCost = newX + newY;
+                            walkableNode = nodeGrid[checkX, checkY];
+                        }
+
+                        if (closestCost == newX + newY)
+                        {
+                            //if nodeGrid[checkX, checkY] is closer than walkablenode
+                            walkableNode = nodeGrid[checkX, checkY];
+
+                        }
+
+                    }
+                }
+            }
+                if (walkableNode == null)
+                    print("unable to find a valid node");
+
+                return walkableNode;
+            }
+
+            /// <summary>
+            /// Refernece a node in the nodeGrid using a world point.
+            /// </summary>
+            /// <param name="worldPosition"></param>
+            /// <returns></returns>
+            public Node NodeFromWorldPoint(Vector3 worldPosition)
+            {
+
+                //Optimised values for determining the percetange in the grid (uses worldPosition.z not y because of orientation)
+                //float percentX = worldPosition.x / gridWorldSize.x + 0.5f; //float percentX = (worldPosition.x + gridWorldSize.x/2) / gridWorldSize.x;
+                //float percentY = worldPosition.z / gridWorldSize.y + 0.5f; //float percentY = (worldPosition.z + gridWorldSize.y/2) / gridWorldSize.y;
+                float percentX = (worldPosition.x - transform.position.x) / gridWorldSize.x + 0.5f - (nodeRadius / gridWorldSize.x);
+                float percentY = (worldPosition.z - transform.position.z) / gridWorldSize.y + 0.5f - (nodeRadius / gridWorldSize.y);
+
+                // Prevent the world position from being out of the array if player is out of the grid.
+                percentX = Mathf.Clamp01(percentX);
+                percentY = Mathf.Clamp01(percentY);
+
+                //Optimised values
+                int x = Mathf.FloorToInt(Mathf.Min((gridSizeX * percentX), gridSizeX - 1)); //int x = Mathf.RoundToInt((gridSizeX-1) * percentX);
+                int y = Mathf.FloorToInt(Mathf.Min((gridSizeY * percentY), gridSizeY - 1)); //int y = Mathf.RoundToInt((gridSizeY-1) * percentY);
+
+
+                return nodeGrid[x, y];
+            }
+
+
+            /// <summary>
+            /// Displays gizmos in the editor window to show the grid
+            /// </summary>
+            void OnDrawGizmos()
+            {
+                Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+                if (nodeGrid != null && displayGridGizmos)
+                {
+                    foreach (Node n in nodeGrid)
+                    {
+
+                        Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(penaltyMin, penaltyMax, n.movementPenalty));
+                        Gizmos.color = (n.walkable) ? Gizmos.color : Color.red;
+                        Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter));
+                    }
+                }
+            }
 
         /// <summary>
         /// Class for soring terrain type information

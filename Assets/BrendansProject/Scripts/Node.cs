@@ -8,8 +8,10 @@ namespace BrendansProject
     /// </summary>
     public class Node : IHeapItem<Node>
     {
-
+        
         public bool walkable;
+
+        public bool fort;
 
         public Vector3 worldPosition; // Stores the nodes position in the world.
 

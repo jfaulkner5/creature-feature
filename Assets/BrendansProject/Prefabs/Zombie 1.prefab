@@ -446,9 +446,10 @@ GameObject:
   - component: {fileID: 4296646558978624}
   - component: {fileID: 95843743330251230}
   - component: {fileID: 114185558784331144}
+  - component: {fileID: 114042137531101576}
   m_Layer: 0
   m_Name: Zombie 1
-  m_TagString: Untagged
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -994,6 +995,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114042137531101576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1885303643044246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3df1d01bfda21441be5d9be4a81c478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114185558784331144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1006,7 +1019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 5
+  speed: 3
   turnSpeed: 5
   turnDst: 1
   stoppingDst: 0

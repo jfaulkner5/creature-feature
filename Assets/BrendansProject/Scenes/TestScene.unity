@@ -170,12 +170,16 @@ MonoBehaviour:
   xStreets: {fileID: 1745624420303798, guid: a506f733aec9cc54698320bc5bf1dd4b, type: 2}
   zStreets: {fileID: 1999975886828022, guid: b1aae177f3dec48438d9798243a2f78e, type: 2}
   crossroad: {fileID: 1261879582881370, guid: 568a23bb7bc30f742aa184899b0eea67, type: 2}
+  humans: {fileID: 1270958706589702, guid: ab05242e878b14242bbcf7f6784e79d6, type: 2}
+  minHumans: 5
+  maxHumans: 10
   zombies: {fileID: 1885303643044246, guid: c9a597ce451a82d4bb224fc52ed3aeb2, type: 2}
-  minZombies: 1
-  maxZombies: 5
+  minZombies: 20
+  maxZombies: 50
   corpse: {fileID: 1183254268581784, guid: 859308d18f7efac4b9a953a197cdde34, type: 2}
   minCorpses: 10
   maxCorpses: 20
+  corpses: []
   targets: []
 --- !u!1 &373726808
 GameObject:
@@ -468,7 +472,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1103413259}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c807be99f5a8de945a2aab37b1e6671c, type: 3}
   m_Name: 
@@ -588,7 +592,7 @@ Transform:
   m_GameObject: {fileID: 1569854958}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 500, y: 1, z: 500}
+  m_LocalScale: {x: 250, y: 1, z: 250}
   m_Children: []
   m_Father: {fileID: 215911592}
   m_RootOrder: 0

@@ -41,7 +41,7 @@ namespace BrendansProject
             startNode.parent = startNode;
 
             // Loop through nodes to determine best path
-            if (startNode.walkable && targetNode.walkable)
+            if (startNode.walkable)// && targetNode.walkable)
             {
                 Heap<Node> openSet = new Heap<Node>(nodeGrid.MaxSize); // Heap(List) of possible nodes to travel
                 HashSet<Node> closedSet = new HashSet<Node>(); // List of nodes to ignore
@@ -63,7 +63,7 @@ namespace BrendansProject
 
                     foreach (Node neighbour in nodeGrid.GetNeighbours(currentNode))
                     {
-                        if (!neighbour.walkable || closedSet.Contains(neighbour))
+                        if (!neighbour.fort && !neighbour.walkable || closedSet.Contains(neighbour)) //todo check
                         { // Skip if cannot travel to neighbour
                             continue;
                         }
@@ -86,6 +86,7 @@ namespace BrendansProject
                     }
                 }
             }
+
 
             // Retrace a succesful path when a path is found
             if (pathSuccess)

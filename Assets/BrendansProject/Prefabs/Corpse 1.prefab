@@ -81,9 +81,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4413960685946318}
   - component: {fileID: 95088451010006592}
+  - component: {fileID: 114874240843693062}
   m_Layer: 0
   m_Name: Corpse 1
-  m_TagString: Untagged
+  m_TagString: Corpse
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -993,6 +994,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114874240843693062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1183254268581784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3df1d01bfda21441be5d9be4a81c478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPos: {x: 0, y: 0, z: 0}
 --- !u!137 &137400489357988552
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1167,7 +1180,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: f5a98212988096448b805b8b1f359ba0, type: 2}
+  - {fileID: 2100000, guid: 5187f25271d29914e9b30ed1e770f520, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1236,7 +1249,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: f5a98212988096448b805b8b1f359ba0, type: 2}
+  - {fileID: 2100000, guid: 5187f25271d29914e9b30ed1e770f520, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -24,7 +24,8 @@ namespace BrendansProject
         private void Start()
         {
             target = GetClosestEnemy(ProcGenerator.instance.targets); // Find the closest target
-            print(target);
+
+            //print(target);
             StartCoroutine(UpdatePath());
         }
 
@@ -33,8 +34,9 @@ namespace BrendansProject
         /// </summary>
         /// <param name="enemies"></param>
         /// <returns></returns>
-        Transform GetClosestEnemy(List<Transform> enemies)
+        private Transform GetClosestEnemy(List<Transform> enemies)
         {
+            //TODO add a range
             Transform bestTarget = null;
             float closestDistanceSqr = Mathf.Infinity;
             Vector3 currentPosition = transform.position;
@@ -80,18 +82,32 @@ namespace BrendansProject
             {
                 yield return new WaitForSeconds(.3f);
             }
-            PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
+
+
+            // Check if target is a building then goto targetPos instead of target.position
+            Vector3 targetPos;
+
+            if (target.gameObject.CompareTag("Building"))
+            {
+                targetPos = target.gameObject.GetComponent<TargetInfo>().targetPos;
+            }
+            else
+            {
+                targetPos = target.position;
+            }
+            PathRequestManager.RequestPath(new PathRequest(transform.position, targetPos, OnPathFound));
+
 
             float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
-            Vector3 targetPosOld = target.position;
+            Vector3 targetPosOld = targetPos;
 
             while (true)
             {
                 yield return new WaitForSeconds(minPathUpdateTime);
                 //print(((target.position - targetPosOld).sqrMagnitude) + "    " + sqrMoveThreshold); //Used to debug location
-                if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
+                if ((targetPos - targetPosOld).sqrMagnitude > sqrMoveThreshold)
                 {
-                    PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
+                    PathRequestManager.RequestPath(new PathRequest(transform.position, targetPos, OnPathFound));
                     targetPosOld = target.position;
                 }
             }
@@ -143,9 +159,14 @@ namespace BrendansProject
                     transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self); // Move unit forward
                 }
 
+
+
                 yield return null;
 
             }
+            // When arrave at last node do final checks
+            transform.LookAt(target);
+            //print("at final location");
         }
 
         /// <summary>
