@@ -50,6 +50,13 @@ namespace BrendansProject
         public int minCorpses = 10;
         public int maxCorpses = 20;
 
+        #region Lists Hidden in Inspector
+        [HideInInspector]
+        public List<GameObject> corpses;
+        [HideInInspector]
+        public List<Transform> targets;
+        [HideInInspector]
+        public GameObject[] forts;
 
         private int gridOffsetX = 0;
         private int gridOffsetY = 0;
@@ -58,11 +65,7 @@ namespace BrendansProject
 
         private float rayLength = 10;
 
-        public List<GameObject> corpses;
-        public List<Transform> targets;
-
-        public GameObject[] forts;
-
+        #endregion
 
         public int mapWidth
         {

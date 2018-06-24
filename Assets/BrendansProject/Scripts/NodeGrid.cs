@@ -36,7 +36,7 @@ namespace BrendansProject
 
         int blurPenaltySize = 3;
 
-        private void Awake()
+        private void Start()
         {
             nodeDiameter = nodeRadius * 2;
 
@@ -221,9 +221,9 @@ namespace BrendansProject
             {
 
                 // Set target post to closest walkable nodes world pos
-                fort.GetComponent<TargetInfo>().targetPos = GetClosestWalkable(NodeFromWorldPoint(fort.transform.position)).worldPosition;
+                fort.GetComponent<Unit>().targetPos = GetClosestWalkable(NodeFromWorldPoint(fort.transform.position)).worldPosition;
 
-                ProcGenerator.instance.targets.Add(fort.transform);
+                //ProcGenerator.instance.targets.Add(fort.transform);
 
             }
         }

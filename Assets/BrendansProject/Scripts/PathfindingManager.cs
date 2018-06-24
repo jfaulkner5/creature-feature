@@ -63,7 +63,7 @@ namespace BrendansProject
 
                     foreach (Node neighbour in nodeGrid.GetNeighbours(currentNode))
                     {
-                        if (!neighbour.fort && !neighbour.walkable || closedSet.Contains(neighbour)) //todo check
+                        if (!neighbour.walkable || closedSet.Contains(neighbour)) //todo check
                         { // Skip if cannot travel to neighbour
                             continue;
                         }
@@ -131,6 +131,10 @@ namespace BrendansProject
         {
             List<Vector3> waypoints = new List<Vector3>();
             Vector2 previousDirection = Vector2.zero;
+
+            //TODO Chceck if building then goto target pos
+            //waypoints.Add(path[0].worldPosition); // Add target node to list
+
 
             for (int i = 1; i < path.Count; i++)
             {

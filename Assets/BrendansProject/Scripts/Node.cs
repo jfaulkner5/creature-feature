@@ -10,9 +10,7 @@ namespace BrendansProject
     {
         
         public bool walkable;
-
-        public bool fort;
-
+        
         public Vector3 worldPosition; // Stores the nodes position in the world.
 
         // X and Y positions in the grid
