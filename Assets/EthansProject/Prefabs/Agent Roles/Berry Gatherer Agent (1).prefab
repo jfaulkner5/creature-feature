@@ -58,9 +58,10 @@ GameObject:
   - component: {fileID: 114144554058305502}
   - component: {fileID: 114950950684529050}
   - component: {fileID: 114107277392626936}
+  - component: {fileID: 136104160528413104}
   m_Layer: 0
   m_Name: Berry Gatherer Agent (1)
-  m_TagString: Untagged
+  m_TagString: target
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -257,3 +258,16 @@ MonoBehaviour:
   target: {fileID: 0}
   droppedOffResource: 0
   CurrGatherType: 0
+--- !u!136 &136104160528413104
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1669637544625704}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6, z: 0}

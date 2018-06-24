@@ -9,6 +9,7 @@ TagManager:
   - Tree
   - BerryStorage
   - WoodStorage
+  - target
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - 
   - PostProcessing
   - UnTravesable
-  - 
+  - Ground
   - 
   - 
   - 
