@@ -16,6 +16,7 @@ namespace EthansProject
         public ExpandStorageAction()
         {
             AddPrecondition("hasResource", true);
+            AddPrecondition("expandNeeded", false);
             AddEffect("hasResource", false);
             AddEffect("expandNeeded", true);
         }
@@ -56,7 +57,7 @@ namespace EthansProject
             }
             if (closest == null)
             {
-                UnityEngine.Debug.LogWarning("Resource supply not found");
+                UnityEngine.Debug.LogWarning("Resource supply not found for " + gameObject);
 
                 return false;
             }
@@ -76,7 +77,6 @@ namespace EthansProject
         {
             if (!upgraded)
             {
-
                 Storage.resourceHolding -= expandExpences;
                 targetSupplyToExpand.UpgradeResources();
 

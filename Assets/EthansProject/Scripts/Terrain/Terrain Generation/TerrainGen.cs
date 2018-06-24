@@ -20,6 +20,9 @@ namespace EthansProject
             public bool useNoise;
             public float noiseCap = 0.4f;
             public float spawnPossiblity = 3;
+            public int spawnCap = 99999;
+            [HideInInspector]
+            public int spawnedAMT;
         }
 
         public ObjectData[] objectsToSpawn;
@@ -208,12 +211,12 @@ namespace EthansProject
                         float objProbabillity = UnityEngine.Random.Range(0.1f, 500.0f);
 
                         // if the possiblity is lower than a certain amount - spawn the object                   
-                        if (regions[i].objectsToSpawn[xIndex].spawnPossiblity > objProbabillity)
+                        if (regions[i].objectsToSpawn[xIndex].spawnPossiblity > objProbabillity && regions[i].objectsToSpawn[xIndex].spawnedAMT < regions[i].objectsToSpawn[xIndex].spawnCap)
                         {
                             Vector3 newRot = new Vector3(0, UnityEngine.Random.Range(0, 360), 0);
           
                             GameObject newObj = Instantiate(regions[i].objectsToSpawn[xIndex].objToSpawnForRegion, vertPoint, Quaternion.Euler(newRot));
-
+                            regions[i].objectsToSpawn[xIndex].spawnedAMT++;
                             newObj.transform.localScale *= R_Float;
                             genedObjs.Add(newObj);
                             return;

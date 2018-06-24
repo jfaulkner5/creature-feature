@@ -16,7 +16,7 @@ namespace EthansProject
         public int resourceCount = 0;
         public int resourceCapacity = 100;
         public float upgradeScale = 1.2f;
-
+        bool isFilled = false;
 
         public int UpgradeCost
         {
@@ -25,15 +25,19 @@ namespace EthansProject
 
         public void StoreResource(int _amount)
         {
-         
-            resourceCount += _amount;
 
-            if (resourceCount >= resourceCapacity)
+            resourceCount += _amount;
+        }
+
+        private void Update()
+        {            
+            if (resourceCount >= resourceCapacity && !isFilled)
             {
+                isFilled = true;
+             //   RemoveStorage();
                 Debug.LogError("Added " + this.gameObject);
                 WorldInfo.filledStorage.Add(this);
             }
-
         }
 
         public int TakeResource(int _amount)
@@ -48,13 +52,13 @@ namespace EthansProject
             resourceCapacity += Mathf.RoundToInt(resourceCapacity * upgradeScale);
 
             Debug.Log("Removed " + this.gameObject);
-
+       
             WorldInfo.filledStorage.Remove(this);
-
+            isFilled = false;
 
         }
 
-        private void Start()
+        void AddStorage()
         {
             switch (storageType)
             {
@@ -67,6 +71,27 @@ namespace EthansProject
                 default:
                     break;
             }
+        }
+
+
+        void RemoveStorage()
+        {
+            switch (storageType)
+            {
+                case StorageTypes.BerryStorage:
+                    WorldInfo.berrySorages.Remove(this);
+                    break;
+                case StorageTypes.WoodStorage:
+                    WorldInfo.treeStorages.Remove(this);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void Start()
+        {
+            AddStorage();
         }
     }
 }

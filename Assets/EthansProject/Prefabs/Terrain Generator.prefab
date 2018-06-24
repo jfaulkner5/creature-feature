@@ -139,11 +139,15 @@ MonoBehaviour:
       useNoise: 0
       noiseCap: 0
       spawnPossiblity: 2
+      spawnCap: 0
+      spawnedAMT: 0
     - objToSpawnForRegion: {fileID: 1397154756662402, guid: 89d7a4b788600854c9fba821c46ce67a,
         type: 2}
       useNoise: 1
       noiseCap: 0.1
       spawnPossiblity: 60
+      spawnCap: 0
+      spawnedAMT: 0
   - regionName: Mountains
     regionColor: {r: 0.25490198, g: 0.27450982, b: 0.2901961, a: 1}
     betweenHeight: {x: 15, y: 30}
@@ -154,6 +158,8 @@ MonoBehaviour:
       useNoise: 1
       noiseCap: 0.11
       spawnPossiblity: 80
+      spawnCap: 0
+      spawnedAMT: 0
   - regionName: SnowLands
     regionColor: {r: 1, g: 1, b: 1, a: 1}
     betweenHeight: {x: 30, y: 80}

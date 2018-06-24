@@ -208,6 +208,8 @@ namespace EthansProject
             
         }
 
+        #region Print Functions
+
         public static string prettyPrint(HashSet<KeyValuePair<string, object>> state)
         {
             string s = "";
@@ -248,6 +250,6 @@ namespace EthansProject
             return s;
         }
 
-
+#endregion
     }
 }

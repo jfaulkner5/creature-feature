@@ -44,7 +44,7 @@ namespace EthansProject
                 {
                     grid.path = RetacePath(startNode, endNode);
                     sw.Stop();
-//                    UnityEngine.Debug.Log("Path successful. Time Taken: " + sw.ElapsedMilliseconds + "ms");
+                    // UnityEngine.Debug.Log("Path successful. Time Taken: " + sw.ElapsedMilliseconds + "ms");
                     return RetacePath(startNode, endNode);
                 }
                
