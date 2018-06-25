@@ -18,7 +18,7 @@ namespace EthansProject
             AddPrecondition("hasResource", true);
             AddPrecondition("expandNeeded", true);
             AddEffect("hasResource", false);
-            AddEffect("expandNeeded", false);
+            AddEffect("expandStorage", true);
         }
 
         public override bool CheckProcPreconditions(GameObject agent)
@@ -29,7 +29,9 @@ namespace EthansProject
                 Debug.Log("None to upgrade");
                 return false;
             }
-            Debug.Log("Some to upgrade");
+            else
+                Debug.Log("Some to upgrade");
+
             List<ResourceSupply> sources = new List<ResourceSupply>();
 
             sources = WorldInfo.filledStorage;

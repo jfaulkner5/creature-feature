@@ -685,8 +685,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storageType: 1
-  resourceCount: 101
-  resourceCapacity: 100
+  resourceCount: 0
+  resourceCapacity: 300
   upgradeScale: 1.2
 --- !u!114 &114283784053460876
 MonoBehaviour:
@@ -705,8 +705,8 @@ MonoBehaviour:
     type: 2}
   builderPrefab: {fileID: 1666513371335798, guid: fac2eea7ddd5919469fa1e5475f39281,
     type: 2}
-  berryGatherers: 0
-  woodGatherers: 0
+  berryGatherers: 5
+  woodGatherers: 5
   builders: 1
 --- !u!114 &114753540060528598
 MonoBehaviour:
@@ -720,6 +720,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storageType: 0
-  resourceCount: 101
-  resourceCapacity: 100
+  resourceCount: 0
+  resourceCapacity: 300
   upgradeScale: 1.2

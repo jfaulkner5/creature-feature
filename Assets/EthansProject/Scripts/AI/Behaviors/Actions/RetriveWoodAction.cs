@@ -21,7 +21,10 @@ namespace EthansProject
         public RetriveWoodAction()
         {
             AddPrecondition("hasResource", false);
+   
             AddEffect("hasResource", true);
+
+
         }
 
         public override bool CheckProcPreconditions(GameObject agent)
@@ -69,11 +72,9 @@ namespace EthansProject
 
         public override bool Preform(GameObject agent)
         {
-            if (!hasResource )
+            if (!hasResource && targetResourceSupply.resourceCount >= targetResourceSupply.UpgradeCost)
             {
-
                 Storage.resourceHolding += targetResourceSupply.TakeResource(ResourceAmountNeeded);
-
 
                 hasResource = true;
                 return true;

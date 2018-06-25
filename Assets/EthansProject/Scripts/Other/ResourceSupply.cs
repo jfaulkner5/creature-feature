@@ -34,8 +34,7 @@ namespace EthansProject
             if (resourceCount >= resourceCapacity && !isFilled)
             {
                 isFilled = true;
-             //   RemoveStorage();
-                Debug.LogError("Added " + this.gameObject);
+                //RemoveStorage();
                 WorldInfo.filledStorage.Add(this);
             }
         }

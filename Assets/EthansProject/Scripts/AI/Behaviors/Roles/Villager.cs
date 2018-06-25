@@ -140,7 +140,7 @@ namespace EthansProject
 
         public void PlanFailed(HashSet<KeyValuePair<string, object>> goal, Queue<GOAPAction> actions)
         {
-            Debug.LogWarning("Plan failed!");
+            Debug.LogWarning("Plan failed! ");
 
         }
 

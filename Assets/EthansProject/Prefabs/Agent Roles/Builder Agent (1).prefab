@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 4829962154014576}
   - component: {fileID: 114911653569612924}
   - component: {fileID: 114333032107644384}
-  - component: {fileID: 114823129858180026}
   - component: {fileID: 114404174845773992}
+  - component: {fileID: 114823129858180026}
   - component: {fileID: 114324746190723894}
   - component: {fileID: 136704318269885716}
   m_Layer: 0
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51b150754ba11494d9e944aab9c07a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceHolding: 0
+  resourceHolding: 100
 --- !u!136 &136704318269885716
 CapsuleCollider:
   m_ObjectHideFlags: 1

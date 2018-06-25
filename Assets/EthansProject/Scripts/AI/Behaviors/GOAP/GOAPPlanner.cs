@@ -10,92 +10,119 @@ namespace EthansProject
     public class GOAPPlanner
     {
 
-        public Queue<GOAPAction> Plan(GameObject agent, HashSet<GOAPAction> availibleActions, HashSet<KeyValuePair<string, object>> worldState, HashSet<KeyValuePair<string, object>> goal)
+
+        /**
+         * Plan what sequence of actions can fulfill the goal.
+         * Returns null if a plan could not be found, or a list of the actions
+         * that must be performed, in order, to fulfill the goal.
+         */
+        public Queue<GOAPAction> Plan(GameObject agent,
+                                      HashSet<GOAPAction> availableActions,
+                                      HashSet<KeyValuePair<string, object>> worldState,
+                                      HashSet<KeyValuePair<string, object>> goal)
         {
-            foreach (GOAPAction action in availibleActions)
+            // reset the actions so we can start fresh with them
+            foreach (GOAPAction a in availableActions)
             {
-                action.DoReset();
+                a.DoReset();
             }
 
+            // check what actions can run using their checkProceduralPrecondition
             HashSet<GOAPAction> usableActions = new HashSet<GOAPAction>();
-            foreach (GOAPAction action in availibleActions)
+            foreach (GOAPAction a in availableActions)
             {
-                if (action.CheckProcPreconditions(agent))
-                {
-                    usableActions.Add(action);
-                }
+                if (a.CheckProcPreconditions(agent))
+                    usableActions.Add(a);
             }
 
-            List<BranchNode> nodes = new List<BranchNode>();
+            // we now have all actions that can run, stored in usableActions
 
-            BranchNode start = new BranchNode(null, 0, worldState, null);
-            bool success = BuildGraph(start, nodes, usableActions, goal);
+            // build up the tree and record the leaf BrachNodes that provide a solution to the goal.
+            List<BrachNode> leaves = new List<BrachNode>();
+
+            // build graph
+            BrachNode start = new BrachNode(null, 0, worldState, null);
+            bool success = BuildGraph(start, leaves, usableActions, goal);
 
             if (!success)
             {
-                Debug.LogWarning("No plan was found for " + agent.name);
+                // oh no, we didn't get a plan
+                Debug.LogWarning("NO Plan found for " + agent.name);
                 return null;
             }
 
-            BranchNode cheapest = null;
-            foreach (BranchNode node in nodes)
+            // get the cheapest leaf
+            BrachNode cheapest = null;
+            foreach (BrachNode leaf in leaves)
             {
                 if (cheapest == null)
-                {
-                    cheapest = node;
-                }
+                    cheapest = leaf;
                 else
                 {
-                    if (node.runningCost < cheapest.runningCost)
-                        cheapest = node;
+                    if (leaf.runningCost < cheapest.runningCost)
+                        cheapest = leaf;
                 }
             }
 
+            // get its BrachNode and work back through the parents
             List<GOAPAction> result = new List<GOAPAction>();
-            BranchNode newNode = cheapest;
-
-            while (newNode != null)
+            BrachNode n = cheapest;
+            while (n != null)
             {
-                if (newNode.action != null)
+                if (n.action != null)
                 {
-                    result.Insert(0, newNode.action);
+                    result.Insert(0, n.action); // insert the action in the front
                 }
-                newNode = newNode.parent;
+                n = n.parent;
             }
+            // we now have this action list in correct order
 
             Queue<GOAPAction> queue = new Queue<GOAPAction>();
-            foreach (GOAPAction action in result)
+            foreach (GOAPAction a in result)
             {
-                queue.Enqueue(action);
+                queue.Enqueue(a);
             }
-            return queue;
 
+            // hooray we have a plan!
+            return queue;
         }
 
-        private bool BuildGraph(BranchNode parent, List<BranchNode> nodes, HashSet<GOAPAction> usableActions, HashSet<KeyValuePair<string, object>> goal)
+        /**
+         * Returns true if at least one solution was found.
+         * The possible paths are stored in the leaves list. Each leaf has a
+         * 'runningCost' value where the lowest cost will be the best action
+         * sequence.
+         */
+        private bool BuildGraph(BrachNode parent, List<BrachNode> leaves, HashSet<GOAPAction> usableActions, HashSet<KeyValuePair<string, object>> goal)
         {
             bool foundOne = false;
 
+            // go through each action available at this BrachNode and see if we can use it here
             foreach (GOAPAction action in usableActions)
             {
+
+                // if the parent state has the conditions for this action's preconditions, we can use it here
                 if (InState(action.Preconditions, parent.state))
                 {
+
+                    // apply the action's effects to the parent state
                     HashSet<KeyValuePair<string, object>> currentState = PopulateState(parent.state, action.Effects);
-                    BranchNode newNode = new BranchNode(parent, parent.runningCost + action.cost, currentState, action);
+                    //Debug.Log(GoapAgent.prettyPrint(currentState));
+                    BrachNode BrachNode = new BrachNode(parent, parent.runningCost + action.cost, currentState, action);
 
                     if (InState(goal, currentState))
                     {
-                        nodes.Add(newNode);
+                        // we found a solution!
+                        leaves.Add(BrachNode);
                         foundOne = true;
                     }
                     else
                     {
-                        HashSet<GOAPAction> subSet = ActionSubSet(usableActions, action);
-                        bool found = BuildGraph(newNode, nodes, subSet, goal);
+                        // not at a solution yet, so test all the remaining actions and branch out the tree
+                        HashSet<GOAPAction> subset = ActionSubset(usableActions, action);
+                        bool found = BuildGraph(BrachNode, leaves, subset, goal);
                         if (found)
-                        {
                             foundOne = true;
-                        }
                     }
                 }
             }
@@ -103,27 +130,30 @@ namespace EthansProject
             return foundOne;
         }
 
-        private HashSet<GOAPAction> ActionSubSet(HashSet<GOAPAction> actions, GOAPAction toRemove)
+        /**
+         * Create a subset of the actions excluding the removeMe one. Creates a new set.
+         */
+        private HashSet<GOAPAction> ActionSubset(HashSet<GOAPAction> actions, GOAPAction removeMe)
         {
             HashSet<GOAPAction> subset = new HashSet<GOAPAction>();
-            foreach (GOAPAction action in actions)
+            foreach (GOAPAction a in actions)
             {
-                if (!action.Equals(toRemove))
-                {
-                    subset.Add(action);
-                }
-
+                if (!a.Equals(removeMe))
+                    subset.Add(a);
             }
             return subset;
         }
 
+        /**
+         * Check that all items in 'test' are in 'state'. If just one does not match or is not there
+         * then this returns false.
+         */
         private bool InState(HashSet<KeyValuePair<string, object>> test, HashSet<KeyValuePair<string, object>> state)
         {
             bool allMatch = true;
             foreach (KeyValuePair<string, object> t in test)
             {
                 bool match = false;
-
                 foreach (KeyValuePair<string, object> s in state)
                 {
                     if (s.Equals(t))
@@ -134,35 +164,43 @@ namespace EthansProject
                 }
                 if (!match)
                     allMatch = false;
-
             }
             return allMatch;
         }
 
+        /**
+         * Apply the stateChange to the currentState
+         */
         private HashSet<KeyValuePair<string, object>> PopulateState(HashSet<KeyValuePair<string, object>> currentState, HashSet<KeyValuePair<string, object>> stateChange)
         {
-            HashSet<KeyValuePair<string, object>> state = new HashSet<KeyValuePair<string, object>>(currentState);
+            HashSet<KeyValuePair<string, object>> state = new HashSet<KeyValuePair<string, object>>();
+            // copy the KVPs over as new objects
+            foreach (KeyValuePair<string, object> s in currentState)
+            {
+                state.Add(new KeyValuePair<string, object>(s.Key, s.Value));
+            }
 
             foreach (KeyValuePair<string, object> change in stateChange)
             {
-                bool exist = false;
+                // if the key exists in the current state, update the Value
+                bool exists = false;
 
                 foreach (KeyValuePair<string, object> s in state)
                 {
                     if (s.Equals(change))
                     {
-                        exist = true;
+                        exists = true;
                         break;
                     }
                 }
 
-                if (exist)
+                if (exists)
                 {
-                    state.RemoveWhere((KeyValuePair<string, object> pair) => { return pair.Key.Equals(change.Key); });
+                    state.RemoveWhere((KeyValuePair<string, object> kvp) => { return kvp.Key.Equals(change.Key); });
                     KeyValuePair<string, object> updated = new KeyValuePair<string, object>(change.Key, change.Value);
-                    state.Add(change);
-
+                    state.Add(updated);
                 }
+                // if it does not exist in the current state, add it
                 else
                 {
                     state.Add(new KeyValuePair<string, object>(change.Key, change.Value));
@@ -171,14 +209,19 @@ namespace EthansProject
             return state;
         }
 
-        private class BranchNode
+        /**
+         * Used for building up the graph and holding the running costs of actions.
+         */
+
+
+        private class BrachNode
         {
-            public BranchNode parent;
+            public BrachNode parent;
             public float runningCost;
             public HashSet<KeyValuePair<string, object>> state;
             public GOAPAction action;
 
-            public BranchNode(BranchNode _parent, float _runningCost, HashSet<KeyValuePair<string, object>> _state, GOAPAction _action)
+            public BrachNode(BrachNode _parent, float _runningCost, HashSet<KeyValuePair<string, object>> _state, GOAPAction _action)
             {
                 parent = _parent;
                 runningCost = _runningCost;
