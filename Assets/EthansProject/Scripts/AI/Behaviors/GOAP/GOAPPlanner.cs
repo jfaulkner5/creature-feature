@@ -141,7 +141,7 @@ namespace EthansProject
 
         private HashSet<KeyValuePair<string, object>> PopulateState(HashSet<KeyValuePair<string, object>> currentState, HashSet<KeyValuePair<string, object>> stateChange)
         {
-            HashSet<KeyValuePair<string, object>> state = new HashSet<KeyValuePair<string, object>>();
+            HashSet<KeyValuePair<string, object>> state = new HashSet<KeyValuePair<string, object>>(currentState);
 
             foreach (KeyValuePair<string, object> change in stateChange)
             {

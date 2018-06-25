@@ -5,10 +5,10 @@ using UnityEngine;
 public class TownManager : MonoBehaviour {
 
 
-    public GameObject berryGatherersPrefab, woodGathererPrefab; // same VV
+    public GameObject berryGatherersPrefab, woodGathererPrefab, builderPrefab; // same VV
 
     [Header("Spawn Count")]
-    public int berryGatherers, woodGatherers; //TODO: add builder and warter etc villagers when the work lol
+    public int berryGatherers, woodGatherers, builders; //TODO: add builder and warter etc villagers when the work lol
 
 
 
@@ -25,6 +25,10 @@ public class TownManager : MonoBehaviour {
             Instantiate(woodGathererPrefab, transform.position, Quaternion.identity);
         }
 
+        for (int i = 0; i < builders; i++)
+        {
+            Instantiate(builderPrefab, transform.position, Quaternion.identity);
+        }
     }
 	
 	// Update is called once per frame

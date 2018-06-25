@@ -16,9 +16,9 @@ namespace EthansProject
         public ExpandStorageAction()
         {
             AddPrecondition("hasResource", true);
-            AddPrecondition("expandNeeded", false);
+            AddPrecondition("expandNeeded", true);
             AddEffect("hasResource", false);
-            AddEffect("expandNeeded", true);
+            AddEffect("expandNeeded", false);
         }
 
         public override bool CheckProcPreconditions(GameObject agent)
