@@ -103,19 +103,21 @@ namespace BrendansProject
             Vector3 targetPosOld = _targetPos;
 
 
-
+            //TODO check for a building change targetpos instead of target.position
             while (true)
             {
                 yield return new WaitForSeconds(minPathUpdateTime);
                 //print(((target.position - targetPosOld).sqrMagnitude) + "    " + sqrMoveThreshold); //Used to debug location
-                if ((_targetPos - targetPosOld).sqrMagnitude > sqrMoveThreshold)
+                if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
                 {
-                    PathRequestManager.RequestPath(new PathRequest(transform.position, _targetPos, OnPathFound));
+                    PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
                     targetPosOld = _targetPos;
                 }
             }
         }
 
+
+        //TODO account for targetpos
         /// <summary>
         /// Moves the unit along the path using lines for smoother pathing.
         /// </summary>
