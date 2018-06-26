@@ -63,6 +63,7 @@ namespace EthansProject
             HashSet<KeyValuePair<string, object>> worldData = new HashSet<KeyValuePair<string, object>>();
             worldData.Add(new KeyValuePair<string, object>("hasResource", (Storage.resourceHolding > 0)));
             worldData.Add(new KeyValuePair<string, object>("expandNeeded", (WorldInfo.filledStorage.Count > 0)));
+            worldData.Add(new KeyValuePair<string, object>("dontDieOfHunger", needFood));
             // maybe add here a, resource needed thing?!?
 
             return worldData;

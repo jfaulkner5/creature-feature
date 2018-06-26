@@ -13,7 +13,7 @@ namespace EthansProject
         public override HashSet<KeyValuePair<string, object>> CreateGoalState()
         {
             goal.Add(new KeyValuePair<string, object>("collectResource", (!needFood)));
-            goal.Add(new KeyValuePair<string, object>("dontDieOfHunger", true));
+            goal.Add(new KeyValuePair<string, object>("dontDieOfHunger", needFood));
 
             return goal;
         }

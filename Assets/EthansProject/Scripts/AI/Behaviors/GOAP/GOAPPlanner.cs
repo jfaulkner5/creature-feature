@@ -29,6 +29,7 @@ namespace EthansProject
 
             // check what actions can run using their checkProceduralPrecondition
             HashSet<GOAPAction> usableActions = new HashSet<GOAPAction>();
+
             foreach (GOAPAction a in availableActions)
             {
                 if (a.CheckProcPreconditions(agent))
