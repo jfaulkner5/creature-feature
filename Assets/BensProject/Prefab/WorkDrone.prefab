@@ -153,7 +153,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4628332119465870}
+  - component: {fileID: 114606340678556332}
   - component: {fileID: 114471258296485992}
+  - component: {fileID: 65949452379174646}
   m_Layer: 0
   m_Name: WorkDrone
   m_TagString: Untagged
@@ -264,8 +266,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886185141244342}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.18}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4365497500665644}
   - {fileID: 4547855734615778}
@@ -580,6 +582,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1604378734256256}
   m_Mesh: {fileID: 4300004, guid: a8cacd4099bbc9742b6f2b844e6a3158, type: 3}
+--- !u!65 &65949452379174646
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1997788935417918}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.8, z: 1}
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!114 &114471258296485992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -591,5 +605,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5392f8ff820da054d8172bc445887e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  owner: {fileID: 0}
+  speed: 3
+  acceptableDestinationRange: 0.5
+  acceptablePathRange: 0.2
+  nextLocation: {x: 0, y: 0, z: 0}
+  lastLocation: {x: 0, y: 0, z: 0}
   destination: {x: 0, y: 0, z: 0}
+--- !u!114 &114606340678556332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1997788935417918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e260f61ce4445a4599880e2fdfaeecc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkList: {fileID: 11400000, guid: 65e484c06eac6c940b9ff2cc28f6ed79, type: 2}
+  state: 1
+  navigator: {fileID: 0}
+  navState: 0

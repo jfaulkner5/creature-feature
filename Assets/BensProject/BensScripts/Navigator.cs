@@ -4,18 +4,24 @@ using UnityEngine;
 
 namespace BensDroneFleet
 {
+    
+
     public class Navigator : MonoBehaviour
     {
+        public SimpleDroneAI owner;
+        
         public float speed = 1f;
+        public float acceptableDestinationRange = .1f;
+        public float acceptablePathRange = .2f;
+        public Vector3 nextLocation;
+        public Vector3 lastLocation;
         public Vector3 destination;
         List<Node> path = new List<Node>();
-
 
         private void OnDrawGizmos()
         {
 
             Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(destination, 1.1f);
 
             if (path != null && path.Count > 1)
             {
@@ -33,28 +39,98 @@ namespace BensDroneFleet
         }
         
         private void Update()
-        {               
-            if (path.Count > 0)
+        {
+            switch (owner.navState)
             {
-                if (Vector3.Distance(transform.position, destination) < .2f)
+                case NavState.Idle:
+                    break;
+                case NavState.NoPath:
+                    owner.state = SimpleAIState.Wander;
+                    break;
+
+                case NavState.NewPath:
+                    path = Pathfinding.FindPath(transform.position, destination);
+                    if (path.Count > 1)
+                    {
+                        owner.navState = NavState.MoveingTo;
+                        nextLocation = path[0].worldPosition;
+                        lastLocation = path[path.Count - 1].worldPosition;
+                    }
+                    else
+                    {
+                        owner.navState = NavState.NoPath;
+                        owner.state = SimpleAIState.Idle;
+                    }
+                    break;
+
+                case NavState.MoveingTo:
+                    MoveTo();
+                    break;
+                case NavState.AtDestination:
+                    owner.state = SimpleAIState.Idle;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void SetDestination(Vector3 Dnew)
+        {
+            destination = Dnew;
+            owner.navState = NavState.NewPath;
+        }
+
+        void MoveTo()
+        {
+            if (nextLocation != lastLocation)
+            {
+                if (Vector3.Distance(transform.position, nextLocation) < acceptablePathRange && path.Count > 1)
                 {
                     path.RemoveAt(0);
-                    if (path.Count == 0)
-                    {
-                        path = Pathfinding.FindPath(transform.position, PathGrid.GetNewLocation());
-                        destination = path[0].worldPosition;
-                    }
-                    destination = path[0].worldPosition;
+                    nextLocation = path[0].worldPosition;                           
                 }
 
-                transform.position += transform.forward * speed * Time.deltaTime;
-                transform.LookAt(destination, transform.up);
+                UpdateStearing();
+            }
+            else if (nextLocation == lastLocation && Vector3.Distance(transform.position, lastLocation) <= acceptableDestinationRange)
+            {
+                owner.navState = NavState.AtDestination;
             }
             else
             {
-                path = Pathfinding.FindPath(transform.position, PathGrid.GetNewLocation());
-                destination = path[0].worldPosition;
+                UpdateStearing();
             }
         }
+
+        #region Stearing Controles
+
+        /// <summary>
+        /// Runs Move and Turn
+        /// </summary>
+        void UpdateStearing()
+        {
+            Move();
+            Turn();
+        }
+
+        /// <summary>
+        /// Sets new location for asset
+        /// </summary>
+        void Move()
+        {
+            transform.position += transform.forward * speed * Time.deltaTime;
+        }
+
+        /// <summary>
+        /// Sets new rotation for asset
+        /// </summary>
+        void Turn()
+        {
+            transform.LookAt(nextLocation, transform.up);
+        }
+
+        #endregion
+
+        
     }
 }
