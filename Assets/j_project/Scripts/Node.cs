@@ -16,9 +16,9 @@ namespace jfaulkner
         public int gridPosX;
         public int gridPosY;
 
-        public float G { get; set; }               // Distance from start to this node
-        public float H { get; set; }               // Heuristic (guess) distance from this node to goal
-        public float F { get; set; }               // Distance from start + heuristic distance
+        public float gScore { get; set; }               // Distance from start to this node
+        public float hScore { get; set; }               // Heuristic (guess) distance from this node to goal
+        public float fScore { get; set; }               // Distance from start + heuristic distance
 
 
         public List<Node> neighbors = new List<Node>();         // All succesors to node
@@ -30,22 +30,5 @@ namespace jfaulkner
             gridPosX = _gridPosX;
             gridPosY = _grixPosY;
         }
-
-        public void Calculate_G_Cost(Node other)
-        {
-            G = (float)(other.GetG() + Math.Sqrt((Xpos - other.Xpos) * (Xpos - other.Xpos) + (Ypos - other.Ypos) * (Ypos - other.Ypos)));
-        }
-
-        public float GetG()
-        {
-            return G;
-        }
-
-        public float GetH()
-        {
-            return H;
-        }
-
-
     }
 }
