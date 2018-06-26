@@ -20,13 +20,10 @@ namespace jfaulkner
             }
         }
 
+        public PathGrid myPathGrid = new PathGrid();
+        public PathFinding myPathFinding = new PathFinding();
 
-
-        PathGrid myPathGrid = new PathGrid();
-        PathFinding myPathFinding = new PathFinding();
-        
         #region PathData
-
         public Node[,] levelGrid;
         public List<Node> path;
         #endregion
