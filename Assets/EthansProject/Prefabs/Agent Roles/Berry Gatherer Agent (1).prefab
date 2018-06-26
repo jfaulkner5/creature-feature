@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 114950950684529050}
   - component: {fileID: 114107277392626936}
   - component: {fileID: 136104160528413104}
+  - component: {fileID: 114549844020058594}
   m_Layer: 0
   m_Name: Berry Gatherer Agent (1)
   m_TagString: target
@@ -205,6 +206,10 @@ MonoBehaviour:
   moveSpeed: 10
   destination: {x: 0, y: 0, z: 0}
   atDestination: 0
+  hungerCap: 50
+  currentHungerLevel: 100
+  foodNeededLevel: 20
+  needFood: 0
 --- !u!114 &114144554058305502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -216,10 +221,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c1ee742c7da4546bea88266b42a223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 1
+  cost: 100
   target: {fileID: 0}
   CurrGatherType: 0
   hasBerries: 0
+--- !u!114 &114549844020058594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1669637544625704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7a6caf73315f924aaa06596b028c784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 1
+  target: {fileID: 0}
+  recivedFood: 0
 --- !u!114 &114638064954711314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99bd64a1105110742a1852e19e580657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 1
+  cost: 100
   target: {fileID: 0}
   droppedOffResource: 0
   CurrGatherType: 0

@@ -705,9 +705,9 @@ MonoBehaviour:
     type: 2}
   builderPrefab: {fileID: 1666513371335798, guid: fac2eea7ddd5919469fa1e5475f39281,
     type: 2}
-  berryGatherers: 5
-  woodGatherers: 5
-  builders: 1
+  berryGatherers: 1
+  woodGatherers: 0
+  builders: 0
 --- !u!114 &114753540060528598
 MonoBehaviour:
   m_ObjectHideFlags: 1

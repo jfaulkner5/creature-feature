@@ -10,6 +10,14 @@ namespace EthansProject
         public float moveSpeed = 10;
         public Vector3 destination;
         public bool atDestination;
+
+        public float hungerCap = 100;
+        public float currentHungerLevel = 100;
+        public float foodNeededLevel = 20; // nice naming dickhead
+        float apattiteLevel;
+        public bool needFood;
+        public HashSet<KeyValuePair<string, object>> goal = new HashSet<KeyValuePair<string, object>>();
+
         //TODO: temp...
         public AgentStorage Storage
         {
@@ -20,12 +28,23 @@ namespace EthansProject
         // Use this for initialization
         void Start()
         {
-
+            currentHungerLevel = hungerCap;
+            apattiteLevel = Random.Range(0.8f, 1.2f);
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (currentHungerLevel > 0)
+                currentHungerLevel -= Time.deltaTime * apattiteLevel;
+            else
+                Destroy(gameObject);
+
+            if (currentHungerLevel <= foodNeededLevel)
+                needFood = true;
+            else
+                needFood = false;
+            
 
         }
 
@@ -36,6 +55,7 @@ namespace EthansProject
         }
 
         public abstract HashSet<KeyValuePair<string, object>> CreateGoalState();
+     
 
 
         public HashSet<KeyValuePair<string, object>> GetWorldState()
@@ -65,7 +85,7 @@ namespace EthansProject
                 AssignPath();
                 return;
             }
-         
+
             float step = moveSpeed * Time.deltaTime;
             if (Vector3.Distance(transform.position, currentPos) <= 0.2f)
             {
@@ -77,8 +97,8 @@ namespace EthansProject
             }
             else
             {
-                if(currentPos != Vector3.zero)
-                transform.position = Vector3.MoveTowards(transform.position, currentPos, step);
+                if (currentPos != Vector3.zero)
+                    transform.position = Vector3.MoveTowards(transform.position, currentPos, step);
             }
         }
         bool needPath = true;
@@ -110,7 +130,7 @@ namespace EthansProject
             else
             {
                 StepAgent();
-              
+
                 return false;
             }
         }
@@ -130,7 +150,7 @@ namespace EthansProject
             CheckPoint();
         }
 
-          
+
 
         public void PlanAborted(GOAPAction aborter)
         {

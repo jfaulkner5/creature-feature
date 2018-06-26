@@ -205,6 +205,10 @@ MonoBehaviour:
   moveSpeed: 10
   destination: {x: 0, y: 0, z: 0}
   atDestination: 0
+  hungerCap: 100
+  currentHungerLevel: 100
+  foodNeededLevel: 20
+  needFood: 0
 --- !u!114 &114333032107644384
 MonoBehaviour:
   m_ObjectHideFlags: 1
