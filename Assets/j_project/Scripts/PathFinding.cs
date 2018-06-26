@@ -26,78 +26,44 @@ namespace jfaulkner
             List<Node> openNodeList = new List<Node>();
             List<Node> closedNodeList = new List<Node>();
             List<Node> cameFrom = new List<Node>();
+            int gScore = 0; //NOTE setting initial gscore to zero, as there is no current cost from going between start and start.
+            int fscore = (int)GetDistance(startNode, endNode); //NOTE setting the start fscore to purely heuristic
 
-            //NOTE not neccesary unless there is value per path
-
+            Node currentNode = startNode;
+            currentNode.gScore = gScore;
+            //TODO should endNode be added to here?
             openNodeList.Add(startNode);
 
-            Node currentNode = openNodeList[0];
-
-            while (openNodeList != null && openNodeList.Count != 0)
+            //TODO needs a loop break for when it can't find the end node
+            while (openNodeList != null && currentNode != endNode)
             {
+                currentNode = LowestFScore(ref openNodeList);
+                if (currentNode == endNode)
+                    cameFrom = ReturnPath(cameFrom);
 
-
-                //HELP Unsure if tests prove difference or needs to be kept outside the while loop
-                //Node currentNode = openSet[0];
-                for (int index = 1; index < openNodeList.Count; index++)
-                {
-                    Debug.Log(index);
-
-                    if (openNodeList[index].F < currentNode.F || openNodeList[index].F == currentNode.F && openNodeList[index].H < currentNode.H)
-                    {
-                        currentNode = openNodeList[index];
-
-
-                    }
-
-                }
 
                 openNodeList.Remove(currentNode);
                 closedNodeList.Add(currentNode);
 
-                if (currentNode == endNode)
+                foreach (Node neighbour in GetNeighbourNodes(currentNode))
                 {
-
-                    currentNode = endNode;
-
-                    while (currentNode != startNode)
-                    {
-                        cameFrom.Add(currentNode);
-                        currentNode = currentNode.parent;
-                    }
-                    cameFrom.Reverse();
-                    return cameFrom;
-                }
-
-                foreach (Node neighbourNode in GameManager.Instance.GetNeighbourNodes(currentNode))
-                {
-
-                    if (!neighbourNode.isPassable || closedNodeList.Contains(neighbourNode))
-                    {
+                    if (closedNodeList.Contains(neighbour))
                         continue;
-                    }
+                    if (!openNodeList.Contains(neighbour))
+                        openNodeList.Add(neighbour);
 
-                    float tempCost = currentNode.G + GetDistance(currentNode, neighbourNode);
+                    float tenative_cost = currentNode.gScore + GetDistance(currentNode, neighbour);
+                    if (tenative_cost >= neighbour.gScore)
+                        continue;
 
-                    if (tempCost < neighbourNode.G || !openNodeList.Contains(neighbourNode))
-                    {
-                        //URGENT fix code to be more fluid
-                        neighbourNode.G = tempCost;
-                        neighbourNode.H = GetDistance(neighbourNode, endNode);
-                        neighbourNode.parent = currentNode;
-
-                        if (!openNodeList.Contains(neighbourNode))
-                        {
-                            openNodeList.Add(neighbourNode);
-                        }
-                    }
-
-
+                    cameFrom.Add(neighbour);
+                    neighbour.gScore = tenative_cost;
+                    neighbour.fScore = gScore + GetDistance(neighbour, endNode);
                 }
-
-
             }
-            throw new System.NotImplementedException();
+
+            //FIX this shouldn't be reached if the path is returned
+            throw new System.ArgumentException("Path could not be created");
         }
 
         //private static int GetDistance(Node currentNode, Node neighbour)
@@ -105,19 +71,51 @@ namespace jfaulkner
         //    throw new NotImplementedException();
         //}
 
-        int GetDistance(Node nodeA, Node nodeB)
+        float GetDistance(Node nodeA, Node nodeB)
         {
-            int dstX = Mathf.Abs(nodeA.gridPosX - nodeB.gridPosX);
-            int dstY = Mathf.Abs(nodeA.gridPosY - nodeB.gridPosY);
+            return Vector3.Distance(nodeA.worldPos, nodeB.worldPos);
+        }
 
-            if (dstX > dstY)
+        List<Node> GetNeighbourNodes(Node node)
+        {
+            List<Node> neighbourNodes = new List<Node>();
+            for (int x = -1; x <= 1; x++)
             {
-                return 14 * dstY + 10 * dstX - dstY;
+                for (int y = -1; y <= 1; y++)
+                {
+                    if (x == 0 && y == 0)
+                    {
+                        continue;
+                    }
+
+                    int nCheckX = node.gridPosX + x;
+                    int nCheckY = node.gridPosY + y;
+
+                    //neighbourNodes.Add(GameManager.Instance.levelGrid[nCheckX, nCheckY]);
+
+                    //HACK Is this better ?
+                    if (nCheckX >= 0 && nCheckX < GameManager.Instance.myPathGrid.gridSize && nCheckY >= 0 && nCheckY < GameManager.Instance.myPathGrid.gridSize)
+                    {
+                        neighbourNodes.Add(GameManager.Instance.levelGrid[nCheckX, nCheckY]);
+                    }
+                }
             }
-            else
-            {
-                return 14 * dstX + 10 * dstY - dstX;
-            }
+            return neighbourNodes;
+        }
+
+        Node LowestFScore(ref List<Node> openList)
+        {
+            openList.OrderBy(node => node.fScore).ToList();
+            return openList[0];
+            //throw new System.NotImplementedException();
+        }
+
+        List<Node> ReturnPath(List<Node> _cameFrom)
+        {
+            Debug.Log("EndNode was reached and return path was triggered");
+
+            _cameFrom.Reverse();
+            return _cameFrom;
         }
     }
 }
