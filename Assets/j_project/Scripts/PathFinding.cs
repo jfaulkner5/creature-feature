@@ -10,6 +10,15 @@ namespace jfaulkner
     {
         public List<Node> neighbourNodes;
 
+        public List<Node> list;
+
+        public List<Node> GetList(Node startNode, Node endNode)
+        {
+            FindPath(startNode, endNode);
+
+            return list;
+        }
+
         public List<Node> FindPath(Vector3 startPos, Vector3 finishPos)
         {
             //Node startNode = GameManager.Instance.ConvertFromWorldPoint(startPos);
@@ -39,7 +48,7 @@ namespace jfaulkner
             {
                 currentNode = LowestFScore(ref openNodeList);
                 if (currentNode == endNode)
-                    cameFrom = ReturnPath(cameFrom);
+                    ReturnPath(ref cameFrom);
 
 
                 openNodeList.Remove(currentNode);
@@ -63,7 +72,7 @@ namespace jfaulkner
             }
 
             //FIX this shouldn't be reached if the path is returned
-            throw new System.ArgumentException("Path could not be created");
+            throw new ArgumentException(message: "Path could not be created");
         }
 
         //private static int GetDistance(Node currentNode, Node neighbour)
@@ -114,12 +123,12 @@ namespace jfaulkner
             //throw new System.NotImplementedException();
         }
 
-        List<Node> ReturnPath(List<Node> _cameFrom)
+        void ReturnPath(ref List<Node> _cameFrom)
         {
             Debug.Log("EndNode was reached and return path was triggered");
 
             _cameFrom.Reverse();
-            return _cameFrom;
+            list = _cameFrom;
         }
     }
 }
