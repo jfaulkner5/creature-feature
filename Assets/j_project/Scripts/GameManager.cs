@@ -45,13 +45,22 @@ namespace jfaulkner
         void Start()
         {
             levelGrid = GenerateNodeGrid();
-            path = FindPath();
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Keypad1))
+            {
+                Node _startNode = levelGrid[0, 0];
+                Node _endNode = levelGrid[10, 10];
+                path = FindPath(_startNode, _endNode);
+            }
 
+            if (Input.GetKeyDown(KeyCode.Keypad2))
+            {
+
+            }
 
         }
 
@@ -117,34 +126,8 @@ namespace jfaulkner
             return myPathFinding.FindPath(_startPos, _endPos);
         }
 
-
-        //TODO shouldn't be in the game manager
-        public List<Node> GetNeighbourNodes(Node node)
-        {
-           List<Node> neighbourNodes = new List<Node>();
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    if (x == 0 && y == 0)
-                    {
-                        continue;
-                    }
-
-                    int nCheckX = node.gridPosX + x;
-                    int nCheckY = node.gridPosY + y;
-
-                    //URGENT unspaghetti
-                    if (nCheckX >= 0 && nCheckX < myPathGrid.gridSize && nCheckY >= 0 && nCheckY < myPathGrid.gridSize)
-                    {
-                        neighbourNodes.Add(levelGrid[nCheckX, nCheckY]);
-                    }
-                }
-            }
-            return neighbourNodes;
-        }
-
         //TODO De-spaghetti
+        //URGENT returns the same number regardless
         public Node ConvertFromWorldPoint(Vector3 worldPoint)
         {
             float posX = (worldPoint.x - /*transform.position.x*/ +myPathGrid.gridWorldSize.x / 2) / myPathGrid.gridWorldSize.x;
