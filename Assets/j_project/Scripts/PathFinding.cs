@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace jfaulkner
 {
@@ -11,10 +12,12 @@ namespace jfaulkner
 
         public List<Node> FindPath(Vector3 startPos, Vector3 finishPos)
         {
-            Node startNode = GameManager.Instance.ConvertFromWorldPoint(startPos);
-            Node endNode = GameManager.Instance.ConvertFromWorldPoint(finishPos);
-            
-            return FindPath(startNode, endNode);
+            //Node startNode = GameManager.Instance.ConvertFromWorldPoint(startPos);
+            //Node endNode = GameManager.Instance.ConvertFromWorldPoint(finishPos);
+            //Node startNode = GameManager.Instance.levelGrid[0, 0];
+            //Node endNode = GameManager.Instance.levelGrid[10, 10];
+            throw new System.NotImplementedException();
+            //return FindPath(startPos, finishPos);
         }
 
         public List<Node> FindPath(Node startNode, Node endNode)
