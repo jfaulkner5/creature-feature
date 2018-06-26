@@ -94,11 +94,12 @@ namespace jfaulkner
         /// </summary>
         private List<Node> FindPath()
         {
+            throw new System.NotImplementedException();
             Vector3 _start = new Vector3(-10, 0, -10);
             Vector3 _end = new Vector3(10, 0, 10);
-           return myPathFinding.FindPath(_start, _end);
+            return myPathFinding.FindPath(_start, _end);
         }
-        
+
         /// <summary>
         ///  Find a path, using a start and end point in the world.
         /// </summary>
