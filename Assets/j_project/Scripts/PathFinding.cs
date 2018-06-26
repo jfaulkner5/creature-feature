@@ -91,13 +91,17 @@ namespace jfaulkner
                     int nCheckX = node.gridPosX + x;
                     int nCheckY = node.gridPosY + y;
 
-                    //neighbourNodes.Add(GameManager.Instance.levelGrid[nCheckX, nCheckY]);
-
-                    //HACK Is this better ?
-                    if (nCheckX >= 0 && nCheckX < GameManager.Instance.myPathGrid.gridSize && nCheckY >= 0 && nCheckY < GameManager.Instance.myPathGrid.gridSize)
+                    if (nCheckX >= 0 && nCheckX < GameManager.Instance.levelGrid.Length && nCheckY >= 0 && nCheckY < GameManager.Instance.levelGrid.Length)
                     {
                         neighbourNodes.Add(GameManager.Instance.levelGrid[nCheckX, nCheckY]);
                     }
+
+                    //HACK how is this different?
+                    //if (nCheckX >= 0 && nCheckX < GameManager.Instance.myPathGrid.gridSize && nCheckY >= 0 && nCheckY < GameManager.Instance.myPathGrid.gridSize)
+                    //{
+                    //    neighbourNodes.Add(GameManager.Instance.levelGrid[nCheckX, nCheckY]);
+                    //}
+
                 }
             }
             return neighbourNodes;
