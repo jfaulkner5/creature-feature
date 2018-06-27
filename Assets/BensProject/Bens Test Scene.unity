@@ -142,7 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WorldSize: 5
   WallBias: 0.6
-  seedOffset: {x: 2, y: 0}
+  ResourceSpawn: 0.25
+  seedOffset: {x: 0, y: 0}
   perlinMod: 5
   wallMat: {fileID: 2100000, guid: 2f3a4fd6c9a10d84e8c4b64269eaca5c, type: 2}
   showNavLocations: 0
@@ -150,8 +151,9 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 512
-  mapList_HomeList: {fileID: 11400000, guid: 9043cddc86280e74bada17d35bf0c54c, type: 2}
-  mapList_WorldList: {fileID: 11400000, guid: 600d84701e53d914580a33e03d39f401, type: 2}
+  mapList_HomeList: {fileID: 11400000, guid: ee0fc0e32aac20e46b0d6e51567fde14, type: 2}
+  mapList_WorldList: {fileID: 11400000, guid: 2dbbea7b5d1957f41b69138628648448, type: 2}
+  resources: {fileID: 11400000, guid: fccc747f7fd84d04bafa7c2a2e9a37a4, type: 2}
 --- !u!4 &626760689
 Transform:
   m_ObjectHideFlags: 0
@@ -267,8 +269,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1432029756}
-  m_LocalRotation: {x: 0.54355353, y: -0, z: -0, w: 0.83937454}
-  m_LocalPosition: {x: 7.17, y: 13.23, z: -0.34}
+  m_LocalRotation: {x: -0.61574, y: -0.0007862359, z: 0.0006095062, w: -0.7879488}
+  m_LocalPosition: {x: 40.93415, y: 92.55992, z: 11.583261}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -312,6 +314,15 @@ Prefab:
     - target: {fileID: 4628332119465870, guid: 01b1ddef6e2d65344870a0700c123555, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114606340678556332, guid: 01b1ddef6e2d65344870a0700c123555,
+        type: 2}
+      propertyPath: state
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997788935417918, guid: 01b1ddef6e2d65344870a0700c123555, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01b1ddef6e2d65344870a0700c123555, type: 2}

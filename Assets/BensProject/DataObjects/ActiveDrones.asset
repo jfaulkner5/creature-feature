@@ -8,8 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: NetworkDrones
-  m_EditorClassIdentifier: Assembly-CSharp:BensDroneFleet:SimpleDroneAIList
-  listTotal:
-  - {fileID: 114606340678556332, guid: 01b1ddef6e2d65344870a0700c123555, type: 2}
+  m_Script: {fileID: 11500000, guid: 8159a0d8a4d9aaa4399b0c310e45ecb3, type: 3}
+  m_Name: ActiveDrones
+  m_EditorClassIdentifier: 
+  GameObjects: []

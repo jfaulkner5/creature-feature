@@ -9,15 +9,16 @@ namespace BensDroneFleet {
 
     public class SimpleDroneAI : MonoBehaviour {
 
-        public SimpleDroneAIList networkList;
+        public GameObjectList networkList;
 
         public SimpleAIState state = SimpleAIState.Idle;
+        SimpleAIState stateLast = SimpleAIState.Idle;
         public Navigator navigator;
         public NavState navState = NavState.Idle;
 
         // Use this for initialization
         void Start() {
-            networkList.listTotal.Add(this);
+            networkList.AddSafe(gameObject);
             navigator = GetComponent<Navigator>();
             navigator.owner = this;
         }
@@ -41,15 +42,11 @@ namespace BensDroneFleet {
 
         void Idle()
         {
-            networkList.listBusy.Remove(this);
-            networkList.listIdle.Add(this);
+
         }
 
         void Wandering()
         {
-            networkList.listIdle.Remove(this);
-            networkList.listBusy.Add(this);
-
             navigator.SetDestination(PathGrid.GetNewLocation());
         }
 

@@ -11,6 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: NetworkResourceList
   m_EditorClassIdentifier: Assembly-CSharp:BensDroneFleet:ResourceList
+  arrayResourceTypes:
+  - {fileID: 1204385476663268, guid: 548fa819305e0664e8e7508b60579566, type: 2}
+  - {fileID: 1228849562008222, guid: ade4e9e1703746b4aaea9290ec6fc128, type: 2}
+  - {fileID: 1092072444276144, guid: f477f9e83823a0d49bacb240b7b881a0, type: 2}
+  - {fileID: 1118901464644274, guid: 32bee6816a4a9a74282ecad67751786b, type: 2}
   listTotal: []
   listKnown: []
   listReserved: []

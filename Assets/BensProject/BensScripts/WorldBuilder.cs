@@ -11,6 +11,7 @@ namespace BensDroneFleet {
         public int WorldSize;
         [Range(0.1f,1)]
         public float WallBias = 0.8f;
+        public float ResourceSpawn = .1f;
         public Vector2 seedOffset;
         public float perlinMod = 2;
         [Tooltip("0 is ground")]
@@ -20,9 +21,10 @@ namespace BensDroneFleet {
         public GameObject gridObject;
         public LayerMask mask;
         
-        [Header("MapLists")]
+        [Header("Data")]
         public MapList mapList_HomeList;
         public MapList mapList_WorldList;
+        public ResourceList resources;
 
         //
         int gridSize { get { return (WorldSize > 0) ? WorldSize * 16 : 16; } }
@@ -102,30 +104,7 @@ namespace BensDroneFleet {
             CreateGridFromHome();
 
             PathGrid.CreateGrid(mask, gridSize, gridSize, .5f, transform);
-        }
-
-        void CreateGridRandom()
-        {
-            Material mat = new Material(wallMat);
-            for (int x = 0; x < xWidth; x++)
-            {
-                for (int z = 0; z < zWidth; z++)
-                {
-                    GameObject newGridObject = Instantiate<GameObject>(gridObject, this.transform);
-                    newGridObject.transform.position = new Vector3(x, VerticalPos(WallBias,x,z) - 0.5f, z);                    
-                    if (newGridObject.transform.position.y > -.5f)
-                    {
-                        newGridObject.layer = 9;
-                        Material mesh = GetComponent<Renderer>().material;
-                        if (mesh)
-                        {
-                            mesh = mat;
-                        }
-                    }
-                    grid[x, z] = newGridObject;
-                }
-            }
-        }
+        }        
 
         void CreateGridFromHome()
         {
@@ -141,6 +120,18 @@ namespace BensDroneFleet {
                         newGridObject.layer = 9;
                     }
                     grid[x, z] = newGridObject;
+                    
+                    //populate grid with Resource
+                    if (x > 16 && z > 16 && GetPerlin(x,z) < ResourceSpawn)
+                    {
+                        Debug.Log(GetPerlin(x, z) + " x" + x + " z" + z);
+
+                        if (newGridObject.transform.position.y < 0)
+                        {
+                            GameObject newResource = Instantiate<GameObject>(resources.arrayResourceTypes[Random.Range(0, resources.arrayResourceTypes.Length - 1)]);
+                            newResource.transform.position = new Vector3(x, 0, z);
+                        }                        
+                    }
                 }
             }
         }
@@ -168,11 +159,39 @@ namespace BensDroneFleet {
         float GetVerticalFromPixelWithNoise(int x, int z, Color[] pixels, float bias)
         {
             float color = GetVerticalFromColor(GetPixelFromPosition(x, z, pixels));
-            float Y = (Mathf.PerlinNoise((x + seedOffset.x) / xWidth, (z + seedOffset.y) / zWidth));
+            float Y = GetPerlin(x, z);
             //Debug.Log("posX: " + x +" posZ: "+ z + " return: " + Mathf.Clamp((color - Y),0,1));            
             return(Mathf.Clamp((color - Y), 0, 1) < bias) ? 0 : 1;          
             
         }
+
+        #region GetPerlin
+
+        /// <summary>
+        /// Perlin with custom position, in class world size, inclass seedOffset
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        float GetPerlin(int x, int y)
+        {
+            return GetPerlin(xWidth, zWidth, x, y,seedOffset.x,seedOffset.y);
+        }
+
+        /// <summary>
+        /// Perlin with Custom world size, position and offset;
+        /// </summary>
+        /// <param name="xwidth"></param>
+        /// <param name="ywidth"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        float GetPerlin(int xwidth,int ywidth,int x, int y, float seedOffsetX, float seedOffsetY)
+        {
+            return (Mathf.PerlinNoise((x + seedOffsetX) / xwidth, (y + seedOffsetY) / ywidth));
+        }
+
+        #endregion
 
         /// <summary>
         /// Returns a 0-1 based on the grayscale colour.
