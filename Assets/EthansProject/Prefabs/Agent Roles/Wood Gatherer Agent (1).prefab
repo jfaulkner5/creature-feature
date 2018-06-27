@@ -206,7 +206,7 @@ MonoBehaviour:
   moveSpeed: 10
   destination: {x: 0, y: 0, z: 0}
   atDestination: 0
-  hungerCap: 50
+  hungerCap: 100
   currentHungerLevel: 100
   foodNeededLevel: 20
   needFood: 0
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a6caf73315f924aaa06596b028c784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 100
+  cost: 1
   target: {fileID: 0}
   recivedFood: 0
 --- !u!136 &136232037949475400

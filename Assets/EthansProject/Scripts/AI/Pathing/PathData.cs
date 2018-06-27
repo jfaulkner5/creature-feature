@@ -4,10 +4,9 @@ using UnityEngine;
 
 namespace EthansProject
 {
-    [System.Serializable]
-    public class PathData  {
+    public static class PathData  {
 
-            public List<Node> existingNodes = new List<Node>();
+            public static List<PathingNode> existingNodes = new List<PathingNode>();
              
     }
 

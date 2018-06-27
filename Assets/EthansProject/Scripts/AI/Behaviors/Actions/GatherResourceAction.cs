@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace EthansProject
 {
-    public class GatherBerriesAction : GOAPAction
+    public class GatherResourceAction : GOAPAction
     {
         public enum GatherType
         {
             BerryGatherer,
-            WoodGatherer
+            WoodGatherer,
+            WarterGatherer
         }
+
         public GatherType CurrGatherType = GatherType.BerryGatherer;
         public bool hasBerries = false;
         Resource targetBerryResource;
@@ -19,7 +23,7 @@ namespace EthansProject
             get { return GetComponent<AgentStorage>(); }
         }
 
-        public GatherBerriesAction()
+        public GatherResourceAction()
         {
             AddPrecondition("hasResource", false);
             AddEffect("hasResource", true);
@@ -30,7 +34,19 @@ namespace EthansProject
         {
             List<Resource> sources = new List<Resource>();
 
-            sources = (CurrGatherType == GatherType.BerryGatherer) ? WorldInfo.berryBushes : WorldInfo.trees;
+            switch (CurrGatherType)
+            {
+                case GatherType.BerryGatherer:
+                    sources = WorldInfo.berryBushes;
+                    break;
+                case GatherType.WoodGatherer:
+                    sources = WorldInfo.trees;
+                    break;
+                case GatherType.WarterGatherer:
+                    throw new System.NotImplementedException();
+                default:
+                    break;
+            }
             GameObject closest = null;
             float distance = Mathf.Infinity;
             Vector3 position = agent.transform.position;

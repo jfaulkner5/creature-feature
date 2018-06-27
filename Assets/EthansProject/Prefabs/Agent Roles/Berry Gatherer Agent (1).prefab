@@ -206,7 +206,7 @@ MonoBehaviour:
   moveSpeed: 10
   destination: {x: 0, y: 0, z: 0}
   atDestination: 0
-  hungerCap: 50
+  hungerCap: 100
   currentHungerLevel: 100
   foodNeededLevel: 20
   needFood: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c1ee742c7da4546bea88266b42a223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 100
+  cost: 1
   target: {fileID: 0}
   CurrGatherType: 0
   hasBerries: 0
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99bd64a1105110742a1852e19e580657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 100
+  cost: 1
   target: {fileID: 0}
   droppedOffResource: 0
   CurrGatherType: 0

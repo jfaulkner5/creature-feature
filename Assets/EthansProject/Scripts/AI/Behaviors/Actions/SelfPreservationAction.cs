@@ -9,13 +9,14 @@ namespace EthansProject {
 
         public float AmountNeeded
         {
-            get { return Mathf.Abs(GetComponent<Villager>().hungerCap - GetComponent<Villager>().currentHungerLevel); }
+            get { return (Mathf.Abs(GetComponent<Villager>().hungerCap - GetComponent<Villager>().currentHungerLevel)) / 2; }
         }
+
         public SelfPreservationAction()
         {
             AddPrecondition("needsFood", true);
             AddEffect("needsFood", false);
-            AddEffect("dontDieOfHunger", true);
+            AddEffect("stayFull", true);
         }
 
         public override bool CheckProcPreconditions(GameObject agent)
@@ -65,7 +66,7 @@ namespace EthansProject {
         {
             if (!recivedFood)
             {
-                agent.GetComponent<Villager>().currentHungerLevel += targetResourceSupply.TakeResource(Mathf.RoundToInt(AmountNeeded));
+                agent.GetComponent<Villager>().currentHungerLevel += targetResourceSupply.TakeResource(Mathf.RoundToInt(AmountNeeded)) * 2;
                 // targetResourceSupply.StoreResource(Storage.berriesHolding);
                 recivedFood = true;
                 return true;

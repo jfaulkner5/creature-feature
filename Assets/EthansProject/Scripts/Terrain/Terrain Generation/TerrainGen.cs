@@ -146,7 +146,7 @@ namespace EthansProject
                     //Check the vert for its colour
                     colorMap[vertIndex] = CheckForColorRegion(height);
                     // place a node.
-                    NodeManager.instance.CreateNode(vertices[vertIndex], terrainData, x, z, CheckForTraversableRegion(height));
+                    NodeManager.instance.CreateNode(vertices[vertIndex], terrainData, x, z, CheckForTraversableRegion(height), CheckForRegion(height));
 
                     //if inbetween height spawn a object
                     //Hack: make better object gen system.
@@ -246,6 +246,21 @@ namespace EthansProject
 
             return Color.red;
         }
+
+        private RegionData CheckForRegion(float currentHeight)
+        {
+            for (int i = 0; i < regions.Length; i++)
+            {
+
+                if (isBetween(regions[i].betweenHeight, currentHeight))
+                {
+                    return regions[i];
+                }
+            }
+
+            return null;
+        }
+
 
         /// <summary>
         /// Checks of the current hieght is a traversable region

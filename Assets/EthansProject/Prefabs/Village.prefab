@@ -685,8 +685,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storageType: 1
-  resourceCount: 0
-  resourceCapacity: 300
+  resourceCount: 800
+  resourceCapacity: 1000
   upgradeScale: 1.2
 --- !u!114 &114283784053460876
 MonoBehaviour:
@@ -720,6 +720,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storageType: 0
-  resourceCount: 0
-  resourceCapacity: 300
+  resourceCount: 1000
+  resourceCapacity: 1500
   upgradeScale: 1.2

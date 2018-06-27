@@ -10,7 +10,8 @@ public class Builder : Villager
         {
             HashSet<KeyValuePair<string, object>> goal = new HashSet<KeyValuePair<string, object>>();
 
-            goal.Add(new KeyValuePair<string, object>("expandStorage", (WorldInfo.filledStorage.Count > 0)));
+            goal.Add(new KeyValuePair<string, object>("expandStorage", true));
+            goal.Add(new KeyValuePair<string, object>("stayFull", false));
             return goal;
         }
     }
