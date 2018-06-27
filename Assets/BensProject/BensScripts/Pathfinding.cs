@@ -63,7 +63,7 @@ namespace BensDroneFleet {
                     break;
                 }
 
-                foreach (Node neighbour in PathGrid.GetNeighbours(currantNode))
+                foreach (Node neighbour in currantNode.neighbours)
                 {
                     if (!neighbour.walkable || closedSet.Contains(neighbour))
                     {

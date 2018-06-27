@@ -8,7 +8,7 @@ MonoImporter:
   - mapList_HomeList: {fileID: 11400000, guid: 9043cddc86280e74bada17d35bf0c54c, type: 2}
   - mapList_WorldList: {fileID: 11400000, guid: 600d84701e53d914580a33e03d39f401,
       type: 2}
-  executionOrder: 0
+  executionOrder: -1
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

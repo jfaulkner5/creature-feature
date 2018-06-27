@@ -22,7 +22,6 @@ namespace BensDroneFleet {
         public LayerMask mask;
         
         [Header("Data")]
-        public MapList mapList_HomeList;
         public MapList mapList_WorldList;
         public ResourceList resources;
 
@@ -88,7 +87,7 @@ namespace BensDroneFleet {
             {
                 for (int zIndex = 0; zIndex < WorldSize; zIndex++)
                 {
-                    MapList map = (xIndex == 0 && zIndex == 0) ? mapList_HomeList : mapList_WorldList;
+                    MapList map = mapList_WorldList;
                     image = (Texture2D)map.list[Random.Range(0, map.list.Count - 1)];
 
                     texture.SetPixels(xIndex * 16, zIndex * 16, image.width, image.height, image.GetPixels(), 0);
@@ -124,7 +123,7 @@ namespace BensDroneFleet {
                     //populate grid with Resource
                     if (x > 16 && z > 16 && GetPerlin(x,z) < ResourceSpawn)
                     {
-                        Debug.Log(GetPerlin(x, z) + " x" + x + " z" + z);
+                        //Debug.Log(GetPerlin(x, z) + " x" + x + " z" + z);
 
                         if (newGridObject.transform.position.y < 0)
                         {

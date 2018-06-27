@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace BensDroneFleet
 {
-
     public static class PathGrid
     {             
         static LayerMask unwalkableMask;
         public static Vector2 gridWorldSize = new Vector2(16,16);
         static float nodeRadious;
         public static Node[,] grid;
+
         public static List<Node> permOpen = new List<Node>();
         public static List<Node> permClosed = new List<Node>();
 
@@ -51,13 +51,15 @@ namespace BensDroneFleet
                     {
                         permClosed.AddSafe(grid[x, y],false);
                     }
+
+                    grid[x, y].neighbours = GetNeighbours(grid[x, y],true);
                 }
             }
 
             // hide zones
         }
 
-        public static List<Node> GetNeighbours(Node node)
+        public static List<Node> GetNeighbours(Node node,bool WalkableOnly)
         {
             List<Node> neighbours = new List<Node>();
             for (int x = -1; x <= 1; x++)
@@ -72,60 +74,69 @@ namespace BensDroneFleet
                     int checkX = node.gridX + x;
                     int checkY = node.gridY + y;
 
-                    if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
+                    if (WorldSafePos(checkX, checkY) && grid[checkX,checkY] != null)
                     {
-                        neighbours.Add(grid[checkX, checkY]);
+                        if (WalkableOnly)
+                        {
+                            if (grid[checkX, checkY].walkable)
+                            {
+                                neighbours.AddSafe(grid[checkX, checkY], false);
+                                grid[checkX, checkY].neighbours.AddSafe(node, false);
+                            }
+                        }
+                        else
+                        {
+                            neighbours.AddSafe(grid[checkX, checkY],false);
+                            grid[checkX, checkY].neighbours.AddSafe(node, false);
+                        }                
                     }
                 }
             }
 
             return neighbours;
         }
-
+        
         public static Node NodeFromWorldPoint(Vector3 WorldPosition)
         {
-            //float percentX = (WorldPosition.x - transform.position.x + gridWorldSize.x / 2) / gridWorldSize.x;
-            //float percentY = (WorldPosition.z - transform.position.z + gridWorldSize.y / 2) / gridWorldSize.y;
-            //percentX = Mathf.Clamp01(percentX);
-            //percentY = Mathf.Clamp01(percentY);
-
-            //int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
-            //int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
-
             int x = Mathf.Clamp(Mathf.RoundToInt(WorldPosition.x),0, gridSizeX -1);
             int y = Mathf.Clamp(Mathf.RoundToInt(WorldPosition.z),0, gridSizeY -1);
 
-            Debug.Log("x: "+ x + " y: " + y);
-            Debug.Log("Find " + WorldPosition + " - node " + grid[x, y].worldPosition);
-            if (!grid[x, y].walkable)
-            {
-                List<Node> neighbours = GetNeighbours(grid[x, y]);
-
-                if (neighbours.Count != 0)
-                {
-                    Node closest = neighbours[0];
-                    float distance = Vector3.Distance(neighbours[0].worldPosition, WorldPosition);
-                    for (int index = 1; index < neighbours.Count; index++)
-                    {
-                        float nDist = Vector3.Distance(neighbours[index].worldPosition, WorldPosition);
-                        if (nDist < distance)
-                        {
-                            closest = neighbours[index];
-                            distance = nDist;
-                        }
-                    }
-                    return grid[closest.gridX, closest.gridY];
-                }
-                Debug.LogWarning("found out of walkable");
-                return null;
-            }
-
+            //Debug.Log("x: "+ x + " y: " + y);
+            //Debug.Log("Find " + WorldPosition + " - node " + grid[x, y].worldPosition);
+            
             return grid[x, y];
         }       
 
         public static Vector3 GetNewLocation()
         {
             return new Vector3(Random.Range(0, gridWorldSize.x - 1), 0, Random.Range(0, gridWorldSize.x - 1));
+        }
+
+        public static Node StartLocation()
+        {
+            Node startLocation = null;
+            while (startLocation == null)
+            {
+                Node check = NodeFromWorldPoint(GetNewLocation());
+                if (check.neighbours.Count == 8)
+                {
+                    int count = 0;
+                    foreach (Node node in check.neighbours)
+                    {
+                        count += (node.neighbours.Count == 8) ? 1:0;
+                    }
+                    if (count == 8)
+                    {
+                        startLocation = check;
+                    }
+                }
+            }
+            return startLocation;
+        }
+
+        public static bool WorldSafePos(int x, int y)
+        {
+            return x >= 0 && y >= 0 && x < gridSizeX && y < gridSizeY;
         }
 
     // Requires a path
@@ -161,6 +172,8 @@ namespace BensDroneFleet
 
         public bool walkable;
         public Vector3 worldPosition;
+
+        public List<Node> neighbours = new List<Node>();
 
         public Node parant;
 

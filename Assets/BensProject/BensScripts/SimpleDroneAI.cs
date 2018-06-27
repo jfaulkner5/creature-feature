@@ -9,7 +9,7 @@ namespace BensDroneFleet {
 
     public class SimpleDroneAI : MonoBehaviour {
 
-        public GameObjectList networkList;
+        public DirectorAI director;
 
         public SimpleAIState state = SimpleAIState.Idle;
         SimpleAIState stateLast = SimpleAIState.Idle;
@@ -17,8 +17,7 @@ namespace BensDroneFleet {
         public NavState navState = NavState.Idle;
 
         // Use this for initialization
-        void Start() {
-            networkList.AddSafe(gameObject);
+        void Start() {            
             navigator = GetComponent<Navigator>();
             navigator.owner = this;
         }
