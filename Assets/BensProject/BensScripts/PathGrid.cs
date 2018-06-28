@@ -66,7 +66,7 @@ namespace BensDroneFleet
             {
                 for (int y = -1; y <= 1; y++)
                 {
-                    if (x == 0 && y == 0)
+                    if (x == 0 && y == 0 || x == -1 && y == -1 || x == 1 && y == -1 || x == -1 && y == 1|| x == 1 && y == 1)
                     {
                         continue;
                     }
@@ -118,14 +118,14 @@ namespace BensDroneFleet
             while (startLocation == null)
             {
                 Node check = NodeFromWorldPoint(GetNewLocation());
-                if (check.neighbours.Count == 8)
+                if (check.neighbours.Count == 4)
                 {
                     int count = 0;
                     foreach (Node node in check.neighbours)
                     {
-                        count += (node.neighbours.Count == 8) ? 1:0;
+                        count += (node.neighbours.Count == 4) ? 1:0;
                     }
-                    if (count == 8)
+                    if (count == 4)
                     {
                         startLocation = check;
                     }

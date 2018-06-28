@@ -16,6 +16,11 @@ namespace BensDroneFleet
         public Vector3 nextLocation;
         public Vector3 lastLocation;
         public Vector3 destination;
+
+        public int NodeCount;
+
+        public bool EndlessRome;
+
         List<Node> path = new List<Node>();
 
         private void OnDrawGizmos()
@@ -52,6 +57,7 @@ namespace BensDroneFleet
                     path = Pathfinding.FindPath(transform.position, destination);
                     if (path.Count > 1)
                     {
+                        owner.state = SimpleAIState.MoveTo;
                         owner.navState = NavState.MoveingTo;
                         nextLocation = path[0].worldPosition;
                         lastLocation = path[path.Count - 1].worldPosition;
@@ -67,7 +73,7 @@ namespace BensDroneFleet
                     MoveTo();
                     break;
                 case NavState.AtDestination:
-                    owner.state = SimpleAIState.Idle;
+                    owner.state = (EndlessRome)?SimpleAIState.Wander: SimpleAIState.Idle;
                     break;
                 default:
                     break;
@@ -87,7 +93,8 @@ namespace BensDroneFleet
                 if (Vector3.Distance(transform.position, nextLocation) < acceptablePathRange && path.Count > 1)
                 {
                     path.RemoveAt(0);
-                    nextLocation = path[0].worldPosition;                           
+                    NodeCount = path.Count;
+                    nextLocation = path[0].worldPosition;
                 }
 
                 UpdateStearing();

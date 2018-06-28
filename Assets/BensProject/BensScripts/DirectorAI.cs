@@ -27,10 +27,14 @@ namespace BensDroneFleet
         public List<Node> KnownLocations = new List<Node>();
         public List<Resource> KnownResource = new List<Resource>();
         public GameObject DronePrefab;
+        
 
         // droneState
         List<SimpleDroneAI> activeDrones = new List<SimpleDroneAI>();
         List<SimpleDroneAI> idleDrones = new List<SimpleDroneAI>();
+
+        //
+        float timeToSpawn;
 
         private void OnDrawGizmos()
         {
@@ -43,15 +47,21 @@ namespace BensDroneFleet
 
         private void Start()
         {
-            SetHome();
-            ConstructDrone();
+            SetHome();            
             KnownLocations.AddSafe(homeNode, false);
             KnownLocations.AddSafe(homeNode.neighbours[0]);    
         }
 
         private void Update()
         {
-            
+            if (timeToSpawn <= 0)
+            {
+                ConstructDrone();
+                timeToSpawn = 20;
+            }
+
+            timeToSpawn += Time.deltaTime;
+            Debug.Log(timeToSpawn);
         }
 
         void FSM()
@@ -146,7 +156,7 @@ namespace BensDroneFleet
                 nDrone.transform.SetPositionAndRotation(transform.position, transform.rotation);
                 SimpleDroneAI nDroneAI = nDrone.GetComponent<SimpleDroneAI>();
 
-                SetIdleDrone(nDroneAI); 
+                SetIdleDrone(nDroneAI);
             }
         }
     }

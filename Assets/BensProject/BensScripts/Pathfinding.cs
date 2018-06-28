@@ -6,6 +6,11 @@ namespace BensDroneFleet {
 
     public static class Pathfinding
     {
+        static int MaxIntterationCount = 1000;
+
+
+
+
         /// <summary>
         /// Finds path from location to location by converting the Locations to Nodes first.
         /// </summary>
@@ -38,9 +43,12 @@ namespace BensDroneFleet {
             List<Node> returnList = new List<Node>();
 
             openSet.Add(startNode);
-            
-            while (openSet.Count > 0)
+
+            int itterationcount = 0;
+
+            while (openSet.Count > 0 && itterationcount < MaxIntterationCount)
             {
+                ++itterationcount;
 
                 Node currantNode = openSet[0];
 
@@ -75,7 +83,7 @@ namespace BensDroneFleet {
                     if (newMoveCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                     {
                         neighbour.gCost = newMoveCostToNeighbour;
-                        neighbour.hCost = GetDistance(neighbour, endNode);
+                        neighbour.hCost = GetDistance(neighbour, endNode); // Calculating h cost
                         neighbour.parant = currantNode;
 
                         if (!openSet.Contains(neighbour))
@@ -137,17 +145,12 @@ namespace BensDroneFleet {
 
         static int GetDistance(Node nodeA, Node nodeB)
         {
-            int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
-            int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
+            int aX = nodeA.gridX;
+            int aY = nodeA.gridY;
+            int bX = nodeB.gridX;
+            int bY = nodeB.gridY;
 
-            if (dstX > dstY)
-            {
-                return 14 * dstY + 10 * dstX - dstY;
-            }
-            else
-            {
-                return 14 * dstX + 10 * dstY - dstX;
-            }
+            return (Mathf.Abs(aX - bX) + Mathf.Abs(aY - bY));
         }
     }
 }

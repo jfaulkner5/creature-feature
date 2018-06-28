@@ -4,12 +4,14 @@ using UnityEngine;
 
 namespace BensDroneFleet {
 
-    public enum SimpleAIState { Idle, Wander }
+    public enum SimpleAIState { Idle, Wander, MoveTo }
     public enum NavState { Idle, NoPath, NewPath, MoveingTo, AtDestination }
 
     public class SimpleDroneAI : MonoBehaviour {
 
         public DirectorAI director;
+
+        public GameObjectList droneList;
 
         public SimpleAIState state = SimpleAIState.Idle;
         SimpleAIState stateLast = SimpleAIState.Idle;
@@ -31,6 +33,8 @@ namespace BensDroneFleet {
                     break;
                 case SimpleAIState.Wander:
                     Wandering();
+                    break;
+                case SimpleAIState.MoveTo:
                     break;
                 default:
                     break;
