@@ -50,11 +50,13 @@ namespace jfaulkner
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Keypad1))
+            if (Input.GetKey(KeyCode.Keypad1))
             {
                 Node _startNode = levelGrid[0, 0];
-                Node _endNode = levelGrid[10, 10];
+                Node _endNode = levelGrid[Random.Range(10, 39), Random.Range(10, 39)];
                 path = FindPath(_startNode, _endNode);
+
+                myPathGrid.Cleanup();
             }
 
             if (Input.GetKeyDown(KeyCode.Keypad2))
@@ -93,17 +95,6 @@ namespace jfaulkner
             myPathGrid.RunSetup();
             return myPathGrid.GetGrid();
             //throw new System.NotImplementedException();
-        }
-
-        /// <summary>
-        /// DEBUG Find a path, using a start and end point in the world.
-        /// </summary>
-        private List<Node> FindPath()
-        {
-            throw new System.NotImplementedException();
-            Vector3 _start = new Vector3(-10, 0, -10);
-            Vector3 _end = new Vector3(10, 0, 10);
-            return myPathFinding.FindPath(_start, _end);
         }
 
         /// <summary>

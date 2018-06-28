@@ -16,12 +16,9 @@ namespace jfaulkner
         public int gridPosX;
         public int gridPosY;
 
-        public float gScore { get; set; }               // Distance from start to this node
-        public float hScore { get; set; }               // Heuristic (guess) distance from this node to goal
-        public float fScore { get; set; }               // Distance from start + heuristic distance
-
-
-        public List<Node> neighbors = new List<Node>();         // All succesors to node
+        public float gScore;              // Distance from start to this node
+        public float hScore;              // Heuristic (guess) distance from this node to goal
+        public float fScore;              // Distance from start + heuristic distance
 
         public Node(bool _isPassable, Vector3 _worldPos, int _gridPosX, int _grixPosY)
         {
@@ -29,6 +26,15 @@ namespace jfaulkner
             worldPos = _worldPos;
             gridPosX = _gridPosX;
             gridPosY = _grixPosY;
+        }
+
+        public void Cleanup()
+        {
+            parent = null;
+            gScore = 0;
+            hScore = 0;
+            fScore = 0;
+
         }
     }
 }

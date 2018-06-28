@@ -130,10 +130,11 @@ namespace jfaulkner
 
                     int nCheckX = node.gridPosX + x;
                     int nCheckY = node.gridPosY + y;
-
-                    if (nCheckX >= 0 && nCheckX < GameManager.Instance.levelGrid.Length && nCheckY >= 0 && nCheckY < GameManager.Instance.levelGrid.Length)
+                    int levelGridLength = (GameManager.Instance.myPathGrid.gridSize) - 1;
+                    if (nCheckX >= 0 && nCheckX < levelGridLength && nCheckY >= 0 && nCheckY < levelGridLength)
                     {
-                        neighbourNodes.Add(GameManager.Instance.levelGrid[nCheckX, nCheckY]);
+                        if (GameManager.Instance.levelGrid[nCheckX, nCheckY].isPassable)
+                            neighbourNodes.Add(GameManager.Instance.levelGrid[nCheckX, nCheckY]);
                     }
 
                     //HACK how is this different?

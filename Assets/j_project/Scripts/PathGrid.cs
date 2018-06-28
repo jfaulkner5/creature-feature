@@ -28,12 +28,12 @@ namespace jfaulkner
 
         public void RunSetup()
         {
-            gridWorldSize = new Vector2(20, 20);
+            gridWorldSize = new Vector2(40, 40);
             obstacleMask =~ LayerMask.NameToLayer("obstacleMask");
             nodeRad = 0.25f;
 
             nodeDiam = nodeRad * 2;
-            gridSize = Mathf.RoundToInt(gridWorldSize.x / nodeDiam);
+            gridSize = (int)gridWorldSize.x;
 
             worldBotLeft = new Vector3(-10,0,-10);
         }
@@ -67,7 +67,19 @@ namespace jfaulkner
             return newLevelGrid;
         }
 
+        public void Cleanup()
+        {
+            for (int x = 0; x < gridSize; x++)
+            {
+                for (int y = 0; y < gridSize; y++)
+                {
+                    levelGrid[x, y].Cleanup();
+                    //Should null out all the data relevant to pathfinding
+                    //Debug.Log("gridpos " + levelGrid[x, y].gridPosX + " " + levelGrid[x, y].gridPosY);
+                }
+            }
 
+        }
 
 
 
