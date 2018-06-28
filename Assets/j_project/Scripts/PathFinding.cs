@@ -8,9 +8,18 @@ namespace jfaulkner
 {
     public class PathFinding
     {
+        public enum PathFindStates
+        {
+            StartNode,
+            Auxiliary,
+            GetNeighbours,
+            EndNode,
+            ReturnPath
+        }
         public List<Node> neighbourNodes;
-
         public List<Node> list;
+
+        public PathFindStates currentFinderState;
 
         public List<Node> GetList(Node startNode, Node endNode)
         {
@@ -32,9 +41,26 @@ namespace jfaulkner
         public List<Node> FindPath(Node startNode, Node endNode)
         {
 
+            //switch (currentFinderState)
+            //{
+            //    case PathFindStates.StartNode:
+            //        break;
+            //    case PathFindStates.Auxiliary:
+            //        break;
+            //    case PathFindStates.GetNeighbours:
+            //        break;
+            //    case PathFindStates.EndNode:
+            //        break;
+            //    case PathFindStates.ReturnPath:
+            //        break;
+            //    default:
+            //        break;
+            //}
+
+            //URGENT put a reset for all node data in grid
+
             List<Node> openNodeList = new List<Node>();
             List<Node> closedNodeList = new List<Node>();
-            List<Node> cameFrom = new List<Node>();
             int gScore = 0; //NOTE setting initial gscore to zero, as there is no current cost from going between start and start.
             int fscore = (int)GetDistance(startNode, endNode); //NOTE setting the start fscore to purely heuristic
 
@@ -46,10 +72,9 @@ namespace jfaulkner
             //TODO needs a loop break for when it can't find the end node
             while (openNodeList != null && currentNode != endNode)
             {
-                currentNode = LowestFScore(ref openNodeList);
+                currentNode = LowestFScore(openNodeList);
                 if (currentNode == endNode)
-                    ReturnPath(ref cameFrom);
-
+                    return ReturnPath(startNode, endNode);
 
                 openNodeList.Remove(currentNode);
                 closedNodeList.Add(currentNode);
@@ -58,21 +83,27 @@ namespace jfaulkner
                 {
                     if (closedNodeList.Contains(neighbour))
                         continue;
+
+                    float tenative_cost = currentNode.gScore + GetDistance(currentNode, neighbour);
                     if (!openNodeList.Contains(neighbour))
                         openNodeList.Add(neighbour);
 
-                    float tenative_cost = currentNode.gScore + GetDistance(currentNode, neighbour);
-                    if (tenative_cost >= neighbour.gScore)
-                        continue;
+                    else
+                    {
+                        if (tenative_cost >= neighbour.gScore)
+                            continue;
+                    }
 
-                    cameFrom.Add(neighbour);
+
+                    neighbour.parent = currentNode;
+                    //cameFrom.Add(neighbour);
                     neighbour.gScore = tenative_cost;
                     neighbour.fScore = gScore + GetDistance(neighbour, endNode);
                 }
             }
 
             //FIX this shouldn't be reached if the path is returned
-            throw new ArgumentException(message: "Path could not be created");
+            throw new ArgumentException(message: "You shouldn't see this message.");
         }
 
         //private static int GetDistance(Node currentNode, Node neighbour)
@@ -116,19 +147,28 @@ namespace jfaulkner
             return neighbourNodes;
         }
 
-        Node LowestFScore(ref List<Node> openList)
+        Node LowestFScore(List<Node> openList)
         {
             openList.OrderBy(node => node.fScore).ToList();
             return openList[0];
             //throw new System.NotImplementedException();
         }
 
-        void ReturnPath(ref List<Node> _cameFrom)
+        List<Node> ReturnPath(Node _startNode, Node _endNode)
         {
             Debug.Log("EndNode was reached and return path was triggered");
 
-            _cameFrom.Reverse();
-            list = _cameFrom;
+            List<Node> selectedPath = new List<Node>();
+            Node currentNode = _endNode;
+
+            while (currentNode != null)
+            {
+                selectedPath.Add(currentNode);
+                currentNode = currentNode.parent;
+            }
+            selectedPath.Reverse();
+
+            return selectedPath;
         }
     }
 }
