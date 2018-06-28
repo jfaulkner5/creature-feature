@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 114823129858180026}
   - component: {fileID: 114324746190723894}
   - component: {fileID: 136704318269885716}
-  - component: {fileID: 114993693711264142}
+  - component: {fileID: 114018448901759660}
   m_Layer: 0
   m_Name: Builder Agent (1)
   m_TagString: target
@@ -192,6 +192,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1146697577403752}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114018448901759660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1666513371335798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7a6caf73315f924aaa06596b028c784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 1
+  target: {fileID: 0}
+  recivedFood: 0
 --- !u!114 &114324746190723894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -260,20 +274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceHolding: 100
---- !u!114 &114993693711264142
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1666513371335798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7a6caf73315f924aaa06596b028c784, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cost: 1
-  target: {fileID: 0}
-  recivedFood: 0
 --- !u!136 &136704318269885716
 CapsuleCollider:
   m_ObjectHideFlags: 1

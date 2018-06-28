@@ -83,7 +83,7 @@ namespace EthansProject
         /// <summary>
         /// Creates the nodes in the space of the grid size.
         /// </summary>
-        public void CreateNode(Vector3 vertPoint, TerrainData data, int x, int z, bool accessableRegion, RegionData nodeRegion)
+        public void CreateNode(Vector3 vertPoint, TerrainData data, int x, int z, bool accessableRegion)
         {
             newData = data;
 
@@ -98,10 +98,10 @@ namespace EthansProject
             if (!accessableRegion)
                 walkable = false;
 
-            grid[x, z] = new PathingNode(walkable, newNodePoint, x, z, nodeRegion);
+            grid[x, z] = new PathingNode(walkable, newNodePoint, x, z);
 
             nodes.Add(grid[x, z]);
-            PathData.existingNodes.Add(grid[x, z]);
+
             // Debug.Log(grid[x, z].gridX + ", " + grid[x, z].gridY );
         }
 

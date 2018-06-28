@@ -9,8 +9,7 @@ namespace EthansProject {
         public enum GatherType
         {
             BerryGatherer,
-            WoodGatherer,
-            WarterGatherer
+            WoodGatherer
         }
         public GatherType CurrGatherType = GatherType.BerryGatherer;
         public AgentStorage Storage
@@ -29,20 +28,7 @@ namespace EthansProject {
         {
             List<ResourceSupply> sources = new List<ResourceSupply>();
 
-            switch (CurrGatherType)
-            {
-                case GatherType.BerryGatherer:
-                    sources = WorldInfo.berrySorages;
-                    break;
-                case GatherType.WoodGatherer:
-                    sources = WorldInfo.treeStorages;
-                    break;
-                case GatherType.WarterGatherer:
-                    throw new System.NotImplementedException();
-                default:
-                    break;
-            }
-
+            sources = (CurrGatherType == GatherType.BerryGatherer) ? WorldInfo.berrySorages : WorldInfo.treeStorages;
             ResourceSupply closest = null;
             float distance = Mathf.Infinity;
             Vector3 position = agent.transform.position;

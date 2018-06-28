@@ -55,11 +55,11 @@ GameObject:
   - component: {fileID: 4667535579008172}
   - component: {fileID: 114719726950284640}
   - component: {fileID: 114638064954711314}
-  - component: {fileID: 114144554058305502}
-  - component: {fileID: 114950950684529050}
   - component: {fileID: 114107277392626936}
   - component: {fileID: 136104160528413104}
   - component: {fileID: 114549844020058594}
+  - component: {fileID: 114030609254698066}
+  - component: {fileID: 114652616445472398}
   m_Layer: 0
   m_Name: Berry Gatherer Agent (1)
   m_TagString: target
@@ -192,6 +192,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1616341356844378}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114030609254698066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1669637544625704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5347aaced45459d4aac9016a9e06d35f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 1
+  target: {fileID: 0}
+  droppedOffResource: 0
+  CurrGatherType: 0
 --- !u!114 &114107277392626936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,21 +225,6 @@ MonoBehaviour:
   currentHungerLevel: 100
   foodNeededLevel: 20
   needFood: 0
---- !u!114 &114144554058305502
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1669637544625704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2c1ee742c7da4546bea88266b42a223, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cost: 1
-  target: {fileID: 0}
-  CurrGatherType: 0
-  hasBerries: 0
 --- !u!114 &114549844020058594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -250,6 +250,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9d4cf6c4e86d544b91a9940675d13e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114652616445472398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1669637544625704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79b17b8bd8665dd4d9dcf1d2c990062f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 1
+  target: {fileID: 0}
+  CurrGatherType: 0
+  hasBerries: 0
 --- !u!114 &114719726950284640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -262,21 +277,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceHolding: 0
---- !u!114 &114950950684529050
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1669637544625704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99bd64a1105110742a1852e19e580657, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cost: 1
-  target: {fileID: 0}
-  droppedOffResource: 0
-  CurrGatherType: 0
 --- !u!136 &136104160528413104
 CapsuleCollider:
   m_ObjectHideFlags: 1

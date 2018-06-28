@@ -1201,7 +1201,7 @@ MonoBehaviour:
   ResourceType: 0
   regrowthRate: 60
   currentRate: 0
-  InitCount: 10
+  InitCount: 15
   currentCount: 0
   randomnessPercent: 10
   hasResource: 1

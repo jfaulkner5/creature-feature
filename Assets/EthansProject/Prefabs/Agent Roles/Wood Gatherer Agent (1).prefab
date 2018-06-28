@@ -38,11 +38,11 @@ GameObject:
   - component: {fileID: 4076145469740324}
   - component: {fileID: 114440149277647154}
   - component: {fileID: 114342844123822496}
-  - component: {fileID: 114575708238576484}
-  - component: {fileID: 114744793689117830}
   - component: {fileID: 114165123549929482}
   - component: {fileID: 136232037949475400}
   - component: {fileID: 114890037723474898}
+  - component: {fileID: 114856620148401742}
+  - component: {fileID: 114998961221126948}
   m_Layer: 0
   m_Name: Wood Gatherer Agent (1)
   m_TagString: target
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceHolding: 0
---- !u!114 &114575708238576484
+--- !u!114 &114856620148401742
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -241,22 +241,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1393159331951010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2c1ee742c7da4546bea88266b42a223, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cost: 1
-  target: {fileID: 0}
-  CurrGatherType: 1
-  hasBerries: 0
---- !u!114 &114744793689117830
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1393159331951010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99bd64a1105110742a1852e19e580657, type: 3}
+  m_Script: {fileID: 11500000, guid: 5347aaced45459d4aac9016a9e06d35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 1
@@ -277,6 +262,21 @@ MonoBehaviour:
   cost: 1
   target: {fileID: 0}
   recivedFood: 0
+--- !u!114 &114998961221126948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1393159331951010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79b17b8bd8665dd4d9dcf1d2c990062f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 1
+  target: {fileID: 0}
+  CurrGatherType: 1
+  hasBerries: 0
 --- !u!136 &136232037949475400
 CapsuleCollider:
   m_ObjectHideFlags: 1

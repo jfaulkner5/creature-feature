@@ -25,7 +25,6 @@ namespace EthansProject
 
         public void StoreResource(int _amount)
         {
-
             resourceCount += _amount;
         }
 
@@ -62,9 +61,11 @@ namespace EthansProject
             switch (storageType)
             {
                 case StorageTypes.BerryStorage:
+                    WorldInfo.globalBerryAmount = this.resourceCount;
                     WorldInfo.berrySorages.Add(this);
                     break;
                 case StorageTypes.WoodStorage:
+                    WorldInfo.globalLogsAmount = this.resourceCount;
                     WorldInfo.treeStorages.Add(this);
                     break;
                 default:

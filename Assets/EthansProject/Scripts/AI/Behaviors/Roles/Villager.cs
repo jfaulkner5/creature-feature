@@ -16,6 +16,8 @@ namespace EthansProject
         public float foodNeededLevel = 20; // nice naming dickhead
         float apattiteLevel;
         public bool needFood;
+
+
         public HashSet<KeyValuePair<string, object>> goal = new HashSet<KeyValuePair<string, object>>();
 
         //TODO: temp...
@@ -29,7 +31,9 @@ namespace EthansProject
         void Start()
         {
             currentHungerLevel = hungerCap;
+           
             apattiteLevel = Random.Range(0.8f, 1.2f);
+            WorldInfo.glogalApititeConsumtionthing += apattiteLevel;
         }
 
         // Update is called once per frame
@@ -61,9 +65,10 @@ namespace EthansProject
         public HashSet<KeyValuePair<string, object>> GetWorldState()
         {
             HashSet<KeyValuePair<string, object>> worldData = new HashSet<KeyValuePair<string, object>>();
-            worldData.Add(new KeyValuePair<string, object>("hasResource", ((Storage.resourceHolding > 0))));
-            worldData.Add(new KeyValuePair<string, object>("expandNeeded", ((WorldInfo.filledStorage.Count > 0))));
-            worldData.Add(new KeyValuePair<string, object>("needsFood", true));
+            worldData.Add(new KeyValuePair<string, object>("hasResource", (Storage.resourceHolding > 0)));
+            worldData.Add(new KeyValuePair<string, object>("expandNeeded", (WorldInfo.filledStorage.Count > 0)));
+            worldData.Add(new KeyValuePair<string, object>("dontDieOfHunger", needFood));
+            worldData.Add(new KeyValuePair<string, object>("needsFood", needFood));
             // maybe add here a, resource needed thing?!?
 
             return worldData;

@@ -8,10 +8,12 @@ public class Builder : Villager
 
         public override HashSet<KeyValuePair<string, object>> CreateGoalState()
         {
-            HashSet<KeyValuePair<string, object>> goal = new HashSet<KeyValuePair<string, object>>();
+            goal.Clear();
 
-            goal.Add(new KeyValuePair<string, object>("expandStorage", true));
-            goal.Add(new KeyValuePair<string, object>("stayFull", false));
+            if (needFood)
+                goal.Add(new KeyValuePair<string, object>("dontDieOfHunger", needFood));
+            else
+                goal.Add(new KeyValuePair<string, object>("expandStorage", (WorldInfo.filledStorage.Count > 0)));
             return goal;
         }
     }

@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-
 namespace EthansProject
 {
     public class GatherResourceAction : GOAPAction
@@ -9,14 +7,32 @@ namespace EthansProject
         public enum GatherType
         {
             BerryGatherer,
-            WoodGatherer,
-            WarterGatherer
+            WoodGatherer
         }
-
         public GatherType CurrGatherType = GatherType.BerryGatherer;
         public bool hasBerries = false;
         Resource targetBerryResource;
 
+        /// <summary>
+        /// YIKES what am i doing...
+        /// </summary>
+        void Add()
+        {
+            switch (CurrGatherType)
+            {
+                case GatherType.BerryGatherer:
+                    WorldInfo.berryGatherers.Add(GetComponent<Gatherer>());
+                    WorldInfo.woodGatherers.Remove(GetComponent<Gatherer>());
+
+                    break;
+                case GatherType.WoodGatherer:
+                    WorldInfo.berryGatherers.Remove(GetComponent<Gatherer>());
+                    WorldInfo.woodGatherers.Add(GetComponent<Gatherer>());
+                    break;
+                default:
+                    break;
+            }
+        }
 
         public AgentStorage Storage
         {
@@ -33,20 +49,8 @@ namespace EthansProject
         public override bool CheckProcPreconditions(GameObject agent)
         {
             List<Resource> sources = new List<Resource>();
-
-            switch (CurrGatherType)
-            {
-                case GatherType.BerryGatherer:
-                    sources = WorldInfo.berryBushes;
-                    break;
-                case GatherType.WoodGatherer:
-                    sources = WorldInfo.trees;
-                    break;
-                case GatherType.WarterGatherer:
-                    throw new System.NotImplementedException();
-                default:
-                    break;
-            }
+            Add();
+            sources = (CurrGatherType == GatherType.BerryGatherer) ? WorldInfo.berryBushes : WorldInfo.trees;
             GameObject closest = null;
             float distance = Mathf.Infinity;
             Vector3 position = agent.transform.position;
@@ -56,7 +60,6 @@ namespace EthansProject
                 Debug.LogError("No resource for " + gameObject.name);
             }
 
-
             foreach (Resource source in sources)
             {
                 Resource bBush = source.GetComponent<Resource>();
@@ -65,7 +68,6 @@ namespace EthansProject
                     UnityEngine.Debug.LogWarning("Resource " + source.name + " did not have the script");
                     continue;
                 }
-                              
 
                 Vector3 diff = source.transform.position - position;
                 float curDistance = diff.sqrMagnitude;

@@ -17,6 +17,7 @@ namespace EthansProject
         {
             AddPrecondition("hasResource", true);
             AddPrecondition("expandNeeded", true);
+            AddPrecondition("dontDieOfHunger", false);
             AddEffect("hasResource", false);
             AddEffect("expandStorage", true);
         }
