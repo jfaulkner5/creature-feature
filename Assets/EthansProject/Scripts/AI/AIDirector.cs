@@ -33,6 +33,7 @@ namespace EthansProject
         {
             avgDist = 0;
             avgSpeed = 0;
+            averageNumberOfBerrysGathered = 0;
             //Goes and adds all the distancese to all bushes from the storage
             foreach (var berrys in WorldInfo.berryBushes)
             {
@@ -53,12 +54,12 @@ namespace EthansProject
             // calculates the average gather time by using the avgerage distance divided by the average speed times 2 to factor in the return.
             averageNumberOfBerrysGathered /= averageGatherTime = (avgDist / avgSpeed) * 2;
 
-            if (averageNumberOfBerrysGathered < (averageConsumtionTime * 0.75f))
+            if (averageNumberOfBerrysGathered > (averageConsumtionTime))
             {
                 int randomWoodGatherer = Random.Range(0, WorldInfo.woodGatherers.Count);
                 WorldInfo.woodGatherers[randomWoodGatherer].GetActions();
                 RunCheck();
-            }else if (averageNumberOfBerrysGathered > (averageConsumtionTime * 1.25f))
+            }else if (averageNumberOfBerrysGathered < (averageConsumtionTime * 1.25f))
             {
                 int randomBerryGatherer = Random.Range(0, WorldInfo.berryGatherers.Count);
                 WorldInfo.berryGatherers[randomBerryGatherer].GetActions();
