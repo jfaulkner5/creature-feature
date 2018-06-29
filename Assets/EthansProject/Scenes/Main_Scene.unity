@@ -52,7 +52,7 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
+    m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 10
@@ -273,8 +273,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 518399639}
+  - component: {fileID: 518399640}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: AI Director
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -293,6 +294,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &518399640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 518399638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86abc0e8fffd1f94684efca2e597ef5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalBerryAmount: 0
+  globalLogsAmount: 0
+  globalBerryGatherers: 0
+  globalWoodGatherers: 0
+  avgDist: 0
+  avgSpeed: 0
+  averageGatherTime: 0
+  averageConsumtionTime: 1
+  averageNumberOfBerrysGathered: 15
+  checkUpTick: 1
 --- !u!1 &1070189148
 GameObject:
   m_ObjectHideFlags: 0

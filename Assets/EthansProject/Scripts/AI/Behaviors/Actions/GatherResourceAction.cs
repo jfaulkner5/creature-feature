@@ -13,6 +13,11 @@ namespace EthansProject
         public bool hasBerries = false;
         Resource targetBerryResource;
 
+
+        private void Start()
+        {
+            Add();
+        }
         /// <summary>
         /// YIKES what am i doing...
         /// </summary>
@@ -21,18 +26,43 @@ namespace EthansProject
             switch (CurrGatherType)
             {
                 case GatherType.BerryGatherer:
+                   if(!WorldInfo.berryGatherers.Contains(GetComponent<Gatherer>()))
                     WorldInfo.berryGatherers.Add(GetComponent<Gatherer>());
-                    WorldInfo.woodGatherers.Remove(GetComponent<Gatherer>());
+
+                    if (WorldInfo.woodGatherers.Contains(GetComponent<Gatherer>()))
+                        WorldInfo.woodGatherers.Remove(GetComponent<Gatherer>());
 
                     break;
                 case GatherType.WoodGatherer:
-                    WorldInfo.berryGatherers.Remove(GetComponent<Gatherer>());
-                    WorldInfo.woodGatherers.Add(GetComponent<Gatherer>());
+                    if (WorldInfo.berryGatherers.Contains(GetComponent<Gatherer>()))
+                        WorldInfo.berryGatherers.Remove(GetComponent<Gatherer>());
+
+                    if (!WorldInfo.woodGatherers.Contains(GetComponent<Gatherer>()))
+                        WorldInfo.woodGatherers.Add(GetComponent<Gatherer>());
                     break;
                 default:
                     break;
             }
         }
+
+
+        public void SwitchRoles()
+        {
+            switch (CurrGatherType)
+            {
+                case GatherType.BerryGatherer:
+                    CurrGatherType = GatherType.WoodGatherer;
+                    Add();
+                    break;
+                case GatherType.WoodGatherer:
+                    CurrGatherType = GatherType.BerryGatherer;
+                    Add();
+                    break;
+                default:
+                    break;
+            }
+        }
+             
 
         public AgentStorage Storage
         {

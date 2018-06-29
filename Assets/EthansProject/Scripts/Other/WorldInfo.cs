@@ -14,8 +14,8 @@ namespace EthansProject {
 
         public static int globalBerryAmount, globalLogsAmount;
         public static float glogalApititeConsumtionthing;
-        public static HashSet<Gatherer> berryGatherers = new HashSet<Gatherer>();
+        public static List<Gatherer> berryGatherers = new List<Gatherer>();
 
-        public static HashSet<Gatherer> woodGatherers = new HashSet<Gatherer>();
+        public static List<Gatherer> woodGatherers = new List<Gatherer>();
     }
 }

@@ -24,6 +24,24 @@ namespace EthansProject {
             AddEffect("collectResource", true);
         }
 
+        public void SwitchRoles()
+        {
+            Debug.Log(gameObject.name + " is now switching roles");
+            switch (CurrGatherType)
+            {
+                case GatherType.BerryGatherer:
+                    CurrGatherType = GatherType.WoodGatherer;
+                   
+                    break;
+                case GatherType.WoodGatherer:
+                    CurrGatherType = GatherType.BerryGatherer;
+               
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public override bool CheckProcPreconditions(GameObject agent)
         {
             List<ResourceSupply> sources = new List<ResourceSupply>();

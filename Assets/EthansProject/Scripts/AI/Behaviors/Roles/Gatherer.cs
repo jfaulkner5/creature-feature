@@ -9,7 +9,11 @@ namespace EthansProject
     public class Gatherer : Villager
     {
 
-
+        public void GetActions()
+        {
+            GetComponent<GatherResourceAction>().SwitchRoles();
+            GetComponent<StoreResourceAction>().SwitchRoles();
+        }
 
         
         public override HashSet<KeyValuePair<string, object>> CreateGoalState()
