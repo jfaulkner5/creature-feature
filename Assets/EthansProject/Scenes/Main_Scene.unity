@@ -312,9 +312,9 @@ MonoBehaviour:
   avgDist: 0
   avgSpeed: 0
   averageGatherTime: 0
-  averageConsumtionTime: 1
+  averageConsumptionTime: 1
   averageNumberOfBerrysGathered: 15
-  checkUpTick: 1
+  checkUpTick: 0.2
 --- !u!1 &1070189148
 GameObject:
   m_ObjectHideFlags: 0

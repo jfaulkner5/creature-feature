@@ -224,6 +224,7 @@ MonoBehaviour:
   hungerCap: 100
   currentHungerLevel: 100
   foodNeededLevel: 20
+  appetiteLevel: 0.5
   needFood: 0
 --- !u!114 &114549844020058594
 MonoBehaviour:

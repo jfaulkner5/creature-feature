@@ -34,6 +34,7 @@ namespace EthansProject
             avgDist = 0;
             avgSpeed = 0;
             averageNumberOfBerrysGathered = 0;
+
             //Goes and adds all the distancese to all bushes from the storage
             foreach (var berrys in WorldInfo.berryBushes)
             {
@@ -49,17 +50,25 @@ namespace EthansProject
                 avgSpeed += item.moveSpeed;
             }
 
-            avgSpeed /= WorldInfo.berryGatherers.Count;
 
-            // calculates the average gather time by using the avgerage distance divided by the average speed times 2 to factor in the return.
-            averageNumberOfBerrysGathered /= averageGatherTime = (avgDist / avgSpeed) * 2;
+            if (WorldInfo.berryGatherers.Count > 0)
+            {
+                avgSpeed /= WorldInfo.berryGatherers.Count;
+                // calculates the average gather time by using the avgerage distance divided by the average speed times 2 to factor in the return.
+                averageNumberOfBerrysGathered /= averageGatherTime = (avgDist / avgSpeed) * 2;
+            }
+            else
+                avgSpeed = averageNumberOfBerrysGathered = averageGatherTime = 0;
 
-            if (averageNumberOfBerrysGathered > (averageConsumtionTime))
+            Debug.LogError(averageNumberOfBerrysGathered + " vs " + WorldInfo.glogalApititeConsumtionthing);
+
+            if (averageNumberOfBerrysGathered < (WorldInfo.glogalApititeConsumtionthing) && WorldInfo.woodGatherers.Count > 0)
             {
                 int randomWoodGatherer = Random.Range(0, WorldInfo.woodGatherers.Count);
                 WorldInfo.woodGatherers[randomWoodGatherer].GetActions();
                 RunCheck();
-            }else if (averageNumberOfBerrysGathered < (averageConsumtionTime * 1.25f))
+            }
+            else if (averageNumberOfBerrysGathered > (WorldInfo.glogalApititeConsumtionthing * 1.2f) && WorldInfo.berryGatherers.Count > 0)
             {
                 int randomBerryGatherer = Random.Range(0, WorldInfo.berryGatherers.Count);
                 WorldInfo.berryGatherers[randomBerryGatherer].GetActions();

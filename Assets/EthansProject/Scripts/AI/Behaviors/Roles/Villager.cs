@@ -14,7 +14,7 @@ namespace EthansProject
         public float hungerCap = 100;
         public float currentHungerLevel = 100;
         public float foodNeededLevel = 20; // nice naming dickhead
-        float apattiteLevel;
+        public float appetiteLevel;
         public bool needFood;
 
 
@@ -32,15 +32,15 @@ namespace EthansProject
         {
             currentHungerLevel = hungerCap;
            
-            apattiteLevel = Random.Range(0.8f, 1.2f);
-            WorldInfo.glogalApititeConsumtionthing += apattiteLevel;
+            appetiteLevel *= Random.Range(0.8f, 1.2f);
+            WorldInfo.glogalApititeConsumtionthing += appetiteLevel;
         }
 
         // Update is called once per frame
         void Update()
         {
             if (currentHungerLevel > 0)
-                currentHungerLevel -= Time.deltaTime * apattiteLevel;
+                currentHungerLevel -= Time.deltaTime * appetiteLevel;
             else
                 Destroy(gameObject);
 
