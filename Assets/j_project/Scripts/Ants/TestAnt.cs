@@ -20,18 +20,43 @@ namespace jfaulkner
         List<Node> desiredPath;
         Node currentNode;
         float stopDistance;
+        int currentNodeIndex;
 
-        // Use this for initialization
+
         void Start()
         {
             stopDistance = 0.2f;
+            currentNodeIndex = 0;
+
+            TestTravel();
+
+        }
+
+        public void OnDrawGizmosSelected()
+        {
+            if (desiredPath != null)
+            {
+                foreach (Node node in desiredPath)
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(node.worldPos, (GameManager.Instance.myPathGrid.nodeRad));
+                }
+            }
+            else
+            {
+                Debug.Log("levelGrid is null");
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
-            TestTravel();
+            BehaviourDecide();
 
+        }
+
+        public void BehaviourDecide()
+        {
             switch (antState)
             {
                 case AntState.Search:
@@ -69,19 +94,31 @@ namespace jfaulkner
 
         public void Travel()
         {
-            currentNode = desiredPath[0];
-            int currentNodeIndex = 0;
+
+            if (IsStillTravelling() && desiredPath != null)
+                return;
+
+            currentNode = desiredPath[currentNodeIndex];
             while (currentNode != desiredPath[desiredPath.Count - 1])
             {
                 Vector3.MoveTowards(transform.position, currentNode.worldPos, Time.deltaTime);
                 if (Vector3.Distance(transform.position, currentNode.worldPos) <= stopDistance)
                 {
                     currentNodeIndex++;
-                    currentNode = desiredPath[currentNodeIndex];
                 }
 
             }
-            throw new System.ArgumentException("Reached desired path");
+
+        }
+
+        public bool IsStillTravelling()
+        {
+            if (Vector3.Distance(transform.position, currentNode.worldPos) <= stopDistance)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
     }
