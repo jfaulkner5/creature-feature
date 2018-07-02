@@ -66,7 +66,10 @@ namespace jfaulkner
 
         }
 
-        private void OnDrawGizmos()
+        /// <summary>
+        /// Drawing the level grid for Debug purposes
+        /// </summary>
+        private void OnDrawGizmosSelected()
         {
             if (levelGrid != null)
             {
@@ -117,22 +120,20 @@ namespace jfaulkner
             return myPathFinding.FindPath(_startPos, _endPos);
         }
 
-        //TODO De-spaghetti
-        //URGENT returns the same number regardless
+        /// <summary>
+        /// returns a Node that corresponds to a world posistion
+        /// </summary>
+        /// <param name="worldPoint"></param>
+        /// <returns></returns>
         public Node ConvertFromWorldPoint(Vector3 worldPoint)
         {
-            float posX = (worldPoint.x - /*transform.position.x*/ +myPathGrid.gridWorldSize.x / 2) / myPathGrid.gridWorldSize.x;
-            float posY = (worldPoint.z - /*transform.position.z*/ +myPathGrid.gridWorldSize.y / 2) / myPathGrid.gridWorldSize.y;
-            posX = Mathf.Clamp01(posX);
-            posY = Mathf.Clamp01(posY);
-
-            int x = Mathf.RoundToInt((myPathGrid.gridSize - 1) * posX);
-            int y = Mathf.RoundToInt((myPathGrid.gridSize - 1) * posY);
+            Vector3 _nodepoint = (worldPoint - myPathGrid.worldBotLeft);// / (myPathGrid.nodeDiam + myPathGrid.nodeRad);
+            int x = Mathf.RoundToInt((_nodepoint.x - myPathGrid.nodeRad) / myPathGrid.nodeDiam);
+            int y = Mathf.RoundToInt((_nodepoint.z - myPathGrid.nodeRad) / myPathGrid.nodeDiam);
 
             return levelGrid[x, y];
+
         }
 
     }
-
-
 }
