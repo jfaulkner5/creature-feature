@@ -44,7 +44,7 @@ namespace jfaulkner
             }
             else
             {
-                Debug.Log("levelGrid is null");
+                //Debug.Log("levelGrid is null");
             }
         }
 
@@ -85,7 +85,8 @@ namespace jfaulkner
         public void TestTravel()
         {
 
-            Node _startNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
+            //Node _startNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
+            Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
             Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
 
             desiredPath = GameManager.Instance.FindPath(_startNode, _endNode);
@@ -100,6 +101,8 @@ namespace jfaulkner
             if (currentNode != null && desiredPath != null && IsStillTravelling())
                 return;
 
+                if(currentNode == null)
+                  SetNewPath();
             //while (currentNode != null)
             {
                 transform.position = Vector3.MoveTowards(transform.position, currentNode.worldPos, Time.deltaTime);
@@ -109,6 +112,8 @@ namespace jfaulkner
                     if (currentNodeIndex >= desiredPath.Count)
                     {
                         currentNode = null;
+                        //URGENT doesn't seem to fire properly
+                        //SetNewPath();
                     }
                     else
                     {
@@ -118,6 +123,19 @@ namespace jfaulkner
 
             }
 
+        }
+
+        /// <summary>
+        /// Attempt to reset path when it ends for "hive behaviour" until other features implemented
+        /// </summary>
+        public void SetNewPath()
+        {
+            Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
+            Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
+
+            desiredPath = GameManager.Instance.FindPath(_startNode, _endNode);
+            currentNodeIndex = 0;
+            currentNode = desiredPath[currentNodeIndex];
         }
 
         public bool IsStillTravelling()
