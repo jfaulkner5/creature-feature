@@ -150,8 +150,8 @@ namespace jfaulkner
 
         Node LowestFScore(List<Node> openList)
         {
-            openList.OrderBy(node => node.fScore).ToList();
-            return openList[0];
+            return openList.OrderBy(node => node.fScore).ToList()[0];
+            //return openList[0];
             //throw new System.NotImplementedException();
         }
 

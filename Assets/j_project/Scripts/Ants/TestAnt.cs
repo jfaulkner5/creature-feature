@@ -89,22 +89,31 @@ namespace jfaulkner
             Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
 
             desiredPath = GameManager.Instance.FindPath(_startNode, _endNode);
+            currentNodeIndex = 0;
+            currentNode = desiredPath[currentNodeIndex];
             antState = AntState.Travel;
         }
 
         public void Travel()
         {
 
-            if (IsStillTravelling() && desiredPath != null)
+            if (currentNode != null && desiredPath != null && IsStillTravelling())
                 return;
 
-            currentNode = desiredPath[currentNodeIndex];
-            while (currentNode != desiredPath[desiredPath.Count - 1])
+            //while (currentNode != null)
             {
-                Vector3.MoveTowards(transform.position, currentNode.worldPos, Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, currentNode.worldPos, Time.deltaTime);
                 if (Vector3.Distance(transform.position, currentNode.worldPos) <= stopDistance)
                 {
                     currentNodeIndex++;
+                    if (currentNodeIndex >= desiredPath.Count)
+                    {
+                        currentNode = null;
+                    }
+                    else
+                    {
+                        currentNode = desiredPath[currentNodeIndex];
+                    }
                 }
 
             }
@@ -113,6 +122,7 @@ namespace jfaulkner
 
         public bool IsStillTravelling()
         {
+
             if (Vector3.Distance(transform.position, currentNode.worldPos) <= stopDistance)
             {
                 return true;
