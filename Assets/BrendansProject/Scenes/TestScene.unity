@@ -204,6 +204,26 @@ Prefab:
       propertyPath: maxZombies
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: minHumans
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: maxHumans
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: mapDimensions.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: mapDimensions.y
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6c10faf3891066d41b61dfeb807ec73a, type: 2}
   m_IsPrefabParent: 0
@@ -245,6 +265,11 @@ Prefab:
     - target: {fileID: 4197712487717188, guid: 8eaf68657644b9e4d942754fcb2d470a, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114691232093422204, guid: 8eaf68657644b9e4d942754fcb2d470a,
+        type: 2}
+      propertyPath: nodeRadius
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8eaf68657644b9e4d942754fcb2d470a, type: 2}

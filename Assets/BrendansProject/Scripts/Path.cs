@@ -69,7 +69,7 @@ namespace BrendansProject
             Gizmos.color = Color.black;
             foreach (Vector3 p in lookPoints)
             {
-                Gizmos.DrawCube(p + Vector3.up, Vector3.one);
+                Gizmos.DrawCube(p + Vector3.up, Vector3.one * 0.25f);//* (nodeGrid.nodeDiameter)
             }
 
             Gizmos.color = Color.white;

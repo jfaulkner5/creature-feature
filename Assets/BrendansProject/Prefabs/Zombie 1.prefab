@@ -1007,6 +1007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
+  targetRot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &114185558784331144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1018,11 +1019,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73dbe9c5a03f75941b120b0d3eb81970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPos: {x: 0, y: 0, z: 0}
+  targetRot: {x: 0, y: 0, z: 0, w: 0}
   target: {fileID: 0}
   speed: 3
   turnSpeed: 5
   turnDst: 1
-  stoppingDst: 0
+  stoppingDst: 1
 --- !u!137 &137271406179460798
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

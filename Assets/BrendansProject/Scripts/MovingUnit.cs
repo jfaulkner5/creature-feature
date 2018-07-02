@@ -14,10 +14,10 @@ namespace BrendansProject
         const float pathUpdateMoveThreshold = .5f;
 
         public Transform target;
-        public float speed = 20;
-        public float turnSpeed = 3;
-        public float turnDst = 5;
-        public float stoppingDst = 10;
+        public float speed = 3;
+        public float turnSpeed = 5;
+        public float turnDst = 1;
+        public float stoppingDst = 1;
 
         Path path;
 
@@ -85,22 +85,23 @@ namespace BrendansProject
 
 
             // Check if target is a building then goto targetPos instead of target.position
-            Vector3 _targetPos;
+            //Vector3 _targetPos;
 
-            if (target.gameObject.CompareTag("Building"))
-            {
-                _targetPos = target.gameObject.GetComponent<Unit>().targetPos;
-            }
-            else
-            {
-                _targetPos = target.position;
-            }
+            //if (target.gameObject.CompareTag("Building"))
+            //{
+            //    _targetPos = target.gameObject.GetComponent<Unit>().targetPos;
+            //}
+            //else
+            //{
+            //    _targetPos = target.position;
+            //}
 
-            PathRequestManager.RequestPath(new PathRequest(transform.position, _targetPos, OnPathFound));
-
+            //PathRequestManager.RequestPath(new PathRequest(transform.position, _targetPos, OnPathFound));
+            PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
 
             float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
-            Vector3 targetPosOld = _targetPos;
+            //Vector3 targetPosOld = _targetPos;
+            Vector3 targetPosOld = target.position;
 
 
             //TODO check for a building change targetpos instead of target.position
@@ -111,7 +112,8 @@ namespace BrendansProject
                 if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
                 {
                     PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
-                    targetPosOld = _targetPos;
+                    //targetPosOld = _targetPos;
+                    targetPosOld = target.position;
                 }
             }
         }
@@ -122,64 +124,12 @@ namespace BrendansProject
         /// Moves the unit along the path using lines for smoother pathing.
         /// </summary>
         /// <returns></returns>
-        //IEnumerator FollowPath()
-        //{
-
-        //    bool followingPath = true; // Tracks if the unit is following the path
-        //    int pathIndex = 0;
-        //    transform.LookAt(path.lookPoints[0]); // Face the first lookpoint
-
-        //    float speedPercent = 1;
-
-        //    while (followingPath)
-        //    {
-        //        Vector2 pos2D = new Vector2(transform.position.x, transform.position.z);
-        //        while (path.turnBoundaries[pathIndex].HasCrossedLine(pos2D))
-        //        {
-        //            if (pathIndex == path.finishLineIndex)
-        //            {
-        //                followingPath = false;
-        //                break;
-        //            }
-        //            else
-        //            {
-        //                pathIndex++;
-        //            }
-        //        }
-
-        //        if (followingPath)
-        //        {
-
-        //            if (pathIndex >= path.slowDownIndex && stoppingDst > 0)
-        //            {
-        //                speedPercent = Mathf.Clamp01(path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(pos2D) / stoppingDst);
-        //                if (speedPercent < 0.01f)
-        //                {
-        //                    followingPath = false;
-        //                }
-        //            }
-
-        //            Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
-        //            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed); // Rotate unit
-        //            transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self); // Move unit forward
-        //        }
-
-
-
-        //        yield return null;
-
-        //    }
-        //    // When arrave at last node do final checks
-        //    transform.LookAt(target);
-        //    //print("at final location");
-        //}
-
         IEnumerator FollowPath()
         {
 
-            bool followingPath = true;
+            bool followingPath = true; // Tracks if the unit is following the path
             int pathIndex = 0;
-            transform.LookAt(path.lookPoints[0]);
+            transform.LookAt(path.lookPoints[0]); // Face the first lookpoint
 
             float speedPercent = 1;
 
@@ -212,13 +162,18 @@ namespace BrendansProject
                     }
 
                     Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-                    transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed); // Rotate unit
+                    transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self); // Move unit forward
                 }
+
+
 
                 yield return null;
 
             }
+            // When arrave at last node do final checks
+            //transform.LookAt(target);
+            //print("at final location");
         }
 
         /// <summary>

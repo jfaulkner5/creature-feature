@@ -40,8 +40,17 @@ namespace BrendansProject
             Node targetNode = nodeGrid.NodeFromWorldPoint(request.pathEnd);
             startNode.parent = startNode;
 
+            // TODO check for a walkable node
+            if (!startNode.walkable)
+            {
+                print("Finding new start node");
+                startNode = nodeGrid.GetClosestWalkable(startNode);
+                //transform.position = startNode.worldPosition;
+            }
+
+
             // Loop through nodes to determine best path
-            if (startNode.walkable)// && targetNode.walkable)
+            if (startNode.walkable && targetNode.walkable)
             {
                 Heap<Node> openSet = new Heap<Node>(nodeGrid.MaxSize); // Heap(List) of possible nodes to travel
                 HashSet<Node> closedSet = new HashSet<Node>(); // List of nodes to ignore
@@ -85,6 +94,14 @@ namespace BrendansProject
                         }
                     }
                 }
+            }
+            else if (!startNode.walkable)
+            {
+                print("Start node not walkable");
+            }
+            else if (!targetNode.walkable)
+            {
+                print("Target node not walkable");
             }
 
 
