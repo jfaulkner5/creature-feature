@@ -23,7 +23,7 @@ namespace jfaulkner
         public GameObject _gameObject;
         Vector3 testMin;
         //Vector3 testCenter;
-        Vector3 worldBotLeft;
+        public Vector3 worldBotLeft;
 
 
         public void RunSetup()

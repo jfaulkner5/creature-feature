@@ -40,25 +40,9 @@ namespace jfaulkner
 
         public List<Node> FindPath(Node startNode, Node endNode)
         {
-
-            //switch (currentFinderState)
-            //{
-            //    case PathFindStates.StartNode:
-            //        break;
-            //    case PathFindStates.Auxiliary:
-            //        break;
-            //    case PathFindStates.GetNeighbours:
-            //        break;
-            //    case PathFindStates.EndNode:
-            //        break;
-            //    case PathFindStates.ReturnPath:
-            //        break;
-            //    default:
-            //        break;
-            //}
-
-            //URGENT put a reset for all node data in grid
-
+            //initial clean up to make sure there isn't extra data messing up new path searching
+            GameManager.Instance.myPathGrid.Cleanup();
+            
             List<Node> openNodeList = new List<Node>();
             List<Node> closedNodeList = new List<Node>();
             int gScore = 0; //NOTE setting initial gscore to zero, as there is no current cost from going between start and start.
