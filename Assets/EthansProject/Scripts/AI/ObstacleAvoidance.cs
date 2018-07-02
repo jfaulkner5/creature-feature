@@ -23,10 +23,15 @@ public class ObstacleAvoidance : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (currentObstacles.Count <= 0)
+            return;
+
+
         Vector3 avoidanceVector = CalculateSeperationVector() * avoidanceStrength;
 
-        if(currentObstacles.Count > 0)
-            agent.position += (avoidanceVector) * Time.deltaTime;
+
+        agent.position += (avoidanceVector) * Time.deltaTime;
 
         Debug.DrawLine(transform.position + Vector3.up, transform.position + Vector3.up + avoidanceVector, Color.blue);
 
@@ -38,23 +43,26 @@ public class ObstacleAvoidance : MonoBehaviour
 
         for (int i = 0; i < currentObstacles.Count; i++)
         {
-            startCenter += currentObstacles[i].gameObject.transform.position;
+
+            startCenter += agent.position - currentObstacles[i].transform.position;
         }
 
         startCenter /= currentObstacles.Count;
 
-        Vector3 seperationVector = (startCenter - transform.position);
-
-        return seperationVector.normalized;
+        return startCenter.normalized;
     }
 
-    private void OnCollisionEnter(Collision coll)
+    private void OnTriggerEnter(Collider coll)
     {
+
         if (coll.gameObject.layer == obstacleMask)
+        {
+            Debug.Log(coll.gameObject + "2");
             currentObstacles.Add(coll.gameObject);
+        }
     }
 
-    private void OnCollisionExit(Collision coll)
+    private void OnTriggerExit(Collider coll)
     {
         if (coll.gameObject.layer == obstacleMask)
             currentObstacles.Remove(coll.gameObject);

@@ -20,7 +20,7 @@ namespace EthansProject
 
         public int UpgradeCost
         {
-             get { return resourceCapacity; }
+            get { return resourceCapacity; }
         }
 
         public void StoreResource(int _amount)
@@ -29,7 +29,7 @@ namespace EthansProject
         }
 
         private void Update()
-        {            
+        {
             if (resourceCount >= resourceCapacity && !isFilled)
             {
                 isFilled = true;
@@ -45,12 +45,12 @@ namespace EthansProject
             return _amount;
         }
 
-        public void UpgradeResources ()
+        public void UpgradeResources()
         {
             resourceCapacity += Mathf.RoundToInt(resourceCapacity * upgradeScale);
 
             Debug.Log("Removed " + this.gameObject);
-       
+
             WorldInfo.filledStorage.Remove(this);
             isFilled = false;
 
@@ -62,11 +62,11 @@ namespace EthansProject
             {
                 case StorageTypes.BerryStorage:
                     WorldInfo.globalBerryAmount = this.resourceCount;
-                    WorldInfo.berrySorages.Add(this);
+                    WorldInfo.berrySorages = (this);
                     break;
                 case StorageTypes.WoodStorage:
                     WorldInfo.globalLogsAmount = this.resourceCount;
-                    WorldInfo.treeStorages.Add(this);
+                    WorldInfo.treeStorages = (this);
                     break;
                 default:
                     break;
@@ -79,14 +79,20 @@ namespace EthansProject
             switch (storageType)
             {
                 case StorageTypes.BerryStorage:
-                    WorldInfo.berrySorages.Remove(this);
+                    WorldInfo.berrySorages = (null);
                     break;
                 case StorageTypes.WoodStorage:
-                    WorldInfo.treeStorages.Remove(this);
+                    WorldInfo.treeStorages = (null);
                     break;
                 default:
                     break;
             }
+        }
+
+        public float ReturnFilledPercentage()
+        {
+            float percent = resourceCount / (float)resourceCapacity;
+            return percent;
         }
 
         private void Start()

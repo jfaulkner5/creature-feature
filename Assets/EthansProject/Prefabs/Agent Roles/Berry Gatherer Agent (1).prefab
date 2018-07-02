@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4950683117587472}
   - component: {fileID: 33165476273186754}
   - component: {fileID: 23078593542372340}
+  - component: {fileID: 114265207697234452}
+  - component: {fileID: 135882800339058702}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -60,7 +62,8 @@ GameObject:
   - component: {fileID: 114549844020058594}
   - component: {fileID: 114030609254698066}
   - component: {fileID: 114652616445472398}
-  m_Layer: 0
+  - component: {fileID: 54375617134018096}
+  m_Layer: 11
   m_Name: Berry Gatherer Agent (1)
   m_TagString: target
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
@@ -192,6 +195,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1616341356844378}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &54375617134018096
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1669637544625704}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!114 &114030609254698066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -224,8 +242,26 @@ MonoBehaviour:
   hungerCap: 100
   currentHungerLevel: 100
   foodNeededLevel: 20
-  appetiteLevel: 0.5
+  apattiteLevel: 0.3
   needFood: 0
+--- !u!114 &114265207697234452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1382193433655018}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 009806b521c10c84cb203f056c0df361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avoidRange: 8
+  avoidanceStrength: 1
+  newDir: {x: 0, y: 0, z: 0}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  currentObstacles: []
 --- !u!114 &114549844020058594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -278,6 +314,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceHolding: 0
+--- !u!135 &135882800339058702
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1382193433655018}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 3.05
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136104160528413104
 CapsuleCollider:
   m_ObjectHideFlags: 1

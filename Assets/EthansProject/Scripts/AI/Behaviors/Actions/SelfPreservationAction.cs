@@ -20,30 +20,16 @@ namespace EthansProject {
 
         public override bool CheckProcPreconditions(GameObject agent)
         {
-            List<ResourceSupply> sources = new List<ResourceSupply>();
+            ResourceSupply sources;
 
-            sources =  WorldInfo.berrySorages;
+            sources = WorldInfo.berrySorages;
             ResourceSupply closest = null;
-            float distance = Mathf.Infinity;
+          
             Vector3 position = agent.transform.position;
 
-            if (sources.Count == 0)
-            {
-                Debug.LogError("No resource for " + gameObject.name);
-            }
 
-
-            foreach (ResourceSupply source in sources)
-            {
-                Vector3 diff = source.transform.position - position;
-                float curDistance = diff.sqrMagnitude;
-
-                if (curDistance < distance)
-                {
-                    closest = source;
-                    distance = curDistance;
-                }
-            }
+            closest = sources;
+           
             if (closest == null)
             {
                 UnityEngine.Debug.LogWarning("Resource supply not found");

@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace EthansProject {
-    public class StoreResourceAction : GOAPAction {
+namespace EthansProject
+{
+    public class StoreResourceAction : GOAPAction
+    {
 
         public bool droppedOffResource = false;
         ResourceSupply targetResourceSupply;
@@ -31,11 +33,11 @@ namespace EthansProject {
             {
                 case GatherType.BerryGatherer:
                     CurrGatherType = GatherType.WoodGatherer;
-                   
+
                     break;
                 case GatherType.WoodGatherer:
                     CurrGatherType = GatherType.BerryGatherer;
-               
+
                     break;
                 default:
                     break;
@@ -44,33 +46,14 @@ namespace EthansProject {
 
         public override bool CheckProcPreconditions(GameObject agent)
         {
-            List<ResourceSupply> sources = new List<ResourceSupply>();
+            ResourceSupply sources;
 
             sources = (CurrGatherType == GatherType.BerryGatherer) ? WorldInfo.berrySorages : WorldInfo.treeStorages;
             ResourceSupply closest = null;
-            float distance = Mathf.Infinity;
             Vector3 position = agent.transform.position;
 
-            if (sources.Count == 0)
-            {
-                Debug.LogError("No resource for " + gameObject.name);
-            }
+            closest = sources;
 
-
-            foreach (ResourceSupply source in sources)
-            {
-             
-
-               
-                Vector3 diff = source.transform.position - position;
-                float curDistance = diff.sqrMagnitude;
-
-                if (curDistance < distance)
-                {
-                    closest = source;
-                    distance = curDistance;
-                }
-            }
             if (closest == null)
             {
                 UnityEngine.Debug.LogWarning("Resource supply not found");
@@ -85,6 +68,7 @@ namespace EthansProject {
 
         public override bool IsDone()
         {
+
             return droppedOffResource;
         }
 
@@ -96,6 +80,12 @@ namespace EthansProject {
                 // targetResourceSupply.StoreResource(Storage.berriesHolding);
                 droppedOffResource = true;
                 Storage.resourceHolding = 0;
+
+                if (AIDirector.instance.RunCheck(CurrGatherType))
+                {
+                    GetComponent<Gatherer>().GetActions();
+                }
+
                 return true;
             }
             return false;

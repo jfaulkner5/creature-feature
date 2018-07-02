@@ -14,7 +14,7 @@ namespace EthansProject
         public float hungerCap = 100;
         public float currentHungerLevel = 100;
         public float foodNeededLevel = 20; // nice naming dickhead
-        public float appetiteLevel;
+        public float apattiteLevel = .2f;
         public bool needFood;
 
 
@@ -31,16 +31,16 @@ namespace EthansProject
         void Start()
         {
             currentHungerLevel = hungerCap;
-           
-            appetiteLevel *= Random.Range(0.8f, 1.2f);
-            WorldInfo.glogalApititeConsumtionthing += appetiteLevel;
+
+            // apattiteLevel *= Random.Range(0.8f, 1.2f);
+            WorldInfo.glogalApititeConsumtionthing += apattiteLevel;
         }
 
         // Update is called once per frame
         void Update()
         {
             if (currentHungerLevel > 0)
-                currentHungerLevel -= Time.deltaTime * appetiteLevel;
+                currentHungerLevel -= Time.deltaTime * apattiteLevel;
             else
                 Destroy(gameObject);
 
@@ -48,7 +48,7 @@ namespace EthansProject
                 needFood = true;
             else
                 needFood = false;
-            
+
 
         }
 
@@ -59,7 +59,7 @@ namespace EthansProject
         }
 
         public abstract HashSet<KeyValuePair<string, object>> CreateGoalState();
-     
+
 
 
         public HashSet<KeyValuePair<string, object>> GetWorldState()
