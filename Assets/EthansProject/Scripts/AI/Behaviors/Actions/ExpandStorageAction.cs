@@ -16,9 +16,11 @@ namespace EthansProject
         public ExpandStorageAction()
         {
             AddPrecondition("hasResource", true);
-            AddPrecondition("expandNeeded", true);
-            AddPrecondition("dontDieOfHunger", false);
+            AddPrecondition("expansionComplete", false);
+            AddEffect("expansionComplete", true);
+          
             AddEffect("hasResource", false);
+
             AddEffect("expandStorage", true);
         }
 

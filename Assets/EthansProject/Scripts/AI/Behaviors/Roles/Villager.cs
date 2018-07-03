@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Diagnostics;
 
 namespace EthansProject
 {
@@ -16,7 +17,7 @@ namespace EthansProject
         public float foodNeededLevel = 20; // nice naming dickhead
         public float apattiteLevel = .2f;
         public bool needFood;
-
+        public Stopwatch sw;
 
         public HashSet<KeyValuePair<string, object>> goal = new HashSet<KeyValuePair<string, object>>();
 
@@ -30,10 +31,13 @@ namespace EthansProject
         // Use this for initialization
         void Start()
         {
+            sw = new Stopwatch();
             currentHungerLevel = hungerCap;
 
-            // apattiteLevel *= Random.Range(0.8f, 1.2f);
+            apattiteLevel *= Random.Range(0.8f, 1.2f);
             WorldInfo.glogalApititeConsumtionthing += apattiteLevel;
+
+            sw.Start();
         }
 
         // Update is called once per frame
@@ -42,8 +46,11 @@ namespace EthansProject
             if (currentHungerLevel > 0)
                 currentHungerLevel -= Time.deltaTime * apattiteLevel;
             else
+            {
+        
+              UnityEngine.Debug.LogError(gameObject.name + " Just died of stavation after, " + sw.Elapsed.Minutes + " minutes, this should be very rare or never happen.");
                 Destroy(gameObject);
-
+            }
             if (currentHungerLevel <= foodNeededLevel)
                 needFood = true;
             else
@@ -160,19 +167,19 @@ namespace EthansProject
 
         public void PlanAborted(GOAPAction aborter)
         {
-            Debug.LogWarning("Plan aborted by the action: " + aborter);
+            UnityEngine.Debug.LogWarning("Plan aborted by the action: " + aborter);
 
         }
 
         public void PlanFailed(HashSet<KeyValuePair<string, object>> goal, Queue<GOAPAction> actions)
         {
-            Debug.LogWarning("Plan failed! ");
+            UnityEngine.Debug.LogWarning("Plan failed! ");
 
         }
 
         public void PlanFound(HashSet<KeyValuePair<string, object>> goal, Queue<GOAPAction> actions)
         {
-            Debug.LogWarning("Plan found!");
+            UnityEngine.Debug.LogWarning("Plan found!");
 
 
         }

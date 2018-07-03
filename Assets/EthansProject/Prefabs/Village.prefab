@@ -721,5 +721,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storageType: 0
   resourceCount: 200
-  resourceCapacity: 500
+  resourceCapacity: 600
   upgradeScale: 1.2

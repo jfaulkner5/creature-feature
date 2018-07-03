@@ -49,7 +49,7 @@ namespace EthansProject {
 
         public override bool Preform(GameObject agent)
         {
-            if (!recivedFood)
+            if (!recivedFood && targetResourceSupply.resourceCount >= AmountNeeded)
             {
                 agent.GetComponent<Villager>().currentHungerLevel += targetResourceSupply.TakeResource(Mathf.RoundToInt(AmountNeeded));
                 // targetResourceSupply.StoreResource(Storage.berriesHolding);

@@ -33,7 +33,7 @@ public class ObstacleAvoidance : MonoBehaviour
 
         agent.position += (avoidanceVector) * Time.deltaTime;
 
-        Debug.DrawLine(transform.position + Vector3.up, transform.position + Vector3.up + avoidanceVector, Color.blue);
+        Debug.DrawLine(transform.position, transform.position + avoidanceVector, Color.blue);
 
     }
 
@@ -43,8 +43,10 @@ public class ObstacleAvoidance : MonoBehaviour
 
         for (int i = 0; i < currentObstacles.Count; i++)
         {
-
+            if(currentObstacles[i])
             startCenter += agent.position - currentObstacles[i].transform.position;
+            else
+                currentObstacles.RemoveAt(i);
         }
 
         startCenter /= currentObstacles.Count;
@@ -55,17 +57,18 @@ public class ObstacleAvoidance : MonoBehaviour
     private void OnTriggerEnter(Collider coll)
     {
 
-        if (coll.gameObject.layer == obstacleMask)
+        if (coll.gameObject.CompareTag("target"))
         {
-            Debug.Log(coll.gameObject + "2");
-            currentObstacles.Add(coll.gameObject);
+           if(coll.gameObject != agent)
+                currentObstacles.Add(coll.gameObject);
         }
     }
 
     private void OnTriggerExit(Collider coll)
     {
-        if (coll.gameObject.layer == obstacleMask)
-            currentObstacles.Remove(coll.gameObject);
+        if (coll.gameObject.CompareTag("target"))
+            if (coll.gameObject != agent)
+                currentObstacles.Remove(coll.gameObject);
     }
 
 

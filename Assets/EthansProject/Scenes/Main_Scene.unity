@@ -300,7 +300,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 518399638}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86abc0e8fffd1f94684efca2e597ef5d, type: 3}
   m_Name: 
@@ -327,8 +327,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.6288223
+      value: 0.73476595
+      inSlope: -0.7117659
+      outSlope: -0.7117659
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1
-      value: 0.1
+      value: 0.2
       inSlope: -1.2082999
       outSlope: -1.2082999
       tangentMode: 0

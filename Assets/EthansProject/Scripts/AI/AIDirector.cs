@@ -60,6 +60,10 @@ namespace EthansProject
 
             // have a extra berry gatherer threshold of like 20%.
 
+            globalBerryGatherers = WorldInfo.berryGatherers.Count;
+            globalWoodGatherers = WorldInfo.woodGatherers.Count;
+
+
             if (currentRolePercent == goalRolePercent)
             {
                 return false;
@@ -132,9 +136,7 @@ namespace EthansProject
             //    WorldInfo.berryGatherers[randomBerryGatherer].GetActions();
             //}
 
-            //globalBerryGatherers = WorldInfo.berryGatherers.Count;
-            //globalWoodGatherers = WorldInfo.woodGatherers.Count;
-
+           
 
         }
 
@@ -143,14 +145,6 @@ namespace EthansProject
         //    RunCheck();
         //    yield return new WaitForSeconds(checkUpTick);
         //    StartCoroutine(CheckUp());
-        //}
-
-        // Update is called once per frame
-        void Update()
-        {
-
-
-
-        }
+        //}   
     }
 }

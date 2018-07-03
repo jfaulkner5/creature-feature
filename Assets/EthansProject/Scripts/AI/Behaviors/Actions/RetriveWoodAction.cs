@@ -21,7 +21,7 @@ namespace EthansProject
         public RetriveWoodAction()
         {
             AddPrecondition("hasResource", false);
-   
+  
             AddEffect("hasResource", true);
 
 

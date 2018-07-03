@@ -74,7 +74,8 @@ namespace EthansProject
 
         public override bool Preform(GameObject agent)
         {
-            if (!droppedOffResource && targetResourceSupply.resourceCount < targetResourceSupply.resourceCapacity)
+            //                                                            +  + Storage.resourceHolding
+            if (!droppedOffResource && (targetResourceSupply.resourceCount) < targetResourceSupply.resourceCapacity)
             {
                 targetResourceSupply.resourceCount += Storage.resourceHolding;
                 // targetResourceSupply.StoreResource(Storage.berriesHolding);

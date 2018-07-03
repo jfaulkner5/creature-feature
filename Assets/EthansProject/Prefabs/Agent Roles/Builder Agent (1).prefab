@@ -222,7 +222,8 @@ MonoBehaviour:
   atDestination: 0
   hungerCap: 100
   currentHungerLevel: 100
-  foodNeededLevel: 20
+  foodNeededLevel: 40
+  apattiteLevel: 0.2
   needFood: 0
 --- !u!114 &114333032107644384
 MonoBehaviour:
