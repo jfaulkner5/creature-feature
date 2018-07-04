@@ -13,9 +13,10 @@ namespace BrendansProject
 
         // Position an ememy will travel to instead of the actial transform position(mainly used for building and humans)
         public Vector3 targetPos;
+        [HideInInspector] public Quaternion targetRot;
 
-        public Quaternion targetRot;
 
+        // TODO move to a different class
         /// <summary>
         /// Display Red gizmo for target node
         /// </summary>

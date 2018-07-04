@@ -105,6 +105,8 @@ namespace BrendansProject
             return new Vector2(mapWidth * buildingFootprint, mapHeight * buildingFootprint);
         }
 
+
+        //TODO create smaller functions for each section.
         /// <summary>
         /// Generate city map using perlin noise.
         /// </summary>
@@ -337,7 +339,7 @@ namespace BrendansProject
                             }
 
                             // Adds to the targets list which zombies will attack
-                            //targets.Add(hit.collider.gameObject.transform);
+                            targets.Add(hit.collider.gameObject.transform);
                             forts[f] = hit.collider.gameObject;
                             fortPlaced = true;
                         }

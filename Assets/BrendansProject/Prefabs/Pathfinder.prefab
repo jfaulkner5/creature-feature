@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayGridGizmos: 0
-  nodeRadius: 0.5
+  nodeRadius: 0.25
   obstacleProximityPenalty: 50
   unwalkableMask:
     serializedVersion: 2

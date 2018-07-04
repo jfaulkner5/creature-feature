@@ -220,7 +220,7 @@ namespace BrendansProject
             foreach (GameObject fort in ProcGenerator.instance.forts)
             {
 
-                // Set target post to closest walkable nodes world pos
+                // Set target pos to closest walkable nodes world pos
                 fort.GetComponent<Unit>().targetPos = GetClosestWalkable(NodeFromWorldPoint(fort.transform.position)).worldPosition;
 
                 //ProcGenerator.instance.targets.Add(fort.transform);

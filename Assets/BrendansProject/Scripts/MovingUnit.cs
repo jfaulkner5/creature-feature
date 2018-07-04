@@ -15,18 +15,44 @@ namespace BrendansProject
 
         public Transform target;
         public float speed = 3;
-        public float turnSpeed = 5;
+        public float turnSpeed = 3;
         public float turnDst = 1;
-        public float stoppingDst = 1;
+        public float stoppingDst = 0.25f;
 
         Path path;
 
+        private bool finalLocation = false;
+        
         private void Start()
         {
             target = GetClosestEnemy(ProcGenerator.instance.targets); // Find the closest target
 
             //print(target);
             StartCoroutine(UpdatePath());
+        }
+
+
+        private void Update()
+        {
+
+            if (!finalLocation) //Leave update if not doing final rotation
+                return;
+
+
+            
+            //if (Vector3.Angle(transform.forward, target.transform.position - transform.position) > 0.1f) // Check if angle is greater than 1 degree
+            //{
+
+            //    Vector3 relativeTargetPosition = new Vector3(target.position.x, transform.position.y, target.position.z); // Prevent from looking up or down
+
+            //    Quaternion endRotation = Quaternion.LookRotation(relativeTargetPosition - transform.position);
+
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, Time.deltaTime * turnSpeed); // Rotate unit towards target
+            //    //transform.rotation = Quaternion.RotateTowards(transform.rotation, endRotation, turnSpeed);
+
+            //    //print("rotating");
+            //}
+
         }
 
         /// <summary>
@@ -71,6 +97,23 @@ namespace BrendansProject
             }
         }
 
+
+
+        private Vector3 TargetPos
+        {
+            get
+            {
+                if (target.gameObject.CompareTag("Building"))
+                {
+                    return target.gameObject.GetComponent<Unit>().targetPos;
+                }
+                else
+                {
+                    return target.position;
+                }
+            }
+        }
+
         /// <summary>
         /// Ticks through path requests so it is not being called every frame.
         /// </summary>
@@ -96,12 +139,12 @@ namespace BrendansProject
             //    _targetPos = target.position;
             //}
 
-            //PathRequestManager.RequestPath(new PathRequest(transform.position, _targetPos, OnPathFound));
-            PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
+            PathRequestManager.RequestPath(new PathRequest(transform.position, TargetPos, OnPathFound));
+            //PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
 
             float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
-            //Vector3 targetPosOld = _targetPos;
-            Vector3 targetPosOld = target.position;
+            Vector3 targetPosOld = TargetPos;
+            //Vector3 targetPosOld = target.position;
 
 
             //TODO check for a building change targetpos instead of target.position
@@ -109,17 +152,19 @@ namespace BrendansProject
             {
                 yield return new WaitForSeconds(minPathUpdateTime);
                 //print(((target.position - targetPosOld).sqrMagnitude) + "    " + sqrMoveThreshold); //Used to debug location
-                if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
+
+
+                if ((TargetPos - targetPosOld).sqrMagnitude > sqrMoveThreshold)
+                //if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
                 {
-                    PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
-                    //targetPosOld = _targetPos;
-                    targetPosOld = target.position;
+                    //PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
+                    PathRequestManager.RequestPath(new PathRequest(transform.position, TargetPos, OnPathFound));
+                    targetPosOld = TargetPos;
+                    //targetPosOld = target.position;
                 }
             }
         }
 
-
-        //TODO account for targetpos
         /// <summary>
         /// Moves the unit along the path using lines for smoother pathing.
         /// </summary>
@@ -161,9 +206,23 @@ namespace BrendansProject
                         }
                     }
 
-                    Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
+                    Quaternion targetRotation;
+
+                    //TODO test not going into buildings
+                    //// if path is NEAR finished rotate towards the target
+                    if (speedPercent < 1f)
+                    {
+                        Vector3 relativeTargetPosition = new Vector3(target.position.x, transform.position.y, target.position.z); // Prevent from looking up or down
+                        targetRotation = Quaternion.LookRotation(relativeTargetPosition - transform.position);
+                        print("rotating");
+                    }
+                    else
+                    {
+                        targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
+                    }
                     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed); // Rotate unit
                     transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self); // Move unit forward
+                    
                 }
 
 
@@ -172,8 +231,9 @@ namespace BrendansProject
 
             }
             // When arrave at last node do final checks
-            //transform.LookAt(target);
-            //print("at final location");
+
+            //finalLocation = true;
+            // print("at final location 3");
         }
 
         /// <summary>
