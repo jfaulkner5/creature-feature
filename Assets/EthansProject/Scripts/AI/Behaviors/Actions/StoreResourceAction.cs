@@ -82,7 +82,7 @@ namespace EthansProject
                 droppedOffResource = true;
                 Storage.resourceHolding = 0;
 
-                if (AIDirector.instance.RunCheck(CurrGatherType))
+                if (AIDirector.instance.SwitchRolesCheck(CurrGatherType))
                 {
                     GetComponent<Gatherer>().GetActions();
                 }

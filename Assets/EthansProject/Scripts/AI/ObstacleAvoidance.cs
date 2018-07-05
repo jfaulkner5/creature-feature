@@ -2,74 +2,77 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleAvoidance : MonoBehaviour
+namespace EthansProject
 {
-    public float avoidRange = 8f;
-    public float avoidanceStrength = 10;
-
-    Transform agent;
-
-    public Vector3 newDir;
-
-    public LayerMask obstacleMask;
-
-    public List<GameObject> currentObstacles = new List<GameObject>();
-    // Use this for initialization
-    void Start()
+    public class ObstacleAvoidance : MonoBehaviour
     {
-        agent = transform.parent;
-    }
+        public float avoidRange = 8f;
+        public float avoidanceStrength = 10;
 
-    // Update is called once per frame
-    void Update()
-    {
+        Transform agent;
 
-        if (currentObstacles.Count <= 0)
-            return;
+        public Vector3 newDir;
 
+        public LayerMask obstacleMask;
 
-        Vector3 avoidanceVector = CalculateSeperationVector() * avoidanceStrength;
-
-
-        agent.position += (avoidanceVector) * Time.deltaTime;
-
-        Debug.DrawLine(transform.position, transform.position + avoidanceVector, Color.blue);
-
-    }
-
-    Vector3 CalculateSeperationVector()
-    {
-        Vector3 startCenter = Vector3.zero;
-
-        for (int i = 0; i < currentObstacles.Count; i++)
+        public List<GameObject> currentObstacles = new List<GameObject>();
+        // Use this for initialization
+        void Start()
         {
-            if(currentObstacles[i])
-            startCenter += agent.position - currentObstacles[i].transform.position;
-            else
-                currentObstacles.RemoveAt(i);
+            agent = transform.parent;
         }
 
-        startCenter /= currentObstacles.Count;
-
-        return startCenter.normalized;
-    }
-
-    private void OnTriggerEnter(Collider coll)
-    {
-
-        if (coll.gameObject.CompareTag("target"))
+        // Update is called once per frame
+        void Update()
         {
-           if(coll.gameObject != agent)
-                currentObstacles.Add(coll.gameObject);
+
+            if (currentObstacles.Count <= 0)
+                return;
+
+
+            Vector3 avoidanceVector = CalculateSeperationVector() * avoidanceStrength;
+
+
+            agent.position += (avoidanceVector) * Time.deltaTime;
+
+            Debug.DrawLine(transform.position, transform.position + avoidanceVector, Color.blue);
+
         }
+
+        Vector3 CalculateSeperationVector()
+        {
+            Vector3 startCenter = Vector3.zero;
+
+            for (int i = 0; i < currentObstacles.Count; i++)
+            {
+                if (currentObstacles[i])
+                    startCenter += agent.position - currentObstacles[i].transform.position;
+                else
+                    currentObstacles.RemoveAt(i);
+            }
+
+            startCenter /= currentObstacles.Count;
+
+            return startCenter.normalized;
+        }
+
+        private void OnTriggerEnter(Collider coll)
+        {
+
+            if (coll.gameObject.CompareTag("target"))
+            {
+                if (coll.gameObject != agent)
+                    currentObstacles.Add(coll.gameObject);
+            }
+        }
+
+        private void OnTriggerExit(Collider coll)
+        {
+            if (coll.gameObject.CompareTag("target"))
+                if (coll.gameObject != agent)
+                    currentObstacles.Remove(coll.gameObject);
+        }
+
+
     }
-
-    private void OnTriggerExit(Collider coll)
-    {
-        if (coll.gameObject.CompareTag("target"))
-            if (coll.gameObject != agent)
-                currentObstacles.Remove(coll.gameObject);
-    }
-
-
 }

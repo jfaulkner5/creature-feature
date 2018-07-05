@@ -20,17 +20,17 @@ namespace EthansProject
                 instance = this;
             }
         }
-
-        public int globalBerryAmount, globalLogsAmount, globalBerryGatherers, globalWoodGatherers;
-        public float avgDist;
-        public float avgSpeed;
-        public float averageGatherTime;
-        public float averageConsumtionTime = 1;
-        public float averageNumberOfBerrysGathered = 15;
+        // globalBerryAmount, globalLogsAmount, 
+        public int globalBerryGatherers, globalWoodGatherers;
+        //public float avgDist;
+        //public float avgSpeed;
+        //public float averageGatherTime;
+        //public float averageConsumtionTime = 1;
+        //public float averageNumberOfBerrysGathered = 15;
 
         public AnimationCurve scaleRoles;
 
-        public float checkUpTick = 6f;
+       // public float checkUpTick = 6f;
 
         /// <summary>
         /// - gather amount of berrys in storage 
@@ -46,30 +46,27 @@ namespace EthansProject
         }
 
         // Use this for initialization
-        public bool RunCheck(StoreResourceAction.GatherType gatherType) // pass through weather im a berry or wood gatherer.
+        public bool SwitchRolesCheck(StoreResourceAction.GatherType gatherType) // pass through weather im a berry or wood gatherer.
         {
             float berryPercent = WorldInfo.berrySorages.ReturnFilledPercentage();
            // float logsPercent = WorldInfo.treeStorages.ReturnFilledPercentage();
             float goalRolePercent = scaleRoles.Evaluate(berryPercent);
             float currentRolePercent = WorldInfo.RolePercentage();
 
-            // return out that we dont need a role switch if goalRolePercent  & currentRolePercent are the same.
 
-            // if  there's way more berry gatherers than i need then we need and im a berry gatherer i need to switch else if im a wood gatherer i need to not switch
-            // same witch way less but oposite switching outcomes.
-
-            // have a extra berry gatherer threshold of like 20%.
 
             globalBerryGatherers = WorldInfo.berryGatherers.Count;
             globalWoodGatherers = WorldInfo.woodGatherers.Count;
 
 
+            // return out that we dont need a role switch if goalRolePercent  & currentRolePercent are the same.
             if (currentRolePercent == goalRolePercent)
             {
                 return false;
             }
            
 
+            // if  there's way more berry gatherers than i need then we need and im a berry gatherer i need to switch else if im a wood gatherer i need to not switch
             if (gatherType == StoreResourceAction.GatherType.BerryGatherer && currentRolePercent < goalRolePercent)
             {
                 return false;
@@ -79,6 +76,9 @@ namespace EthansProject
                 return true;
             }
 
+
+            // same witch way less but oposite switching outcomes.
+            // have a extra berry gatherer threshold of like 20%.
             if (gatherType == StoreResourceAction.GatherType.BerryGatherer && currentRolePercent > goalRolePercent * 1.2f)
             {
                 return true;
