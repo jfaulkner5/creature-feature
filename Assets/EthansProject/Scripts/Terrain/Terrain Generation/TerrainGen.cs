@@ -171,9 +171,9 @@ namespace EthansProject
             mfComp.mesh.triangles = triangles;
 
             mfComp.mesh.colors = colorMap;
-
             mfComp.mesh.RecalculateBounds();
             mfComp.mesh.RecalculateNormals();
+            GetComponent<MeshCollider>().sharedMesh = mfComp.mesh;
             NodeManager.instance.Initialize();
 
         }

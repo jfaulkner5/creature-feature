@@ -13,7 +13,7 @@ public class Builder : Villager
             if (needFood)
                 goal.Add(new KeyValuePair<string, object>("dontDieOfHunger", needFood));
             else
-                goal.Add(new KeyValuePair<string, object>("expandStorage", ((WorldInfo.filledStorage.Count > 0))));
+                goal.Add(new KeyValuePair<string, object>("expandStorage", ((WorldInfo.filledStorage.Count > 0) && !needFood)));
             return goal;
         }
     }

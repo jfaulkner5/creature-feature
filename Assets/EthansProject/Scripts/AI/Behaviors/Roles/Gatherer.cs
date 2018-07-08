@@ -13,6 +13,8 @@ namespace EthansProject
         {
             GetComponent<GatherResourceAction>().SwitchRoles();
             GetComponent<StoreResourceAction>().SwitchRoles();
+            role = GetComponent<StoreResourceAction>().CurrGatherType.ToString();
+            GetComponent<RoleIcon>().SwitchIcons();
         }
 
         

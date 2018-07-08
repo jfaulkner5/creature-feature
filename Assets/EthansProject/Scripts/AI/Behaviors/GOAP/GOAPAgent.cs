@@ -164,6 +164,7 @@ namespace EthansProject
                             // action failed, we need to plan again
                             fsm.PopState();
                             fsm.PushState(idleState);
+                           // Debug.LogError(gameObj.name + " could not prefrom the action, " + action + ". The agent is now going to abort plan.");
                             dataProvider.PlanAborted(action);
                         }
                     }

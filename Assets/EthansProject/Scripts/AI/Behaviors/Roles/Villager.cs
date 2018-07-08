@@ -18,7 +18,7 @@ namespace EthansProject
         public float apattiteLevel = .2f;
         public bool needFood;
         public Stopwatch sw;
-
+        public string role;
         public HashSet<KeyValuePair<string, object>> goal = new HashSet<KeyValuePair<string, object>>();
 
         //TODO: temp...
@@ -33,13 +33,13 @@ namespace EthansProject
         {
             sw = new Stopwatch();
             currentHungerLevel = hungerCap;
-
+          
             apattiteLevel *= Random.Range(0.8f, 1.2f);
             WorldInfo.glogalApititeConsumtionthing += apattiteLevel;
-
+          
             sw.Start();
         }
-
+       
         // Update is called once per frame
         void Update()
         {
@@ -155,7 +155,7 @@ namespace EthansProject
 
             needPath = false;
             agentPath = PathingManager.FindPath(gameObject.transform.position, destination);
-            path = new Vector3[agentPath.Count];
+            path = new Vector3[agentPath.Count + 1];
             for (int i = 0; i < agentPath.Count; i++)
             {
                 path[i] = agentPath[i].node.spacialInfo;
@@ -173,7 +173,7 @@ namespace EthansProject
 
         public void PlanFailed(HashSet<KeyValuePair<string, object>> goal, Queue<GOAPAction> actions)
         {
-            UnityEngine.Debug.LogWarning("Plan failed! ");
+            UnityEngine.Debug.LogWarning("Plan failed! Thanks to, " + gameObject);
 
         }
 

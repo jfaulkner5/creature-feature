@@ -699,14 +699,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ac47cd76b42d54280faff210d144d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  berryGatherersPrefab: {fileID: 1669637544625704, guid: b8cfab5c0fd9ccf4082ac39dde829954,
-    type: 2}
-  woodGathererPrefab: {fileID: 1393159331951010, guid: ac7278f42fb06cb48b8d7cf5d0fbadd3,
+  gatherersPrefab: {fileID: 1669637544625704, guid: b8cfab5c0fd9ccf4082ac39dde829954,
     type: 2}
   builderPrefab: {fileID: 1666513371335798, guid: fac2eea7ddd5919469fa1e5475f39281,
     type: 2}
-  berryGatherers: 5
-  woodGatherers: 5
+  berryGatherers: 10
+  woodGatherers: 0
   builders: 1
 --- !u!114 &114753540060528598
 MonoBehaviour:

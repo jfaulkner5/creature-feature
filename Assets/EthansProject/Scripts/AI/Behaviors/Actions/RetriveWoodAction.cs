@@ -45,6 +45,13 @@ namespace EthansProject
                 return false;
             }
 
+            if( closest.resourceCount < ResourceAmountNeeded)
+            {
+                UnityEngine.Debug.LogWarning("Resource amount contains: " + closest.resourceCount + " and didn't have enough (" + ResourceAmountNeeded + ") to upgrade");
+
+                return false;
+            }
+
             target = closest.gameObject;
             targetResourceSupply = closest;
             return closest != null;
@@ -57,7 +64,7 @@ namespace EthansProject
 
         public override bool Preform(GameObject agent)
         {
-            if (!hasResource && targetResourceSupply.resourceCount >= targetResourceSupply.UpgradeCost)
+            if (!hasResource)
             {
                 Storage.resourceHolding += targetResourceSupply.TakeResource(ResourceAmountNeeded);
 

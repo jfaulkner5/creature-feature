@@ -48,7 +48,7 @@ namespace EthansProject
             if (!success)
             {
                 // oh no, we didn't get a plan
-                Debug.LogWarning("NO Plan found for " + agent.name);
+                Debug.LogWarning("NO plan was found for " + agent.name);
                 return null;
             }
 
