@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0aa03e53fd6d6a479044ec517990f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapDimensions: {x: 50, y: 50}
+  mapDimensions: {x: 20, y: 20}
   perlinZoom: 10
   buildings:
   - {fileID: 141268, guid: b3d3a7ba5f4d42943920370ae1696723, type: 2}
@@ -156,11 +156,11 @@ MonoBehaviour:
   zStreets: {fileID: 1999975886828022, guid: b1aae177f3dec48438d9798243a2f78e, type: 2}
   crossroad: {fileID: 1261879582881370, guid: 568a23bb7bc30f742aa184899b0eea67, type: 2}
   humans: {fileID: 1270958706589702, guid: ab05242e878b14242bbcf7f6784e79d6, type: 2}
-  minHumans: 5
-  maxHumans: 10
+  minHumans: 10
+  maxHumans: 20
   zombies: {fileID: 1885303643044246, guid: c9a597ce451a82d4bb224fc52ed3aeb2, type: 2}
-  minZombies: 20
-  maxZombies: 50
+  minZombies: 10
+  maxZombies: 20
   corpse: {fileID: 1183254268581784, guid: 859308d18f7efac4b9a953a197cdde34, type: 2}
   minCorpses: 10
   maxCorpses: 20

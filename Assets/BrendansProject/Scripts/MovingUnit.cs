@@ -214,7 +214,7 @@ namespace BrendansProject
                     {
                         Vector3 relativeTargetPosition = new Vector3(target.position.x, transform.position.y, target.position.z); // Prevent from looking up or down
                         targetRotation = Quaternion.LookRotation(relativeTargetPosition - transform.position);
-                        print("rotating");
+                        //print("rotating");
                     }
                     else
                     {
