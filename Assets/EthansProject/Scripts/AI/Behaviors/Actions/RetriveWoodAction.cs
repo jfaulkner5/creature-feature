@@ -45,13 +45,13 @@ namespace EthansProject
                 return false;
             }
 
-            if( closest.resourceCount < ResourceAmountNeeded)
+            if(closest.resourceCount < ResourceAmountNeeded)
             {
                 UnityEngine.Debug.LogWarning("Resource amount contains: " + closest.resourceCount + " and didn't have enough (" + ResourceAmountNeeded + ") to upgrade");
 
                 return false;
             }
-
+            // TODO: check if it gets to this point in the code.
             target = closest.gameObject;
             targetResourceSupply = closest;
             return closest != null;
