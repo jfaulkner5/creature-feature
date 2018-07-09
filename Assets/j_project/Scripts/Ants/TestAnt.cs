@@ -91,8 +91,12 @@ namespace jfaulkner
 
             desiredPath = GameManager.Instance.FindPath(_startNode, _endNode);
             currentNodeIndex = 0;
-            currentNode = desiredPath[currentNodeIndex];
-            antState = AntState.Travel;
+
+            if (desiredPath != null)
+            {
+                currentNode = desiredPath[currentNodeIndex];
+                antState = AntState.Travel;
+            }
         }
 
         public void Travel()

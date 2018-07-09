@@ -54,7 +54,7 @@ namespace jfaulkner
             openNodeList.Add(startNode);
 
             //TODO needs a loop break for when it can't find the end node
-            while (openNodeList != null && currentNode != endNode)
+            while (openNodeList.Count > 0 && currentNode != endNode)
             {
                 currentNode = LowestFScore(openNodeList);
                 if (currentNode == endNode)
@@ -87,7 +87,8 @@ namespace jfaulkner
             }
 
             //FIX this shouldn't be reached if the path is returned
-            throw new ArgumentException(message: "You shouldn't see this message.");
+            //throw new ArgumentException(message: "You shouldn't see this message.");
+            return null;
         }
 
         //private static int GetDistance(Node currentNode, Node neighbour)
