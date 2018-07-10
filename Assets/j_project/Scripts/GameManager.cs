@@ -21,7 +21,6 @@ namespace jfaulkner
         }
 
         public PathGrid myPathGrid = new PathGrid();
-        public PathFinding myPathFinding = new PathFinding();
 
         #region PathData
         public Node[,] levelGrid;
@@ -52,10 +51,6 @@ namespace jfaulkner
         {
             if (Input.GetKey(KeyCode.Keypad1))
             {
-                Node _startNode = levelGrid[0, 0];
-                Node _endNode = levelGrid[Random.Range(10, 39), Random.Range(10, 39)];
-                path = FindPath(_startNode, _endNode);
-
                 myPathGrid.Cleanup();
             }
 
@@ -98,26 +93,6 @@ namespace jfaulkner
             myPathGrid.RunSetup();
             return myPathGrid.GetGrid();
             //throw new System.NotImplementedException();
-        }
-
-        /// <summary>
-        ///  Find a path, using a start and end point in the world.
-        /// </summary>
-        /// <param name="_startPos"></param>
-        /// <param name="_endPos"></param>
-        public List<Node> FindPath(Vector3 _startPos, Vector3 _endPos)
-        {
-            return myPathFinding.FindPath(_startPos, _endPos);
-        }
-
-        /// <summary>
-        /// Find a path, using a start and end <see cref="Node"/>
-        /// </summary>
-        /// <param name="_startPos"></param>
-        /// <param name="_endPos"></param>
-        public List<Node> FindPath(Node _startPos, Node _endPos)
-        {
-            return myPathFinding.FindPath(_startPos, _endPos);
         }
 
         /// <summary>

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace jfaulkner
 {
-    public class TestAnt : MonoBehaviour
+    public class BasicAnt : MonoBehaviour
     {
 
         enum AntState
@@ -16,6 +16,8 @@ namespace jfaulkner
             Hunt,
         }
         AntState antState;
+
+        public PathFinding pathfinderInstance;
 
         List<Node> desiredPath;
         Node currentNode;
@@ -89,7 +91,8 @@ namespace jfaulkner
             Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
             Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
 
-            desiredPath = GameManager.Instance.FindPath(_startNode, _endNode);
+            desiredPath = pathfinderInstance.FindPath(_startNode, _endNode);
+            //desiredPath = GameManager.Instance.FindPath(_startNode, _endNode);
             currentNodeIndex = 0;
 
             if (desiredPath != null)
@@ -137,7 +140,8 @@ namespace jfaulkner
             Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
             Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
 
-            desiredPath = GameManager.Instance.FindPath(_startNode, _endNode);
+            desiredPath = pathfinderInstance.FindPath(_startNode, _endNode);
+            //desiredPath = GameManager.Instance.FindPath(_startNode, _endNode);
             currentNodeIndex = 0;
             currentNode = desiredPath[currentNodeIndex];
         }
