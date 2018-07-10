@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace jfaulkner
 {
+    [System.Serializable]
     public class BasicAnt : MonoBehaviour
     {
 
@@ -19,8 +20,9 @@ namespace jfaulkner
 
         public PathFinding pathfinderInstance;
 
-        List<Node> desiredPath;
-        Node currentNode;
+
+        public List<Node> desiredPath;
+        public Node currentNode;
         float stopDistance;
         int currentNodeIndex;
 
@@ -30,7 +32,7 @@ namespace jfaulkner
             stopDistance = 0.2f;
             currentNodeIndex = 0;
 
-            TestTravel();
+            FirstTravel();
 
         }
 
@@ -84,15 +86,13 @@ namespace jfaulkner
 
         }
 
-        public void TestTravel()
+        public void FirstTravel()
         {
 
-            //Node _startNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
             Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
             Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
 
             desiredPath = pathfinderInstance.FindPath(_startNode, _endNode);
-            //desiredPath = GameManager.Instance.FindPath(_startNode, _endNode);
             currentNodeIndex = 0;
 
             if (desiredPath != null)
@@ -100,34 +100,41 @@ namespace jfaulkner
                 currentNode = desiredPath[currentNodeIndex];
                 antState = AntState.Travel;
             }
+            else if (desiredPath == null)
+            {
+                Debug.LogError("Desired path is null on first attempt", this.gameObject);
+
+                Invoke("SetNewPath", 5);
+            }
         }
 
         public void Travel()
         {
 
-            if (currentNode != null && desiredPath != null && IsStillTravelling())
-                return;
+            //if (/*currentNode != null && */desiredPath != null && IsStillTravelling())
+            //    return;
 
-                if(currentNode == null)
-                  SetNewPath();
-            //while (currentNode != null)
+            if (currentNode == null)
             {
-                transform.position = Vector3.MoveTowards(transform.position, currentNode.worldPos, Time.deltaTime);
-                if (Vector3.Distance(transform.position, currentNode.worldPos) <= stopDistance)
-                {
-                    currentNodeIndex++;
-                    if (currentNodeIndex >= desiredPath.Count)
-                    {
-                        currentNode = null;
-                        //URGENT doesn't seem to fire properly
-                        //SetNewPath();
-                    }
-                    else
-                    {
-                        currentNode = desiredPath[currentNodeIndex];
-                    }
-                }
+                Debug.Log("currentNode == null. attempting to trigger new path", this.gameObject);
+                SetNewPath();
+            }
 
+            transform.position = Vector3.MoveTowards(transform.position, currentNode.worldPos, Time.deltaTime);
+            if (Vector3.Distance(transform.position, currentNode.worldPos) <= stopDistance)
+            {
+                currentNodeIndex++;
+                if (currentNodeIndex >= desiredPath.Count)
+                {
+                    currentNode = null;
+                    //URGENT doesn't seem to fire properly
+                    //return;
+                    //SetNewPath();
+                }
+                else
+                {
+                    currentNode = desiredPath[currentNodeIndex];
+                }
             }
 
         }
@@ -137,17 +144,30 @@ namespace jfaulkner
         /// </summary>
         public void SetNewPath()
         {
+            //URGENT _startnode THROWS NULL ERROR | Repeatable
             Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
             Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
 
             desiredPath = pathfinderInstance.FindPath(_startNode, _endNode);
-            //desiredPath = GameManager.Instance.FindPath(_startNode, _endNode);
             currentNodeIndex = 0;
-            currentNode = desiredPath[currentNodeIndex];
+            if (desiredPath != null)
+            {
+                //URGENT currentnode THROWS NULL ERROR | Repeatable
+                currentNode = desiredPath[currentNodeIndex];
+            }
+            else
+            {
+                Debug.LogError("DesiredPath wasn't returned", this.gameObject);
+            }
         }
 
         public bool IsStillTravelling()
         {
+            if (currentNode == null)
+            {
+                Debug.Log("IsStillTravel check. currentNode == null", this.gameObject);
+                return false;
+            }
 
             if (Vector3.Distance(transform.position, currentNode.worldPos) <= stopDistance)
             {
