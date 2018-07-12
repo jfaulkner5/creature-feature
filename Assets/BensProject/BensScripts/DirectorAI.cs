@@ -49,7 +49,7 @@ namespace BensDroneFleet
         {
             SetHome();            
             KnownLocations.AddSafe(homeNode, false);
-            KnownLocations.AddSafe(homeNode.neighbours[0]);    
+            KnownLocations.AddSafe(homeNode.neighbours[0]);
         }
 
         private void Update()
@@ -57,10 +57,10 @@ namespace BensDroneFleet
             if (timeToSpawn <= 0)
             {
                 ConstructDrone();
-                timeToSpawn = 20;
+                timeToSpawn = 10;
             }
 
-            timeToSpawn += Time.deltaTime;
+            timeToSpawn -= Time.deltaTime;
             Debug.Log(timeToSpawn);
         }
 
@@ -84,14 +84,10 @@ namespace BensDroneFleet
                     break;
             }
         }
-
-        void UpdateCoreState()
+        
+        void StateManager()
         {
-            if (ResourceE < 25 || ResourceR < 2 || ResourceG < 2 || ResourceB < 2)
-            {
-                state = DirectorState.Horde;
-            }
-            else if
+
         }
 
         #region states
@@ -175,5 +171,5 @@ namespace BensDroneFleet
 public struct AiJob
 {
     Vector3 Destination;
-        
+    GameObject Resource;
 }

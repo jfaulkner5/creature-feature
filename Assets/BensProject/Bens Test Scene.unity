@@ -146,6 +146,7 @@ MonoBehaviour:
   seedOffset: {x: 0, y: 0}
   perlinMod: 5
   wallMat: {fileID: 2100000, guid: 2f3a4fd6c9a10d84e8c4b64269eaca5c, type: 2}
+  floorMat: {fileID: 2100000, guid: ee8a3b70beab7e54a952dcdd4379ccd4, type: 2}
   showNavLocations: 0
   gridObject: {fileID: 1396315674944236, guid: 8bee6811df5b7ce44845e4e6a41cd8bb, type: 2}
   mask:

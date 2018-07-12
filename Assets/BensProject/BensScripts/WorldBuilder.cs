@@ -16,6 +16,7 @@ namespace BensDroneFleet {
         public float perlinMod = 2;
         [Tooltip("0 is ground")]
         public Material wallMat;
+        public Material floorMat;
         [Tooltip("The Grid Object")]
         public bool showNavLocations;
         public GameObject gridObject;
@@ -114,10 +115,17 @@ namespace BensDroneFleet {
                 {
                     GameObject newGridObject = Instantiate<GameObject>(gridObject, this.transform);
                     newGridObject.transform.position = new Vector3(x, -0.5f + GetVerticalFromPixelWithNoise(x,z,pixels, WallBias), z);
+
+                    MeshRenderer mat = newGridObject.GetComponent<MeshRenderer>();
+
                     if (newGridObject.transform.position.y > -.5f)
                     {
+                        mat.material = wallMat;
                         newGridObject.layer = 9;
                     }
+
+                    mat.material = floorMat;
+
                     grid[x, z] = newGridObject;
                     
                     //populate grid with Resource
