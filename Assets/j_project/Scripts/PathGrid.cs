@@ -28,14 +28,14 @@ namespace jfaulkner
 
         public void RunSetup()
         {
-            gridWorldSize = new Vector2(400, 400);
+            gridWorldSize = new Vector2(40, 40);
             obstacleMask =~ LayerMask.NameToLayer("obstacleMask");
             nodeRad = 0.25f;
 
             nodeDiam = nodeRad * 2;
             gridSize = (int)gridWorldSize.x;
 
-            worldBotLeft = new Vector3(-100,0,-100);
+            worldBotLeft = new Vector3(-10,0,-10);
         }
 
         //TODO delete later if needed
