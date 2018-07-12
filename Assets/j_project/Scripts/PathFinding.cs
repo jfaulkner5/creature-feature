@@ -6,7 +6,8 @@ using System.Linq;
 
 namespace jfaulkner
 {
-    public class PathFinding
+    [CreateAssetMenu(fileName = "MyPathFindingInstance", menuName ="PathFinding/AStar")]
+    public class PathFinding : ScriptableObject
     {
         public enum PathFindStates
         {
@@ -16,6 +17,7 @@ namespace jfaulkner
             EndNode,
             ReturnPath
         }
+
         public List<Node> neighbourNodes;
         public List<Node> list;
 
@@ -30,10 +32,7 @@ namespace jfaulkner
 
         public List<Node> FindPath(Vector3 startPos, Vector3 finishPos)
         {
-            //Node startNode = GameManager.Instance.ConvertFromWorldPoint(startPos);
-            //Node endNode = GameManager.Instance.ConvertFromWorldPoint(finishPos);
-            //Node startNode = GameManager.Instance.levelGrid[0, 0];
-            //Node endNode = GameManager.Instance.levelGrid[10, 10];
+
             throw new System.NotImplementedException();
             //return FindPath(startPos, finishPos);
         }
