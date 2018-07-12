@@ -19,7 +19,7 @@ namespace jfaulkner
         AntState antState;
 
         public PathFinding pathfinderInstance;
-
+        public int travelSpeed;
 
         public List<Node> desiredPath;
         public Node currentNode;
@@ -31,7 +31,7 @@ namespace jfaulkner
         {
             stopDistance = 0.2f;
             currentNodeIndex = 0;
-
+            travelSpeed = 1;
             FirstTravel();
 
         }
@@ -120,7 +120,10 @@ namespace jfaulkner
                 SetNewPath();
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, currentNode.worldPos, Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, currentNode.worldPos, Time.deltaTime * travelSpeed);
+            if (currentNode != null)
+                transform.LookAt(new Vector3(currentNode.worldPos.x, transform.position.y, currentNode.worldPos.z));
+
             if (Vector3.Distance(transform.position, currentNode.worldPos) <= stopDistance)
             {
                 currentNodeIndex++;
