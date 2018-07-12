@@ -85,6 +85,15 @@ namespace BensDroneFleet
             }
         }
 
+        void UpdateCoreState()
+        {
+            if (ResourceE < 25 || ResourceR < 2 || ResourceG < 2 || ResourceB < 2)
+            {
+                state = DirectorState.Horde;
+            }
+            else if
+        }
+
         #region states
         void Explore()
         {
@@ -156,8 +165,15 @@ namespace BensDroneFleet
                 nDrone.transform.SetPositionAndRotation(transform.position, transform.rotation);
                 SimpleDroneAI nDroneAI = nDrone.GetComponent<SimpleDroneAI>();
 
+                nDroneAI.director = this;
                 SetIdleDrone(nDroneAI);
             }
         }
     }
+}
+
+public struct AiJob
+{
+    Vector3 Destination;
+        
 }
