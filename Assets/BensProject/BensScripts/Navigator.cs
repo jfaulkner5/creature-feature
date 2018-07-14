@@ -5,7 +5,6 @@ using UnityEngine;
 namespace BensDroneFleet
 {
     
-
     public class Navigator : MonoBehaviour
     {
         public SimpleDroneAI owner;
@@ -14,12 +13,10 @@ namespace BensDroneFleet
         public float acceptableDestinationRange = .1f;
         public float acceptablePathRange = .2f;
         public Vector3 nextLocation;
-        public Vector3 lastLocation;
+        public Vector3 endLocation;
         public Vector3 destination;
 
         public int NodeCount;
-
-        public bool EndlessRome;
 
         List<Node> path = new List<Node>();
 
@@ -50,62 +47,54 @@ namespace BensDroneFleet
                 case NavState.Idle:
                     break;
                 case NavState.NoPath:
-                    owner.state = SimpleAIState.Wander;
                     break;
-
                 case NavState.NewPath:
-                    path = Pathfinding.FindPath(transform.position, destination);
-                    if (path.Count > 1)
-                    {
-                        owner.state = SimpleAIState.MoveTo;
-                        owner.navState = NavState.MoveingTo;
-                        nextLocation = path[0].worldPosition;
-                        lastLocation = path[path.Count - 1].worldPosition;
-                    }
-                    else
-                    {
-                        owner.navState = NavState.NoPath;
-                        owner.state = SimpleAIState.Idle;
-                    }
                     break;
-
                 case NavState.MoveingTo:
-                    MoveTo();
                     break;
                 case NavState.AtDestination:
-                    owner.state = (EndlessRome)?SimpleAIState.Wander: SimpleAIState.Idle;
+                    owner.AtJobLocation();                    
                     break;
                 default:
                     break;
             }
         }
 
-        public void SetDestination(Vector3 Dnew)
+        public void PathFromJob(AiJob job)
         {
-            destination = Dnew;
-            owner.navState = NavState.NewPath;
+            path = new List<Node>(job.Path);
+            destination = job.Destination;
+            endLocation = destination;
+            owner.navState = NavState.MoveingTo;
         }
 
         void MoveTo()
         {
-            if (nextLocation != lastLocation)
+            if (!(Vector3.Distance(transform.position, endLocation) <= acceptableDestinationRange))
             {
-                if (Vector3.Distance(transform.position, nextLocation) < acceptablePathRange && path.Count > 1)
+                if (nextLocation != endLocation)
                 {
-                    path.RemoveAt(0);
-                    NodeCount = path.Count;
-                    nextLocation = path[0].worldPosition;
-                }
+                    if (Vector3.Distance(transform.position, nextLocation) < acceptablePathRange && path.Count > 1)
+                    {
+                        path.RemoveAt(0);
+                        NodeCount = path.Count;
+                        nextLocation = path[0].worldPosition;
+                    }
 
-                UpdateStearing();
-            }
-            else if (nextLocation == lastLocation && Vector3.Distance(transform.position, lastLocation) <= acceptableDestinationRange)
-            {
-                owner.navState = NavState.AtDestination;
+                    UpdateStearing();
+                }
+                else if (nextLocation == endLocation && Vector3.Distance(transform.position, endLocation) <= acceptableDestinationRange)
+                {
+                    owner.navState = NavState.AtDestination;
+                }
+                else
+                {
+                    UpdateStearing();
+                } 
             }
             else
             {
-                UpdateStearing();
+                owner.navState = NavState.AtDestination;
             }
         }
 

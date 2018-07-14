@@ -22,38 +22,71 @@ namespace BensDroneFleet
         public DirectorState state = DirectorState.Explore;
         public Node homeNode;
         public int ResourceE = 100, ResourceR = 10, ResourceG = 10, ResourceB = 10;
-        
+        public float StartingKnowArea = 3f;
+
         [Header("data")]
         public List<Node> KnownLocations = new List<Node>();
         public List<Resource> KnownResource = new List<Resource>();
         public GameObject DronePrefab;
-        
+
 
         // droneState
-        List<SimpleDroneAI> activeDrones = new List<SimpleDroneAI>();
-        List<SimpleDroneAI> idleDrones = new List<SimpleDroneAI>();
-
+        List<SimpleDroneAI> OwnedDrones = new List<SimpleDroneAI>();
+        public List<AiJob> JobBoard = new List<AiJob>();
         //
-        float timeToSpawn;
+        [Header("DebugInfo")]
+        public float timeToSpawn;
+        public int knownLocationCounter;
+        public int UnclamedJobs;
 
         private void OnDrawGizmos()
         {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, StartingKnowArea);
+
             Gizmos.color = Color.black;
             foreach (Node node in KnownLocations)
             {
                 Gizmos.DrawWireSphere(node.worldPosition, .2f);
             }
+            foreach (Resource resource in KnownResource)
+            {
+                Gizmos.DrawLine(resource.transform.position, resource.transform.position + resource.transform.up * 3);
+            }
+        }
+
+        void UpdateDebugInfo()
+        {
+            if (Application.isEditor)
+            {
+                knownLocationCounter = KnownLocations.Count;
+                UnclamedJobs = JobBoard.Count;
+            }
         }
 
         private void Start()
         {
-            SetHome();            
+            SetHome();
             KnownLocations.AddSafe(homeNode, false);
-            KnownLocations.AddSafe(homeNode.neighbours[0]);
+            KnownLocations.AddSafe(homeNode.neighbours[0], false);
+            Collider[] startingObj = Physics.OverlapSphere(homeNode.worldPosition, StartingKnowArea);
+            foreach (Collider other in startingObj)
+            {
+                Node node = PathGrid.NodeFromWorldPoint(other.gameObject.transform.position);
+                if (node != null && node.walkable)
+                {
+                    KnownLocations.AddSafe(node, false);
+                }
+            }
+
+            MakeJobExplore();
+            timeToSpawn = 10;
         }
 
         private void Update()
         {
+            UpdateDebugInfo();
+
             if (timeToSpawn <= 0)
             {
                 ConstructDrone();
@@ -61,7 +94,6 @@ namespace BensDroneFleet
             }
 
             timeToSpawn -= Time.deltaTime;
-            Debug.Log(timeToSpawn);
         }
 
         void FSM()
@@ -69,25 +101,24 @@ namespace BensDroneFleet
             switch (state)
             {
                 case DirectorState.Explore:
+                    Explore();
                     break;
 
                 case DirectorState.Horde:
+                    Horde();
                     break;
 
                 case DirectorState.Populate:
+                    Populate();
                     break;
 
                 case DirectorState.Consume:
+                    Consume();
                     break;
 
                 default:
                     break;
             }
-        }
-        
-        void StateManager()
-        {
-
         }
 
         #region states
@@ -108,7 +139,7 @@ namespace BensDroneFleet
 
         }
         #endregion
-
+        #region Setup
         void SetHome()
         {
             Debug.Log("it me");
@@ -135,19 +166,8 @@ namespace BensDroneFleet
                 }
             }
         }
-        
-        void SetIdleDrone(SimpleDroneAI drone)
-        {
-            activeDrones.Remove(drone);
-            idleDrones.Add(drone);
-        }
-
-        void SetActiveDrone(SimpleDroneAI drone)
-        {
-            idleDrones.Remove(drone);
-            activeDrones.Add(drone);
-        }
-
+        #endregion
+        #region Work 
         void ConstructDrone()
         {
             if (ResourceE >= 10 && ResourceR >= 1 && ResourceG >= 1 && ResourceB >= 1)
@@ -162,14 +182,50 @@ namespace BensDroneFleet
                 SimpleDroneAI nDroneAI = nDrone.GetComponent<SimpleDroneAI>();
 
                 nDroneAI.director = this;
-                SetIdleDrone(nDroneAI);
+                List<Node> path = new List<Node>();
+                path.Add(homeNode);
+                nDroneAI.jobCurrant = new AiJob(AiJob.JobType.GetJob, homeNode.worldPosition, null, path);               
+
+                OwnedDrones.Add(nDroneAI);
             }
         }
+
+        void MakeJobExplore()
+        {
+            Node node = KnownLocations[Random.Range(0, KnownLocations.Count - 1)];
+            List<Node> path = Pathfinding.FindPath(homeNode, node);
+            if (path.Count > 1)
+            {
+                JobBoard.Add(new AiJob(AiJob.JobType.Explore, node.worldPosition, null, path));
+            }
+            else
+            {
+                Debug.Log("failJob");
+            }
+        }
+
+        #endregion
+    }
+
+    
+    [System.Serializable]
+    public struct AiJob
+    {
+        public enum JobType { NoJob,Explore, Collect, GetJob };
+
+        public JobType Job;
+        public Vector3 Destination;
+        public GameObject Resource;
+        public List<Node> Path;
+
+        public AiJob(JobType job,Vector3 destination,GameObject resource,List<Node> path)
+        {
+            Job = job;
+            Destination = destination;
+            Resource = resource;
+            Path = path;
+        }        
     }
 }
 
-public struct AiJob
-{
-    Vector3 Destination;
-    GameObject Resource;
-}
+

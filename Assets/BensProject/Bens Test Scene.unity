@@ -234,37 +234,13 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 4311063383937360, guid: 3b7ee44a95a928c4bacd4e7a354550a7, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4311063383937360, guid: 3b7ee44a95a928c4bacd4e7a354550a7, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4311063383937360, guid: 3b7ee44a95a928c4bacd4e7a354550a7, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4311063383937360, guid: 3b7ee44a95a928c4bacd4e7a354550a7, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4311063383937360, guid: 3b7ee44a95a928c4bacd4e7a354550a7, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
     - target: {fileID: 114275482038967078, guid: 3b7ee44a95a928c4bacd4e7a354550a7,
         type: 2}
-      propertyPath: DronePrefab
-      value: 
-      objectReference: {fileID: 1997788935417918, guid: 01b1ddef6e2d65344870a0700c123555,
-        type: 2}
-    - target: {fileID: 1945484950650652, guid: 3b7ee44a95a928c4bacd4e7a354550a7, type: 2}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: StartingKnowArea
+      value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 135605943901669418, guid: 3b7ee44a95a928c4bacd4e7a354550a7, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 3b7ee44a95a928c4bacd4e7a354550a7, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1432029756

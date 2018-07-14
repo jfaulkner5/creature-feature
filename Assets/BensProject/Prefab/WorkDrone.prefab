@@ -611,10 +611,9 @@ MonoBehaviour:
   acceptableDestinationRange: 0.5
   acceptablePathRange: 0.2
   nextLocation: {x: 0, y: 0, z: 0}
-  lastLocation: {x: 0, y: 0, z: 0}
+  endLocation: {x: 0, y: 0, z: 0}
   destination: {x: 0, y: 0, z: 0}
   NodeCount: 0
-  EndlessRome: 1
 --- !u!114 &114606340678556332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -631,6 +630,11 @@ MonoBehaviour:
   state: 1
   navigator: {fileID: 0}
   navState: 0
+  jobState: 0
+  jobCurrant:
+    Job: 0
+    Destination: {x: 0, y: 0, z: 0}
+    Resource: {fileID: 0}
 --- !u!135 &135387901018445734
 SphereCollider:
   m_ObjectHideFlags: 1
