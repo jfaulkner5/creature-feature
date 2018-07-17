@@ -31,9 +31,21 @@ namespace BensDroneFleet
 
 
         // droneState
-        List<SimpleDroneAI> OwnedDrones = new List<SimpleDroneAI>();
+        List<SimpleDroneAI> activeDrones = new List<SimpleDroneAI>();
         public List<AiJob> JobBoard = new List<AiJob>();
         //
+        [Header("Timers")]
+        public float consumeCounter;
+        public float consumeTime;
+        public bool droneBuildActive;
+
+        // counters
+        int countKnownResource { get { return KnownLocations.Count; } }
+        int countKnownLocation { get { return KnownLocations.Count; } }
+        int countActiveDrones { get { return activeDrones.Count; } }
+        int countActiveJobs { get { return JobBoard.Count; } }
+        int desiredResourceValue;
+
         [Header("DebugInfo")]
         public float timeToSpawn;
         public int knownLocationCounter;
@@ -80,39 +92,47 @@ namespace BensDroneFleet
             }
 
             MakeJobExplore();
-            timeToSpawn = 10;
+
+            desiredResourceValue = ResourceE + ((ResourceR + ResourceG + ResourceB) * 10);
         }
 
         private void Update()
         {
             UpdateDebugInfo();
 
-            if (timeToSpawn <= 0)
-            {
-                ConstructDrone();
-                timeToSpawn = 10;
-            }
-
-            timeToSpawn -= Time.deltaTime;
-        }
+            DroneCounter();
+        }        
 
         void FSM()
         {
+            
+
             switch (state)
             {
                 case DirectorState.Explore:
+                    // the default, if their are no resources, populate joblist with, explore jobs.
+
+
                     Explore();
                     break;
 
                 case DirectorState.Horde:
+                    // Each of the RGB resources is worth 10 each, The E resource is worth 1 each.
+                    // default resource worth is 400.
+                    // If worth is less than 300.
+
                     Horde();
                     break;
 
                 case DirectorState.Populate:
+                    // if their are drones + 1 to drones *2 worth of jobs.
+                    
                     Populate();
                     break;
 
                 case DirectorState.Consume:
+                    // if their are more drones * 2 than there are jobs for 30s.
+                    
                     Consume();
                     break;
 
@@ -122,21 +142,37 @@ namespace BensDroneFleet
         }
 
         #region states
+        
         void Explore()
         {
+            Node node = KnownLocations[Random.Range(0, KnownLocations.Count - 1)];
+            List<Node> path = Pathfinding.FindPath(homeNode,node);
 
+            JobBoard.Add(new AiJob(AiJob.JobType.Explore, node.worldPosition,null, path));
         }
         void Horde()
         {
+            Resource resource = KnownResource[Random.Range(0, KnownResource.Count - 1)];
+            if (resource.state == ResourcesState.Reserved)
+            {
+                return;
+            }
+            else
+            {
+                resource.state = ResourcesState.Reserved;
+            }
 
+            List<Node> path = Pathfinding.FindPath(homeNode.worldPosition, resource.gameObject.transform.position);
+                        
+            JobBoard.Add(new AiJob(AiJob.JobType.Collect, resource.gameObject.transform.position, resource.gameObject, path));
         }
         void Populate()
         {
-
+            ActivateDroneCounter();
         }
         void Consume()
         {
-
+            DeactivateDroneCounter();
         }
         #endregion
         #region Setup
@@ -186,7 +222,7 @@ namespace BensDroneFleet
                 path.Add(homeNode);
                 nDroneAI.jobCurrant = new AiJob(AiJob.JobType.GetJob, homeNode.worldPosition, null, path);               
 
-                OwnedDrones.Add(nDroneAI);
+                activeDrones.Add(nDroneAI);
             }
         }
 
@@ -202,6 +238,49 @@ namespace BensDroneFleet
             {
                 Debug.Log("failJob");
             }
+        }
+
+        void DroneCounter()
+        {
+            if (timeToSpawn <= 0)
+            {
+                droneBuildActive = false;
+                ConstructDrone();
+            }
+
+            if (droneBuildActive)
+            {
+                timeToSpawn -= Time.deltaTime;
+            }            
+        }
+
+        void ActivateDroneCounter()
+        {
+            timeToSpawn = 10;
+            droneBuildActive = true;
+        }
+
+        void DeactivateDroneCounter()
+        {
+            droneBuildActive = false;
+        }
+
+
+        /// <summary>
+        /// Low priority is key
+        /// </summary>
+        /// <returns></returns>
+        float HordeUtility()
+        {
+            int currantResourceValue = ResourceE + ((ResourceR + ResourceG + ResourceB) * 10);
+            
+            return currantResourceValue / desiredResourceValue;
+        }
+
+        float ExploreResourceValue()
+        {
+            
+            return
         }
 
         #endregion
