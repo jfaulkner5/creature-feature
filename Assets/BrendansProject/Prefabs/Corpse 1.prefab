@@ -1007,6 +1007,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
   targetRot: {x: 0, y: 0, z: 0, w: 0}
+  hpAmount: 100
+  dmgAmount: 5
+  healAmount: 5
+  tickRate: 100
 --- !u!137 &137400489357988552
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

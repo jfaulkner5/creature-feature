@@ -152,7 +152,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114708529894404474, guid: 3184aa6ce279c2e4a989c9b2d3baa66b, type: 2}
+    - {fileID: 114210903169665614, guid: 3184aa6ce279c2e4a989c9b2d3baa66b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 3184aa6ce279c2e4a989c9b2d3baa66b, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &74924894
@@ -197,12 +199,52 @@ Prefab:
     - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
         type: 2}
       propertyPath: mapDimensions.x
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
         type: 2}
       propertyPath: mapDimensions.y
-      value: 50
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: minForts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: maxForts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: minHumans
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: maxHumans
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: minZombies
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: maxZombies
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: minCorpses
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
+        type: 2}
+      propertyPath: maxCorpses
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6c10faf3891066d41b61dfeb807ec73a, type: 2}

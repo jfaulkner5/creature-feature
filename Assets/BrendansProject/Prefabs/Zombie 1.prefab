@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 4296646558978624}
   - component: {fileID: 95843743330251230}
   - component: {fileID: 114185558784331144}
-  - component: {fileID: 114042137531101576}
+  - component: {fileID: 114872182503087528}
   m_Layer: 0
   m_Name: Zombie 1
   m_TagString: Zombie
@@ -995,19 +995,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114042137531101576
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1885303643044246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3df1d01bfda21441be5d9be4a81c478, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPos: {x: 0, y: 0, z: 0}
-  targetRot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &114185558784331144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1021,11 +1008,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
   targetRot: {x: 0, y: 0, z: 0, w: 0}
+  hpAmount: 100
+  dmgAmount: 5
+  healAmount: 5
+  tickRate: 1
   target: {fileID: 0}
   speed: 3
   turnSpeed: 3
   turnDst: 1
-  stoppingDst: 1
+  stoppingDst: 0.5
+  followingPath: 0
+  finalLocation: 0
+  updatingPath: 0
+--- !u!114 &114872182503087528
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1885303643044246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7aaa7bb6b9384548b1e290d925e3732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: {fileID: 11400000, guid: acf101f987236a4429495d53f34202a8, type: 2}
+  remainState: {fileID: 11400000, guid: a7d4a2115a78b3e4d9fa687514ab2dc5, type: 2}
+  movingUnit: {fileID: 0}
+  unit: {fileID: 0}
+  target: {fileID: 0}
+  stateTimeElapsed: 0
 --- !u!137 &137271406179460798
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -12,6 +12,7 @@ namespace BrendansProject
 
         const float minPathUpdateTime = .2f;
         const float pathUpdateMoveThreshold = .5f;
+               
 
         public Transform target;
         public float speed = 3;
@@ -19,16 +20,18 @@ namespace BrendansProject
         public float turnDst = 1;
         public float stoppingDst = 0.25f;
 
-        Path path;
+        [HideInInspector] public bool followingPath = false;
+        public bool finalLocation = false;
+        [HideInInspector] public bool updatingPath = false;
 
-        private bool finalLocation = false;
-        
+        Path path;
+             
         private void Start()
         {
-            target = GetClosestEnemy(ProcGenerator.instance.targets); // Find the closest target
+            //target = GetClosestEnemy(ProcGenerator.instance.targets); // Find the closest target
 
             //print(target);
-            StartCoroutine(UpdatePath());
+           //StartCoroutine(UpdatePath());
         }
 
 
@@ -60,25 +63,25 @@ namespace BrendansProject
         /// </summary>
         /// <param name="enemies"></param>
         /// <returns></returns>
-        private Transform GetClosestEnemy(List<Transform> enemies)
-        {
-            //TODO add a range
-            Transform bestTarget = null;
-            float closestDistanceSqr = Mathf.Infinity;
-            Vector3 currentPosition = transform.position;
-            foreach (Transform potentialTarget in enemies)
-            {
-                Vector3 directionToTarget = potentialTarget.position - currentPosition;
-                float dSqrToTarget = directionToTarget.sqrMagnitude;
-                if (dSqrToTarget < closestDistanceSqr)
-                {
-                    closestDistanceSqr = dSqrToTarget;
-                    bestTarget = potentialTarget;
-                }
-            }
+        //private Transform GetClosestEnemy(List<Transform> enemies)
+        //{
+        //    //TODO add a range
+        //    Transform bestTarget = null;
+        //    float closestDistanceSqr = Mathf.Infinity;
+        //    Vector3 currentPosition = transform.position;
+        //    foreach (Transform potentialTarget in enemies)
+        //    {
+        //        Vector3 directionToTarget = potentialTarget.position - currentPosition;
+        //        float dSqrToTarget = directionToTarget.sqrMagnitude;
+        //        if (dSqrToTarget < closestDistanceSqr)
+        //        {
+        //            closestDistanceSqr = dSqrToTarget;
+        //            bestTarget = potentialTarget;
+        //        }
+        //    }
 
-            return bestTarget;
-        }
+        //    return bestTarget;
+        //}
 
 
         /// <summary>
@@ -92,12 +95,12 @@ namespace BrendansProject
             {
                 path = new Path(waypoints, transform.position, turnDst, stoppingDst);
 
+                // Stop previous follow path and follow path with new path
                 StopCoroutine("FollowPath");
                 StartCoroutine("FollowPath");
             }
         }
-
-
+        
 
         private Vector3 TargetPos
         {
@@ -118,8 +121,13 @@ namespace BrendansProject
         /// Ticks through path requests so it is not being called every frame.
         /// </summary>
         /// <returns></returns>
-        IEnumerator UpdatePath()
+        public IEnumerator UpdatePath()
         {
+
+
+            updatingPath = true;
+            Debug.Log("Updating");
+
 
             if (Time.timeSinceLevelLoad < .3f)
             {
@@ -151,7 +159,8 @@ namespace BrendansProject
             while (true)
             {
                 yield return new WaitForSeconds(minPathUpdateTime);
-                //print(((target.position - targetPosOld).sqrMagnitude) + "    " + sqrMoveThreshold); //Used to debug location
+
+                //print(((TargetPos - targetPosOld).sqrMagnitude) + "    " + sqrMoveThreshold) ; //Used to debug location
 
 
                 if ((TargetPos - targetPosOld).sqrMagnitude > sqrMoveThreshold)
@@ -172,7 +181,11 @@ namespace BrendansProject
         IEnumerator FollowPath()
         {
 
-            bool followingPath = true; // Tracks if the unit is following the path
+            followingPath = true; // Tracks if the unit is following the path
+            Debug.Log("Moving location");
+            finalLocation = false;
+
+
             int pathIndex = 0;
             transform.LookAt(path.lookPoints[0]); // Face the first lookpoint
 
@@ -203,6 +216,7 @@ namespace BrendansProject
                         if (speedPercent < 0.01f)
                         {
                             followingPath = false;
+
                         }
                     }
 
@@ -214,7 +228,6 @@ namespace BrendansProject
                     {
                         Vector3 relativeTargetPosition = new Vector3(target.position.x, transform.position.y, target.position.z); // Prevent from looking up or down
                         targetRotation = Quaternion.LookRotation(relativeTargetPosition - transform.position);
-                        //print("rotating");
                     }
                     else
                     {
@@ -228,12 +241,12 @@ namespace BrendansProject
 
 
                 yield return null;
-
             }
+
             // When arrave at last node do final checks
 
-            //finalLocation = true;
-            // print("at final location 3");
+            Debug.Log("Arrived at final location");
+            finalLocation = true;
         }
 
         /// <summary>

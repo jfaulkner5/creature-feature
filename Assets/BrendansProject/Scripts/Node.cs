@@ -47,7 +47,7 @@ namespace BrendansProject
         /// <summary>
         /// Returns the fCost of the node.
         /// </summary>
-        public int fCost
+        public int FCost
         {
             get
             {
@@ -77,7 +77,7 @@ namespace BrendansProject
         /// <returns></returns>
         public int CompareTo(Node nodeToCompare)
         {
-            int compare = fCost.CompareTo(nodeToCompare.fCost);
+            int compare = FCost.CompareTo(nodeToCompare.FCost);
             if (compare == 0)
             {
                 compare = hCost.CompareTo(nodeToCompare.hCost);
