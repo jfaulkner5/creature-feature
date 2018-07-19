@@ -52,7 +52,7 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
+    m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 10
@@ -150,7 +150,7 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 3
   m_TerrainData: {fileID: 15600000, guid: 37e48ccc1dcf6044aac143d282720de8, type: 2}
-  m_TreeDistance: 5000
+  m_TreeDistance: 2000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
@@ -204,7 +204,7 @@ MonoBehaviour:
   NumPasses: 4
   PassStrength: 0.42
   PassStrengthScale: 0.04
-  Regenerate: 0
+  Regenerate: 1
 --- !u!1 &984259588
 GameObject:
   m_ObjectHideFlags: 0

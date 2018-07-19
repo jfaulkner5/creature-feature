@@ -192,7 +192,7 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 3
   m_TerrainData: {fileID: 15600000, guid: 37e48ccc1dcf6044aac143d282720de8, type: 2}
-  m_TreeDistance: 5000
+  m_TreeDistance: 2000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
@@ -238,15 +238,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a1759f8a16dd749b9ffa15131fd0b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  XScale: 3.53
+  XScale: 1.96
   XOffset: 0
-  ZScale: 3.13
-  ZOffset: -0.27
-  BaseHeight: 0.12
-  NumPasses: 5
-  PassStrength: 0.1
-  PassStrengthScale: 0.1
-  Regenerate: 1
+  ZScale: 2.56
+  ZOffset: 0
+  BaseHeight: 0.26
+  NumPasses: 15
+  PassStrength: 0.84
+  PassStrengthScale: 0.5
+  Regenerate: 0
 --- !u!1 &984259588
 GameObject:
   m_ObjectHideFlags: 0
