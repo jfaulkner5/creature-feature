@@ -18,7 +18,10 @@ namespace BrendansProject
         //public Transform eyes; 
 
         public State remainState; // Dummy state makesing it easier to read in editor. Could just use a null check instead of this state.
-        
+        public State healSearchState;
+        public State attackSearchState;
+
+
         //[HideInInspector] public NavMeshAgent navMeshAgent;
         [HideInInspector] public MovingUnit movingUnit;
         [HideInInspector] public Unit unit;

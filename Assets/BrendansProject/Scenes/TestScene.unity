@@ -219,12 +219,12 @@ Prefab:
     - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
         type: 2}
       propertyPath: minHumans
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
         type: 2}
       propertyPath: maxHumans
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114876277668682842, guid: 6c10faf3891066d41b61dfeb807ec73a,
         type: 2}

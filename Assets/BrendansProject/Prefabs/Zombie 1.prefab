@@ -1033,10 +1033,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 11400000, guid: acf101f987236a4429495d53f34202a8, type: 2}
   remainState: {fileID: 11400000, guid: a7d4a2115a78b3e4d9fa687514ab2dc5, type: 2}
+  healSearchState: {fileID: 11400000, guid: 72a49ee18fec75e4f920aee17869650c, type: 2}
+  attackSearchState: {fileID: 11400000, guid: acf101f987236a4429495d53f34202a8, type: 2}
   movingUnit: {fileID: 0}
   unit: {fileID: 0}
-  target: {fileID: 0}
   stateTimeElapsed: 0
+  target: {fileID: 0}
+  aiActive: 0
 --- !u!137 &137271406179460798
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

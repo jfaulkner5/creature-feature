@@ -52,9 +52,14 @@ namespace BrendansProject
 
         #region Lists Hidden in Inspector
         [HideInInspector]
-        public List<GameObject> corpses;
+        public List<GameObject> corpsesList;
         [HideInInspector]
-        public List<Transform> targets;
+        public List<Transform> humansList;
+        [HideInInspector]
+        public List<Transform> buildingsList;
+        [HideInInspector]
+        public List<Transform> zombiesList;
+
         [HideInInspector]
         public GameObject[] forts;
 
@@ -92,8 +97,8 @@ namespace BrendansProject
             gridOffsetX = (mapWidth * buildingFootprint) / 2;
             gridOffsetY = (mapHeight * buildingFootprint) / 2;
 
-            corpses = new List<GameObject>();
-            targets = new List<Transform>();
+            corpsesList = new List<GameObject>();
+            humansList = new List<Transform>();
         }
 
         /// <summary>
@@ -173,7 +178,7 @@ namespace BrendansProject
 
                         Vector3 pos = new Vector3(randX * buildingFootprint - gridOffsetX + buildingSizeOffset, 0.2f, randZ * buildingFootprint - gridOffsetY + buildingSizeOffset);
                         GameObject go = Instantiate(humans, pos, Quaternion.identity, transform);
-                        targets.Add(go.transform); // add to target list for later reference
+                        humansList.Add(go.transform); // add to target list for later reference
                         humanPlaced = true;
                     }
                 }
@@ -231,7 +236,7 @@ namespace BrendansProject
 
                         Vector3 pos = new Vector3(randX * buildingFootprint - gridOffsetX + buildingSizeOffset, 0.2f, randZ * buildingFootprint - gridOffsetY + buildingSizeOffset);
                         GameObject go = Instantiate(corpse, pos, spawnRot, transform);
-                        corpses.Add(go); // add to corpse list for later reference
+                        corpsesList.Add(go); // add to corpse list for later reference
                         corpsePlaced = true;
                     }
                 }
@@ -338,8 +343,8 @@ namespace BrendansProject
                                 rend.material.color = Color.cyan;
                             }
 
-                            // Adds to the targets list which zombies will attack
-                            targets.Add(hit.collider.gameObject.transform);
+                            // Adds to the buildings list which zombies will attack
+                            buildingsList.Add(hit.collider.gameObject.transform);
                             forts[f] = hit.collider.gameObject;
                             fortPlaced = true;
                         }
@@ -360,10 +365,12 @@ namespace BrendansProject
             for (int e = 0; e < randZombies; e++)
             {
 
-                int randZ = Random.Range(0, corpses.Count); // get a random corpse to spawn at
+                int randZ = Random.Range(0, corpsesList.Count); // get a random corpse to spawn at
 
-                Instantiate(zombies, corpses[randZ].transform.position, Quaternion.identity, transform);
-                
+                GameObject go = Instantiate(zombies, corpsesList[randZ].transform.position, Quaternion.identity, transform);
+
+                zombiesList.Add(go.transform); // add to corpse list for later reference
+
             }
 
             }
