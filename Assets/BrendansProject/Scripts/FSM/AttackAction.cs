@@ -18,11 +18,15 @@ namespace BrendansProject
             // Check if the controller is able to attack using the float from the attackRate
             if (controller.CheckIfCountDownElapsed(controller.movingUnit.tickRate))
             {
-                controller.target.GetComponent<MovingUnit>().hpAmount  -=  controller.GetComponent<MovingUnit>().dmgAmount;
+                // Attck target
+                controller.target.GetComponent<MovingUnit>().hpAmount  -=  controller.movingUnit.dmgAmount;
+                
+                // Specific target checks (healing)
                 if (controller.target.CompareTag("Building") & controller.CompareTag("Zombie"))
                 {
                     controller.movingUnit.hpAmount -=  controller.target.GetComponent<MovingUnit>().dmgAmount;
                 }
+
                 controller.stateTimeElapsed = 0; // reset attack timer
             }
         }
