@@ -6,7 +6,7 @@ namespace EthansProject
     public class RetriveWoodAction : GOAPAction
     {
         private ResourceSupply targetResourceSupply;
-        private bool hasResource;
+        private bool hasResource = false;
 
         public AgentStorage Storage
         {
@@ -64,7 +64,7 @@ namespace EthansProject
 
         public override bool Preform(GameObject agent)
         {
-            if (!hasResource)
+            if (!hasResource && (targetResourceSupply.resourceCount > ResourceAmountNeeded))
             {
                 Storage.resourceHolding += targetResourceSupply.TakeResource(ResourceAmountNeeded);
 
