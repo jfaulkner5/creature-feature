@@ -12,7 +12,7 @@ namespace jfaulkner
         public Vector3 worldPos;
 
         public float Xpos { get { return worldPos.x; } }
-        public float Ypos { get { return worldPos.y; } }
+        public float Ypos { get { return worldPos.z; } }
         public int gridPosX;
         public int gridPosY;
 
@@ -20,12 +20,12 @@ namespace jfaulkner
         public float hScore;              // Heuristic (guess) distance from this node to goal
         public float fScore;              // Distance from start + heuristic distance
 
-        public Node(bool _isPassable, Vector3 _worldPos, int _gridPosX, int _grixPosY)
+        public Node(bool _isPassable, Vector3 _worldPos, int _gridPosX,int _gridPosY)
         {
             isPassable = _isPassable;
             worldPos = _worldPos;
             gridPosX = _gridPosX;
-            gridPosY = _grixPosY;
+            gridPosY = _gridPosY;
         }
 
         public void Cleanup()

@@ -26,6 +26,7 @@ namespace jfaulkner
         float stopDistance;
         int currentNodeIndex;
 
+        bool isInit = false;
 
         void Start()
         {
@@ -55,7 +56,8 @@ namespace jfaulkner
         // Update is called once per frame
         void Update()
         {
-            BehaviourDecide();
+            if (isInit)
+                BehaviourDecide();
 
         }
 
@@ -89,6 +91,15 @@ namespace jfaulkner
         public void FirstTravel()
         {
 
+            while (GameManager.Instance.levelGrid == null)
+            {
+                Debug.Log("Waiting for level grid to generate");
+
+            }
+
+            Debug.Log("LevlGrid generated, starting pathfinder", this.gameObject);
+
+
             Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
             Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
 
@@ -106,6 +117,8 @@ namespace jfaulkner
 
                 Invoke("SetNewPath", 5);
             }
+
+            isInit = !isInit;
         }
 
         public void Travel()
@@ -120,25 +133,28 @@ namespace jfaulkner
                 SetNewPath();
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, currentNode.worldPos, Time.deltaTime * travelSpeed);
             if (currentNode != null)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, currentNode.worldPos, Time.deltaTime * travelSpeed);
                 transform.LookAt(new Vector3(currentNode.worldPos.x, transform.position.y, currentNode.worldPos.z));
 
-            if (Vector3.Distance(transform.position, currentNode.worldPos) <= stopDistance)
-            {
-                currentNodeIndex++;
-                if (currentNodeIndex >= desiredPath.Count)
+                if (Vector3.Distance(transform.position, currentNode.worldPos) <= stopDistance)
                 {
-                    currentNode = null;
-                    //URGENT doesn't seem to fire properly
-                    //return;
-                    //SetNewPath();
-                }
-                else
-                {
-                    currentNode = desiredPath[currentNodeIndex];
+                    currentNodeIndex++;
+                    if (currentNodeIndex >= desiredPath.Count)
+                    {
+                        currentNode = null;
+                        //URGENT doesn't seem to fire properly
+                        //return;
+                        //SetNewPath();
+                    }
+                    else
+                    {
+                        currentNode = desiredPath[currentNodeIndex];
+                    }
                 }
             }
+
 
         }
 

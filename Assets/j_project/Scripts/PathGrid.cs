@@ -29,16 +29,18 @@ namespace jfaulkner
         public void RunSetup()
         {
             //gridWorldSize = new Vector2(40, 40);
-            gridWorldSize = new Vector2(400, 400);
+            //Hack: ---------------------vv -- vv ew
+            gridWorldSize = new Vector2(100, 100);
             obstacleMask = ~LayerMask.NameToLayer("obstacleMask");
             //nodeRad = 0.25f;
-            nodeRad = 1.0f;
+            // hack: eww -v
+            nodeRad = 0.5f;
 
 
             nodeDiam = nodeRad * 2;
             gridSize = (int)gridWorldSize.x;
 
-            worldBotLeft = new Vector3(0, 0, 0);
+            //worldBotLeft = new Vector3(-50, 0, -50);
         }
 
         //TODO delete later if needed
@@ -62,6 +64,20 @@ namespace jfaulkner
                     Vector3 worldPoint = worldBotLeft + Vector3.right * (x * nodeDiam + nodeRad) + Vector3.forward * (y * nodeDiam + nodeRad);
                     bool passable = !(Physics.CheckCapsule(worldPoint, worldPoint + new Vector3(0, 1, 0), nodeRad, obstacleMask));
 
+
+                    //Do raycast here. 
+                    int layerMask = 1 << 10;
+                    layerMask = ~LayerMask.NameToLayer("terrain");
+                    RaycastHit altitudeData;
+                   
+                    Vector3 rayOrigin = new Vector3(worldPoint.x, worldPoint.y + 200, worldPoint.z);
+                    Vector3 rayEnd = new Vector3(0,-1);
+                    if(Physics.Raycast(rayOrigin, rayEnd, out altitudeData, Mathf.Infinity, layerMask))
+                    {
+                        Debug.Log(altitudeData.point);
+                    }
+                    worldPoint.y = altitudeData.point.y;
+                    
                     newLevelGrid[x, y] = new Node(passable, worldPoint, x, y);
                     //Debug.Log(string.Format("Node added to list with pos {0} and isPassable = {1}",worldPoint,passable));
                 }

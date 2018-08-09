@@ -44,6 +44,8 @@ namespace jfaulkner
         void Start()
         {
             levelGrid = GenerateNodeGrid();
+
+            
         }
 
         // Update is called once per frame
