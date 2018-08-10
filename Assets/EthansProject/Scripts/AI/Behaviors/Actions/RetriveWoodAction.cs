@@ -6,7 +6,7 @@ namespace EthansProject
     public class RetriveWoodAction : GOAPAction
     {
         private ResourceSupply targetResourceSupply;
-        private bool hasResource;
+        private bool hasResource = false;
 
         public AgentStorage Storage
         {
@@ -33,13 +33,10 @@ namespace EthansProject
 
             sources = WorldInfo.treeStorages;
             ResourceSupply closest = null;
-                        
-            closest = sources;
 
-            if (WorldInfo.filledStorage.Count == 0)
-            {
-                return false;
-            }
+            Vector3 position = agent.transform.position;
+
+            closest = sources;
 
             if (closest == null)
             {
@@ -47,14 +44,14 @@ namespace EthansProject
 
                 return false;
             }
-            // Dosnt assign 'ResourceAmountNeeded', for awhile, need to look into that..
-            if ( closest.resourceCount < ResourceAmountNeeded)
+
+            if(closest.resourceCount < ResourceAmountNeeded)
             {
                 UnityEngine.Debug.LogWarning("Resource amount contains: " + closest.resourceCount + " and didn't have enough (" + ResourceAmountNeeded + ") to upgrade");
 
                 return false;
             }
-
+            // TODO: check if it gets to this point in the code.
             target = closest.gameObject;
             targetResourceSupply = closest;
             return closest != null;
@@ -67,7 +64,7 @@ namespace EthansProject
 
         public override bool Preform(GameObject agent)
         {
-            if (!hasResource)
+            if (!hasResource && (targetResourceSupply.resourceCount > ResourceAmountNeeded))
             {
                 Storage.resourceHolding += targetResourceSupply.TakeResource(ResourceAmountNeeded);
 
