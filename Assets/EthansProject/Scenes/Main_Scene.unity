@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1070189149}
-  m_IndirectSpecularColor: {r: 0.4482453, g: 0.49827206, b: 0.5755818, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -774,13 +774,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1070189148}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 125, y: 0, z: 125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1091098399
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,10 +1220,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ec5d89facdafa45aa61c8486ec4f93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
-  directionalLight: {fileID: 1070189150}
-  timerRate: 60
-  daySpeed: 1
+  gameSun: {fileID: 1070189149}
+  dayLength: 300
+  currentTimeOfDay: 0
+  morning: 0.23
+  night: 0.75
+  timeRate: 1
 --- !u!4 &1996838681
 Transform:
   m_ObjectHideFlags: 0
