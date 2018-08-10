@@ -33,10 +33,13 @@ namespace EthansProject
 
             sources = WorldInfo.treeStorages;
             ResourceSupply closest = null;
-
-            Vector3 position = agent.transform.position;
-
+                        
             closest = sources;
+
+            if (WorldInfo.filledStorage.Count == 0)
+            {
+                return false;
+            }
 
             if (closest == null)
             {
@@ -44,8 +47,8 @@ namespace EthansProject
 
                 return false;
             }
-
-            if( closest.resourceCount < ResourceAmountNeeded)
+            // Dosnt assign 'ResourceAmountNeeded', for awhile, need to look into that..
+            if ( closest.resourceCount < ResourceAmountNeeded)
             {
                 UnityEngine.Debug.LogWarning("Resource amount contains: " + closest.resourceCount + " and didn't have enough (" + ResourceAmountNeeded + ") to upgrade");
 
