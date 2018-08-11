@@ -27,6 +27,8 @@ namespace jfaulkner
         public List<Node> path;
         #endregion
 
+        public Terrain terrain;
+
         private void Awake()
         {
             if (Instance != null)

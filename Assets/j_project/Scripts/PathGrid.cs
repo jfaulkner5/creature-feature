@@ -64,19 +64,28 @@ namespace jfaulkner
                     Vector3 worldPoint = worldBotLeft + Vector3.right * (x * nodeDiam + nodeRad) + Vector3.forward * (y * nodeDiam + nodeRad);
                     bool passable = !(Physics.CheckCapsule(worldPoint, worldPoint + new Vector3(0, 1, 0), nodeRad, obstacleMask));
 
-
-                    //Do raycast here. 
-                    int layerMask = 1 << 10;
-                    layerMask = ~LayerMask.NameToLayer("terrain");
-                    RaycastHit altitudeData;
-                   
-                    Vector3 rayOrigin = new Vector3(worldPoint.x, worldPoint.y + 200, worldPoint.z);
-                    Vector3 rayEnd = new Vector3(0,-1);
-                    if(Physics.Raycast(rayOrigin, rayEnd, out altitudeData, Mathf.Infinity, layerMask))
+                    //HEIGHT SET 
+                    bool isRayCast = false;
+                    if (isRayCast)
                     {
-                        Debug.Log(altitudeData.point);
+                        //Do raycast here. 
+                        int layerMask = 1 << 10;
+                        layerMask = ~LayerMask.NameToLayer("terrain");
+                        RaycastHit altitudeData;
+
+                        Vector3 rayOrigin = new Vector3(worldPoint.x, worldPoint.y + 200, worldPoint.z);
+                        Vector3 rayEnd = new Vector3(0, -1);
+                        if (Physics.Raycast(rayOrigin, rayEnd, out altitudeData, Mathf.Infinity, layerMask))
+                        {
+                            Debug.Log(altitudeData.point);
+                        }
+                        worldPoint.y = altitudeData.point.y;
+                        //end raycast 
                     }
-                    worldPoint.y = altitudeData.point.y;
+                    else
+                    {
+                        worldPoint.y = GameManager.Instance.terrain.SampleHeight(worldPoint);
+                    }
                     
                     newLevelGrid[x, y] = new Node(passable, worldPoint, x, y);
                     //Debug.Log(string.Format("Node added to list with pos {0} and isPassable = {1}",worldPoint,passable));
