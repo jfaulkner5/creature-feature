@@ -15,6 +15,7 @@ namespace jfaulkner
             StrengthenPath,
             Travel,
             Hunt,
+            Returning
         }
         AntState antState;
 
@@ -23,10 +24,16 @@ namespace jfaulkner
 
         public List<Node> desiredPath;
         public Node currentNode;
+        public Node endNode;
         float stopDistance;
         int currentNodeIndex;
 
         bool isInit = false;
+
+        //Food collection
+        public bool isReturning = false,
+            hasFood = false;
+        public Nest.FoodType foodType;
 
         void Start()
         {
@@ -79,6 +86,10 @@ namespace jfaulkner
 
                     break;
                 case AntState.Hunt:
+
+                    break;
+
+                case AntState.Returning:
 
                     break;
                 default:
@@ -176,7 +187,7 @@ namespace jfaulkner
             }
             else
             {
-                Debug.LogError("DesiredPath wasn't returned", this.gameObject);
+
             }
         }
 
@@ -195,6 +206,28 @@ namespace jfaulkner
             else
                 return false;
         }
+
+        public void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject == transform.parent && isReturning == true)
+            {
+                Nest.instance.FoodCollection(foodType);
+            }
+
+            if (other.CompareTag("Candy"))
+            {
+                hasFood = true;
+                foodType = Nest.FoodType.SugaryFood;
+                Destroy(other.gameObject);
+            }
+            if (other.CompareTag("Meat"))
+            {
+                hasFood = true;
+                foodType = Nest.FoodType.FattyFood;
+                Destroy(other.gameObject);
+            }
+        }
+
 
     }
 

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace jfaulkner
@@ -29,6 +28,18 @@ namespace jfaulkner
 
         public Terrain terrain;
 
+
+        [Header("Food Source Spawn details")]
+        public int maxCandySpawn;
+        public int maxMeatSpawn;
+
+
+
+        [Header("Food Source Prefabs")]
+        public GameObject candyPrefab;
+        public GameObject meatPrefab;
+
+
         private void Awake()
         {
             if (Instance != null)
@@ -47,7 +58,7 @@ namespace jfaulkner
         {
             levelGrid = GenerateNodeGrid();
 
-            
+
         }
 
         // Update is called once per frame
@@ -114,5 +125,53 @@ namespace jfaulkner
 
         }
 
+        public Node NodeRandom()
+        {
+            int maxRand = myPathGrid.gridSize;
+            return myPathGrid.levelGrid[Random.Range(1, maxRand), Random.Range(1, maxRand)];
+        }
+
+        public bool IsOccupied(Vector3 tempPos)
+        {
+            foreach(GameObject pos in Nest.instance.candyList)
+            {
+                if(pos.transform.position == tempPos)
+                {
+                    return true;
+                }
+            }
+            foreach(GameObject pos in Nest.instance.meatList)
+            {
+                if(pos.transform.position == tempPos)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void SpawnCandy()
+        {
+            while (Nest.instance.candyList.Count <= maxCandySpawn)
+            {
+                Vector3 tempNodePos = NodeRandom().worldPos;
+                //while (IsOccupied(tempNodePos))
+                //{
+                //    NodeRandom();
+                //}
+
+                GameObject tempFood = Instantiate(candyPrefab, tempNodePos, Quaternion.identity);
+                Nest.instance.candyList.Add(tempFood);
+            }
+
+            while (Nest.instance.meatList.Count <= maxMeatSpawn)
+            {
+                Vector3 tempNodePos = NodeRandom().worldPos;
+
+                GameObject tempFood = Instantiate(meatPrefab, tempNodePos, Quaternion.identity);
+                Nest.instance.meatList.Add(tempFood);
+            }
+        }
     }
 }
