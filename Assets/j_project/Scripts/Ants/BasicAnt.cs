@@ -40,7 +40,7 @@ namespace jfaulkner
             stopDistance = 0.2f;
             currentNodeIndex = 0;
             travelSpeed = 1;
-            FirstTravel();
+
 
         }
 
@@ -63,29 +63,15 @@ namespace jfaulkner
         // Update is called once per frame
         void Update()
         {
-            if (isInit)
                 BehaviourDecide();
-
         }
 
         public void BehaviourDecide()
         {
             switch (antState)
             {
-                case AntState.Search:
-
-                    break;
-                case AntState.Scout:
-
-                    break;
-                case AntState.StrengthenPath:
-
-                    break;
                 case AntState.Travel:
                     Travel();
-
-                    break;
-                case AntState.Hunt:
 
                     break;
 
@@ -99,50 +85,41 @@ namespace jfaulkner
 
         }
 
-        public void FirstTravel()
-        {
+        //public void FirstTravel()
+        //{
 
-            while (GameManager.Instance.levelGrid == null)
-            {
-                Debug.Log("Waiting for level grid to generate");
+        //    while (GameManager.Instance.levelGrid == null)
+        //    {
+        //        Debug.Log("Waiting for level grid to generate");
 
-            }
+        //    }
 
-            Debug.Log("LevlGrid generated, starting pathfinder", this.gameObject);
+        //    Debug.Log("LevlGrid generated, starting pathfinder", this.gameObject);
 
 
-            Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
-            Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
+        //    Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
+        //    Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
 
-            desiredPath = pathfinderInstance.FindPath(_startNode, _endNode);
-            currentNodeIndex = 0;
+        //    desiredPath = pathfinderInstance.FindPath(_startNode, _endNode);
+        //    currentNodeIndex = 0;
 
-            if (desiredPath != null)
-            {
-                currentNode = desiredPath[currentNodeIndex];
-                antState = AntState.Travel;
-            }
-            else if (desiredPath == null)
-            {
-                Debug.LogError("Desired path is null on first attempt", this.gameObject);
+        //    if (desiredPath != null)
+        //    {
+        //        currentNode = desiredPath[currentNodeIndex];
+        //        antState = AntState.Travel;
+        //    }
+        //    else if (desiredPath == null)
+        //    {
+        //        Debug.LogError("Desired path is null on first attempt", this.gameObject);
 
-                Invoke("SetNewPath", 5);
-            }
+        //        Invoke("SetNewPath", 5);
+        //    }
 
-            isInit = !isInit;
-        }
+        //    isInit = !isInit;
+        //}
 
         public void Travel()
         {
-
-            //if (/*currentNode != null && */desiredPath != null && IsStillTravelling())
-            //    return;
-
-            if (currentNode == null)
-            {
-                Debug.Log("currentNode == null. attempting to trigger new path", this.gameObject);
-                SetNewPath();
-            }
 
             if (currentNode != null)
             {
@@ -167,28 +144,6 @@ namespace jfaulkner
             }
 
 
-        }
-
-        /// <summary>
-        /// Attempt to reset path when it ends for "hive behaviour" until other features implemented
-        /// </summary>
-        public void SetNewPath()
-        {
-            //URGENT _startnode THROWS NULL ERROR | Repeatable
-            Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
-            Node _endNode = GameManager.Instance.levelGrid[Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1)), Random.Range(0, (GameManager.Instance.myPathGrid.gridSize - 1))];
-
-            desiredPath = pathfinderInstance.FindPath(_startNode, _endNode);
-            currentNodeIndex = 0;
-            if (desiredPath != null)
-            {
-                //URGENT currentnode THROWS NULL ERROR | Repeatable
-                currentNode = desiredPath[currentNodeIndex];
-            }
-            else
-            {
-
-            }
         }
 
         public bool IsStillTravelling()
@@ -225,6 +180,26 @@ namespace jfaulkner
                 hasFood = true;
                 foodType = Nest.FoodType.FattyFood;
                 Destroy(other.gameObject);
+            }
+        }
+
+        /// <summary>
+        /// Order from the nest to find new food.
+        /// </summary>
+        /// <param name="foodVec"></param>
+        public void NextFood(Vector3 foodVec)
+        {
+            Node _startNode = GameManager.Instance.ConvertFromWorldPoint(transform.position);
+            Node _endNode = GameManager.Instance.ConvertFromWorldPoint(foodVec);
+            desiredPath = pathfinderInstance.FindPath(_startNode, _endNode);
+            if (desiredPath != null)
+            {
+
+            }
+            else
+            {
+                Debug.LogError("Order failed. path is null", this);
+
             }
         }
 

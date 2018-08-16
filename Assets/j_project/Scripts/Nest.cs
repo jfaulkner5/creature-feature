@@ -138,6 +138,7 @@ public class Nest : MonoBehaviour
                     meatFood = maxFood;
             }
 
+            Vector3 newOrderVec = GiveOrder();
 
         }
     }
