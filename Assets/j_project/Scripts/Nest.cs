@@ -18,8 +18,8 @@ public class Nest : MonoBehaviour
     [Header("Resources")]
     public int sugaryFood = 0;
     public int meatFood = 0;
-    public int meatValue = 20;
-    public int sugarValue = 20;
+    public int meatValue = 30;
+    public int sugarValue = 40;
 
     [SerializeField] private int maxFood = 100;
 
@@ -70,7 +70,8 @@ public class Nest : MonoBehaviour
         {
             antCurrentSpawned++;
             GameObject ant = Instantiate(antPrefab, this.transform);
-            yield return new WaitForSecondsRealtime(0.5f);
+            ant.GetComponent<BasicAnt>().NextFood(GiveOrder());
+            yield return new WaitForSecondsRealtime(0.2f);
         }
         yield return null;
     }
@@ -90,29 +91,34 @@ public class Nest : MonoBehaviour
 
     public FoodType ReturnFoodType()
     {
-        if (sugaryFood <= meatFood)
+
+        if (Random.Range(0, 1) == 1)
         {
             return FoodType.SugaryFood;
         }
-        else if (sugaryFood > meatFood)
-        {
-            return FoodType.FattyFood;
-        }
+
+        return FoodType.FattyFood;
+
 
         throw new System.Exception();
     }
 
-    public Vector3 GiveOrder()
+    public GameObject GiveOrder()
     {
         if (ReturnFoodType() == FoodType.SugaryFood)
         {
             int randIndex = Random.Range(0, candyList.Count - 1);
-            return candyList[randIndex].transform.position;
+            GameObject tempObj = candyList[randIndex];
+            candyList.RemoveAt(randIndex);
+            return tempObj;
         }
         else
         {
             int randIndex = Random.Range(0, meatList.Count - 1);
-            return meatList[randIndex].transform.position;
+            GameObject tempObj = meatList[randIndex];
+            meatList.RemoveAt(randIndex);
+            return tempObj;
+
         }
     }
 
@@ -122,23 +128,28 @@ public class Nest : MonoBehaviour
         {
             BasicAnt currentAnt = other.gameObject.GetComponent<BasicAnt>();
 
+            float distTravelledByAnt = currentAnt.ArrivedAtNest();
             if (currentAnt.hasFood && currentAnt.foodType == FoodType.SugaryFood)
             {
                 currentAnt.hasFood = false;
                 sugaryFood += sugarValue;
+                sugaryFood -= (int)distTravelledByAnt;
                 if (sugaryFood > maxFood)
                     sugaryFood = maxFood;
             }
 
-            if(currentAnt.hasFood && currentAnt.foodType == FoodType.FattyFood)
+            if (currentAnt.hasFood && currentAnt.foodType == FoodType.FattyFood)
             {
                 currentAnt.hasFood = false;
                 meatFood += meatValue;
+                meatFood -= (int)distTravelledByAnt;
                 if (meatFood > maxFood)
                     meatFood = maxFood;
             }
+            
+            GameObject newOrderVec = GiveOrder();
 
-            Vector3 newOrderVec = GiveOrder();
+            currentAnt.NextFood(newOrderVec);
 
         }
     }

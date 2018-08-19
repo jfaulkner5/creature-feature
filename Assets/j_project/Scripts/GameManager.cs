@@ -128,21 +128,26 @@ namespace jfaulkner
         public Node NodeRandom()
         {
             int maxRand = myPathGrid.gridSize;
-            return myPathGrid.levelGrid[Random.Range(1, maxRand), Random.Range(1, maxRand)];
+            Node TempNode = myPathGrid.levelGrid[Random.Range(1, maxRand), Random.Range(1, maxRand)];
+            while (TempNode.isPassable == false)
+            {
+                TempNode = myPathGrid.levelGrid[Random.Range(1, maxRand), Random.Range(1, maxRand)];
+            }
+            return TempNode;
         }
 
         public bool IsOccupied(Vector3 tempPos)
         {
-            foreach(GameObject pos in Nest.instance.candyList)
+            foreach (GameObject pos in Nest.instance.candyList)
             {
-                if(pos.transform.position == tempPos)
+                if (pos.transform.position == tempPos)
                 {
                     return true;
                 }
             }
-            foreach(GameObject pos in Nest.instance.meatList)
+            foreach (GameObject pos in Nest.instance.meatList)
             {
-                if(pos.transform.position == tempPos)
+                if (pos.transform.position == tempPos)
                 {
                     return true;
                 }

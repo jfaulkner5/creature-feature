@@ -62,7 +62,7 @@ namespace jfaulkner
                 for (int y = 0; y < gridSize; y++)
                 {
                     Vector3 worldPoint = worldBotLeft + Vector3.right * (x * nodeDiam + nodeRad) + Vector3.forward * (y * nodeDiam + nodeRad);
-                    bool passable = !(Physics.CheckCapsule(worldPoint, worldPoint + new Vector3(0, 1, 0), nodeRad, obstacleMask));
+                    bool passable = !(Physics.CheckCapsule(worldPoint, worldPoint + new Vector3(0, 1, 0), nodeRad, obstacleMask, QueryTriggerInteraction.Collide));
 
                     //HEIGHT SET 
                     bool isRayCast = false;
@@ -86,7 +86,7 @@ namespace jfaulkner
                     {
                         worldPoint.y = GameManager.Instance.terrain.SampleHeight(worldPoint);
                     }
-                    
+
                     newLevelGrid[x, y] = new Node(passable, worldPoint, x, y);
                     //Debug.Log(string.Format("Node added to list with pos {0} and isPassable = {1}",worldPoint,passable));
                 }
@@ -109,8 +109,35 @@ namespace jfaulkner
 
         }
 
+        /// <summary>
+        /// Reruns flags after food is collected
+        /// </summary>
+        /// <returns></returns>
+        public bool RerunFlags()
+        {
+            //    foreach (Node currentNode in levelGrid)
+            //    {
+            //        bool passable = !(Physics.CheckCapsule(currentNode.worldPos, currentNode.worldPos + new Vector3(0, 1, 0), nodeRad, obstacleMask));
 
+            //        Collider[] gameObjects = Physics.OverlapSphere(currentNode.worldPos, nodeRad, obstacleMask);
+            //        foreach(Collider currentCollider in gameObjects)
+            //        {
+            //            if(currentCollider.CompareTag("Candy"))
+            //            {
 
+            //            }
+            //            else if (currentCollider.CompareTag("Meat"))
+            //            {
+
+            //            }
+            //            else
+            //            {
+
+            //            }
+            //        }
+            //    }
+            return true;
+        }
     }
 
 
