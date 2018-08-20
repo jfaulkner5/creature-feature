@@ -188,7 +188,7 @@ namespace EthansProject
 
                 foreach (KeyValuePair<string, object> s in state)
                 {
-                    if (s.Equals(change))
+                    if (s.Key.Equals(change.Key))
                     {
                         exists = true;
                         break;

@@ -75,7 +75,10 @@ namespace EthansProject
                 // get the world state and the goal we want to plan for
                 HashSet<KeyValuePair<string, object>> worldState = dataProvider.GetWorldState();
                 HashSet<KeyValuePair<string, object>> goal = dataProvider.CreateGoalState();
-
+                if (goal.Contains(new KeyValuePair<string, object>("expandStorage", true)))
+                {
+                    Debug.Log("found builder");
+                }
                 // Plan
                 Queue<GOAPAction> plan = planner.Plan(gameObject, availableActions, worldState, goal);
                 if (plan != null)
@@ -91,7 +94,7 @@ namespace EthansProject
                 else
                 {
                     // ugh, we couldn't get a plan
-                    Debug.Log("<color=orange>Failed Plan:</color>" + prettyPrint(goal));
+                    Debug.Log("<color=orange>Failed Plan:</color> " + prettyPrint(goal));
                     dataProvider.PlanFailed(goal, currentActions);
                     fsm.PopState(); // move back to IdleAction state
                     fsm.PushState(idleState);
