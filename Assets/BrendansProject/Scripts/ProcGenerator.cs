@@ -52,7 +52,7 @@ namespace BrendansProject
 
         #region Lists Hidden in Inspector
         [HideInInspector]
-        public List<GameObject> corpsesList;
+        public List<Transform> corpsesList;
         [HideInInspector]
         public List<Transform> humansList;
         [HideInInspector]
@@ -97,7 +97,7 @@ namespace BrendansProject
             gridOffsetX = (mapWidth * buildingFootprint) / 2;
             gridOffsetY = (mapHeight * buildingFootprint) / 2;
 
-            corpsesList = new List<GameObject>();
+            corpsesList = new List<Transform>();
             humansList = new List<Transform>();
         }
 
@@ -236,7 +236,7 @@ namespace BrendansProject
 
                         Vector3 pos = new Vector3(randX * buildingFootprint - gridOffsetX + buildingSizeOffset, 0.2f, randZ * buildingFootprint - gridOffsetY + buildingSizeOffset);
                         GameObject go = Instantiate(corpse, pos, spawnRot, transform);
-                        corpsesList.Add(go); // add to corpse list for later reference
+                        corpsesList.Add(go.transform); // add to corpse list for later reference
                         corpsePlaced = true;
                     }
                 }

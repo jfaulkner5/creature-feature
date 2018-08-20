@@ -7,8 +7,8 @@ namespace BrendansProject
     /// <summary>
     /// 
     /// </summary>
-    [CreateAssetMenu(menuName = "PluggableAI/Decisions/Search")]
-    public class SearchDecision : Decision
+    [CreateAssetMenu(menuName = "PluggableAI/Decisions/HealSearch")]
+    public class HealSearchDecision : Decision
     {
         public override bool Decide(StateController controller)
         {
@@ -18,39 +18,37 @@ namespace BrendansProject
 
         private bool Search(StateController controller)
         {
+
+            // Leave decision if unable to attack
+            if (controller.movingUnit.currentHp >= controller.movingUnit.hpAmount)
+                return false;
+
             Transform bestTarget = null;
             float closestDistanceSqr = Mathf.Infinity;
             Vector3 currentPosition = controller.transform.position;
 
-            //List<Transform> transformsToCheck;
             List<List<Transform>> listsToCheck = new List<List<Transform>>();
 
             // TODO add a check depening on what state they are in
             if (controller.CompareTag("Human"))
             {
-                listsToCheck.Add( ProcGenerator.instance.buildingsList);
+
+                    listsToCheck.Add(ProcGenerator.instance.buildingsList);
+
             }
-            else if (controller.CompareTag("Zombie") & controller.currentState == controller.attackSearchState) // if a zombie is looking for a target to attack load humans and forts
+            else if (controller.CompareTag("Zombie"))
             {
-                listsToCheck.Add(ProcGenerator.instance.humansList);
-                listsToCheck.Add(ProcGenerator.instance.buildingsList);
+
+                    listsToCheck.Add(ProcGenerator.instance.corpsesList);
             }
-            //else if (controller.movingUnit.CompareTag("Human"))
-            //{
-            //    transformToCheck = ProcGenerator.instance.humansList;
-            //}
-            //else if (controller.movingUnit.CompareTag("Zombie"))
-            //{
-            //    transformToCheck = ProcGenerator.instance.humansList;
-            //}
-            else  if (listsToCheck == null)
+            else if (listsToCheck == null)
             {
                 Debug.Log("Error no tag combination found");
             }
 
 
             foreach (List<Transform> list in listsToCheck)
-            { 
+            {
                 foreach (Transform potentialTarget in list)
                 {
 

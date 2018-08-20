@@ -16,12 +16,23 @@ namespace BrendansProject
 
         [HideInInspector] public Quaternion targetRot;
 
+        [Header("Statistics")]
+        public int currentHp;
+
+        [Header("Settings")]
         public int hpAmount = 100;
         public int dmgAmount = 5;
         public int healAmount = 5;
         public float tickRate = 100.0f;
 
-       // public Vector3 TargetPos { get; set; }
+
+
+        private void Start()
+        {
+            currentHp = hpAmount;
+        }
+
+        // public Vector3 TargetPos { get; set; }
 
         // TODO move to a different class
         /// <summary>

@@ -21,19 +21,12 @@ namespace BrendansProject
         public float stoppingDst = 0.25f;
 
         [HideInInspector] public bool followingPath = false;
+        //[HideInInspector]
         public bool finalLocation = false;
         [HideInInspector] public bool updatingPath = false;
 
         Path path;
              
-        private void Start()
-        {
-            //target = GetClosestEnemy(ProcGenerator.instance.targets); // Find the closest target
-
-            //print(target);
-           //StartCoroutine(UpdatePath());
-        }
-
 
         private void Update()
         {

@@ -27,28 +27,30 @@ namespace BrendansProject
             }
 
             // Check if the controller is able to attack using the float from the attackRate
-                if (controller.CheckIfCountDownElapsed(controller.movingUnit.tickRate))
+            if (controller.CheckIfCountDownElapsed(controller.movingUnit.tickRate))
             {
-                // Attck target
-                targetUnit.hpAmount  -=  controller.movingUnit.dmgAmount;
+                // Attack target
+                targetUnit.currentHp -= controller.movingUnit.dmgAmount;
 
-                if (targetUnit.hpAmount <= 0)
+                if (targetUnit.currentHp <= 0)
                 {
-                    ProcGenerator.instance.humansList.Remove(targetUnit.transform); // TODO check type and remove from appropriate list
+                    if (targetUnit.CompareTag("Human"))
+                    {
+                        ProcGenerator.instance.humansList.Remove(targetUnit.transform);
+                    }
+                    else if (targetUnit.CompareTag("Zombie"))
+                    {
+                        ProcGenerator.instance.zombiesList.Remove(targetUnit.transform);
+                    }
+                    else if (targetUnit.CompareTag("Building"))
+                    {
+                        ProcGenerator.instance.buildingsList.Remove(targetUnit.transform);
+                    }
+
                     targetUnit.gameObject.SetActive(false);
                 }
 
-                // Specific target checks (healing)
-                if (controller.target.CompareTag("Building") & controller.CompareTag("Zombie"))
-                {
-                    //controller.movingUnit.hpAmount -= controller.target.GetComponent<MovingUnit>().dmgAmount;
-                }
-                else if (controller.target.CompareTag("Corpse") & controller.CompareTag("Zombie"))
-                {
-                    controller.movingUnit.hpAmount += targetUnit.healAmount;
-                }
-
-                controller.stateTimeElapsed = 0; // reset attack timer
+                controller.stateTimeElapsed = 0; // reset state timer
             }
         }
     }
