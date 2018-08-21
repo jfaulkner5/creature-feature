@@ -11,10 +11,10 @@ namespace EthansProject
 
 
         // Use this for initialization
-        void Update()
+        void OnEnable()
         {
-            if(Input.GetKeyDown(KeyCode.L))
-                NodeManager.instance.CalulateLighting(this);
+            WorldInfo.torches.Add(this);
+            NodeManager.instance.CalulateLighting(this);
         }
     }
 }

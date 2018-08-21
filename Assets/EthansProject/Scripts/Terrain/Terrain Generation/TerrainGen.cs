@@ -53,7 +53,7 @@ namespace EthansProject
 
         public float min = 0.9f;
         public float max = 1.1f;
-
+        public int seed;
 
         // Use this for initialization
         void Start()
@@ -63,7 +63,7 @@ namespace EthansProject
 
         public void GenerateTerrain()
         {
-            UnityEngine.Random.InitState(1858397153);
+            UnityEngine.Random.InitState(seed);
      
           
             // Runs through the gernerated objects and deletes them and clears the list to that objects like trees are still there when world is regened

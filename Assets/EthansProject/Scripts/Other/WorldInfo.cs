@@ -17,7 +17,7 @@ namespace EthansProject
         public static int globalBerryAmount, globalLogsAmount;
         public static float glogalApititeConsumtionthing;
 
-
+        public static List<Torch> torches = new List<Torch>();
         public static List<Gatherer> berryGatherers = new List<Gatherer>();
 
         public static List<Gatherer> woodGatherers = new List<Gatherer>();
