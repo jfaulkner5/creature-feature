@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actions: []
   transitions:
-  - decision: {fileID: 11400000, guid: 4442b5cc70b4e0b47a8ca18c8158ca80, type: 2}
+  - decision: {fileID: 11400000, guid: 3bac64f1ea423a54c9700b1252365d91, type: 2}
     trueState: {fileID: 11400000, guid: 9947520b8bfa1c94c9f96be684cb094d, type: 2}
     falseState: {fileID: 11400000, guid: 2d817ceea8b9f1c498c2c6e191a562c4, type: 2}
-  sceneGizmoColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  sceneGizmoColor: {r: 1, g: 0.9309917, b: 0, a: 1}

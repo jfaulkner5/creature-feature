@@ -25,7 +25,7 @@ namespace BrendansProject
             }
             else
             {
-                return false; // Goto attacking
+                return false; // Goto Attacking/Healing
             }
 
         }

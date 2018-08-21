@@ -119,7 +119,7 @@ namespace BrendansProject
 
 
             updatingPath = true;
-            Debug.Log("Updating");
+            //Debug.Log("Updating");
 
 
             if (Time.timeSinceLevelLoad < .3f)
@@ -175,7 +175,7 @@ namespace BrendansProject
         {
 
             followingPath = true; // Tracks if the unit is following the path
-            Debug.Log("Moving location");
+            //Debug.Log("Moving location");
             finalLocation = false;
 
 
@@ -238,7 +238,7 @@ namespace BrendansProject
 
             // When arrave at last node do final checks
 
-            Debug.Log("Arrived at final location");
+            //Debug.Log("Arrived at final location");
             finalLocation = true;
         }
 

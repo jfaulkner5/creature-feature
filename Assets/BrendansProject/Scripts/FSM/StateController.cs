@@ -7,7 +7,7 @@ using UnityEngine.AI;
 namespace BrendansProject
 {
     /// <summary>
-    /// 
+    /// Controls the state of the object it is attached to. Contains information about the current state and stores a reference to the attacking and healing states.
     /// </summary>
     public class StateController : MonoBehaviour
     {

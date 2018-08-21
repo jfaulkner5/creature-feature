@@ -9,5 +9,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94cf5e47b792bf84fa46fbfce7592dbc, type: 3}
-  m_Name: TargetActiveDecision
+  m_Name: ActiveStateDecision
   m_EditorClassIdentifier: 

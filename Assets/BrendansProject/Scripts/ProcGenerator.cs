@@ -120,7 +120,7 @@ namespace BrendansProject
             
             float seed = Random.Range(0, 100); //random seed for perlin noise
 
-            print("Map seed is " + seed); // Print out what the seed is for the generated map
+            Debug.Log("Map seed is " + seed); // Print out what the seed is for the generated map
 
             mapGrid = new int[mapWidth, mapHeight];
 

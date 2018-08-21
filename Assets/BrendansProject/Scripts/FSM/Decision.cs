@@ -3,7 +3,7 @@
 namespace BrendansProject
 {
     /// <summary>
-    /// Abstract base class for decisions.
+    /// Base class for creating a state machine decision.
     /// </summary>
     public abstract class Decision : ScriptableObject
     {

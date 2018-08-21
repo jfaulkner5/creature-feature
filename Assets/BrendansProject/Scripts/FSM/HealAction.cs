@@ -22,27 +22,21 @@ namespace BrendansProject
             if (controller.CheckIfCountDownElapsed(controller.movingUnit.tickRate))
             {
 
-                targetUnit.currentHp -= controller.movingUnit.dmgAmount;
                 controller.movingUnit.currentHp += targetUnit.healAmount;
 
-                if (targetUnit.currentHp <= 0)
+                if (targetUnit.CompareTag("Corpse"))
                 {
-                    if (targetUnit.CompareTag("Corpse"))
+                    targetUnit.currentHp -= controller.movingUnit.dmgAmount;
+
+                    if (targetUnit.currentHp <= 0)
                     {
-                        ProcGenerator.instance.corpsesList.Remove(targetUnit.transform); // TODO check if should be game object or transform
+                        ProcGenerator.instance.corpsesList.Remove(targetUnit.transform);
                         // Do animation here
+                        targetUnit.gameObject.SetActive(false);
                     }
-                    else if (targetUnit.CompareTag("Building"))
-                    {
-                        ProcGenerator.instance.buildingsList.Remove(targetUnit.transform);
-                        // TODO Spawn any humans in building in attack mode
-                        // Do animation here
-                    }
-                    targetUnit.gameObject.SetActive(false);
                 }
                 controller.stateTimeElapsed = 0; // reset state timer
             }
-
         }
     }
 }

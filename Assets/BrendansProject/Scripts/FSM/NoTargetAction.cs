@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace BrendansProject
 {
+    /// <summary>
+    /// Used to create a NoTargetAction in the state machine. Used when no target can be found from a search.
+    /// </summary>
     [CreateAssetMenu(menuName = "PluggableAI/Actions/NoTarget")]
     public class NoTargetAction : Action
     {

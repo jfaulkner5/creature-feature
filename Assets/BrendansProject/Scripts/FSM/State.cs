@@ -6,7 +6,7 @@ using UnityEngine;
 namespace BrendansProject
 {
     /// <summary>
-    /// 
+    /// Base class used for creating a state machine state.
     /// </summary>
     [CreateAssetMenu(menuName = "PluggableAI/State")]// Used to create Assests in the menu.
     public class State : ScriptableObject

@@ -7,8 +7,8 @@ namespace BrendansProject
     /// <summary>
     /// 
     /// </summary>
-    [CreateAssetMenu(menuName = "PluggableAI/Decisions/AttackSearch")]
-    public class AttackSearchDecision : Decision
+    [CreateAssetMenu(menuName = "PluggableAI/Decisions/HealTargetSearch")]
+    public class FindHealTargetDecision : Decision
     {
         public override bool Decide(StateController controller)
         {
@@ -20,7 +20,7 @@ namespace BrendansProject
         {
 
             // Leave decision if unable to attack
-            if (controller.movingUnit.currentHp < controller.movingUnit.hpAmount / 2)
+            if (controller.movingUnit.currentHp >= controller.movingUnit.hpAmount)
                 return false;
 
             Transform bestTarget = null;
@@ -29,18 +29,17 @@ namespace BrendansProject
 
             List<List<Transform>> listsToCheck = new List<List<Transform>>();
 
-            // TODO add a check depening on what state they are in
+
             if (controller.CompareTag("Human"))
             {
-                    listsToCheck.Add(ProcGenerator.instance.zombiesList);
+
+                    listsToCheck.Add(ProcGenerator.instance.buildingsList);
 
             }
             else if (controller.CompareTag("Zombie"))
             {
 
-                    listsToCheck.Add(ProcGenerator.instance.humansList);
-                    listsToCheck.Add(ProcGenerator.instance.buildingsList);
-
+                    listsToCheck.Add(ProcGenerator.instance.corpsesList);
             }
             else if (listsToCheck == null)
             {

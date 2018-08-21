@@ -5,10 +5,10 @@ using UnityEngine;
 namespace BrendansProject
 {
     /// <summary>
-    /// 
+    /// Finds the closest target that the statecontroller gameobject will attack.
     /// </summary>
-    [CreateAssetMenu(menuName = "PluggableAI/Decisions/HealSearch")]
-    public class HealSearchDecision : Decision
+    [CreateAssetMenu(menuName = "PluggableAI/Decisions/AttackTargetSearch")]
+    public class FindAttackTargetDecision : Decision
     {
         public override bool Decide(StateController controller)
         {
@@ -19,9 +19,6 @@ namespace BrendansProject
         private bool Search(StateController controller)
         {
 
-            // Leave decision if unable to attack
-            if (controller.movingUnit.currentHp >= controller.movingUnit.hpAmount)
-                return false;
 
             Transform bestTarget = null;
             float closestDistanceSqr = Mathf.Infinity;
@@ -29,17 +26,18 @@ namespace BrendansProject
 
             List<List<Transform>> listsToCheck = new List<List<Transform>>();
 
-            // TODO add a check depening on what state they are in
+
             if (controller.CompareTag("Human"))
             {
-
-                    listsToCheck.Add(ProcGenerator.instance.buildingsList);
+                    listsToCheck.Add(ProcGenerator.instance.zombiesList);
 
             }
             else if (controller.CompareTag("Zombie"))
             {
 
-                    listsToCheck.Add(ProcGenerator.instance.corpsesList);
+                    listsToCheck.Add(ProcGenerator.instance.humansList);
+                    listsToCheck.Add(ProcGenerator.instance.buildingsList);
+
             }
             else if (listsToCheck == null)
             {

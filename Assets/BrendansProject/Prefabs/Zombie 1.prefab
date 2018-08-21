@@ -1014,10 +1014,10 @@ MonoBehaviour:
   healAmount: 5
   tickRate: 1
   target: {fileID: 0}
-  speed: 2
+  speed: 3
   turnSpeed: 3
   turnDst: 1
-  stoppingDst: 0.5
+  stoppingDst: 0.25
   followingPath: 0
   finalLocation: 0
   updatingPath: 0
