@@ -152,6 +152,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 108038575164339330, guid: 3184aa6ce279c2e4a989c9b2d3baa66b,
+        type: 2}
+      propertyPath: m_Lightmapping
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 108038575164339330, guid: 3184aa6ce279c2e4a989c9b2d3baa66b,
+        type: 2}
+      propertyPath: m_ShadowAngle
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114708529894404474, guid: 3184aa6ce279c2e4a989c9b2d3baa66b, type: 2}
     - {fileID: 114210903169665614, guid: 3184aa6ce279c2e4a989c9b2d3baa66b, type: 2}

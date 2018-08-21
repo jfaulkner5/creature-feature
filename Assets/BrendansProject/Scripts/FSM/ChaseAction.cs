@@ -15,15 +15,13 @@ namespace BrendansProject
             
         }
 
-
-
-
-
-
         private void Chase(StateController controller)
         {
 
-            // any checks while chasing?
+            if (controller.currentState != controller.previousState)
+            {
+                controller.movingUnit.StartCoroutine(controller.movingUnit.UpdatePath());
+            }
 
         }
     }

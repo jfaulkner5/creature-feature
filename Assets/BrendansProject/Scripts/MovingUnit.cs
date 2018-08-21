@@ -21,59 +21,33 @@ namespace BrendansProject
         public float stoppingDst = 0.25f;
 
         [HideInInspector] public bool followingPath = false;
-        //[HideInInspector]
         public bool finalLocation = false;
         [HideInInspector] public bool updatingPath = false;
 
         Path path;
              
 
-        private void Update()
-        {
+        //private void Update()
+        //{
 
-            if (!finalLocation) //Leave update if not doing final rotation
-                return;
+        //    if (!finalLocation) //Leave update if not doing final rotation
+        //        return;
 
 
             
-            //if (Vector3.Angle(transform.forward, target.transform.position - transform.position) > 0.1f) // Check if angle is greater than 1 degree
-            //{
+        //    //if (Vector3.Angle(transform.forward, target.transform.position - transform.position) > 0.1f) // Check if angle is greater than 1 degree
+        //    //{
 
-            //    Vector3 relativeTargetPosition = new Vector3(target.position.x, transform.position.y, target.position.z); // Prevent from looking up or down
+        //    //    Vector3 relativeTargetPosition = new Vector3(target.position.x, transform.position.y, target.position.z); // Prevent from looking up or down
 
-            //    Quaternion endRotation = Quaternion.LookRotation(relativeTargetPosition - transform.position);
+        //    //    Quaternion endRotation = Quaternion.LookRotation(relativeTargetPosition - transform.position);
 
-            //    transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, Time.deltaTime * turnSpeed); // Rotate unit towards target
-            //    //transform.rotation = Quaternion.RotateTowards(transform.rotation, endRotation, turnSpeed);
+        //    //    transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, Time.deltaTime * turnSpeed); // Rotate unit towards target
+        //    //    //transform.rotation = Quaternion.RotateTowards(transform.rotation, endRotation, turnSpeed);
 
-            //    //print("rotating");
-            //}
+        //    //    //print("rotating");
+        //    //}
 
-        }
-
-        /// <summary>
-        /// Find the closest tranform to the unit from the provided list.
-        /// </summary>
-        /// <param name="enemies"></param>
-        /// <returns></returns>
-        //private Transform GetClosestEnemy(List<Transform> enemies)
-        //{
-        //    //TODO add a range
-        //    Transform bestTarget = null;
-        //    float closestDistanceSqr = Mathf.Infinity;
-        //    Vector3 currentPosition = transform.position;
-        //    foreach (Transform potentialTarget in enemies)
-        //    {
-        //        Vector3 directionToTarget = potentialTarget.position - currentPosition;
-        //        float dSqrToTarget = directionToTarget.sqrMagnitude;
-        //        if (dSqrToTarget < closestDistanceSqr)
-        //        {
-        //            closestDistanceSqr = dSqrToTarget;
-        //            bestTarget = potentialTarget;
-        //        }
-        //    }
-
-        //    return bestTarget;
         //}
 
 
@@ -252,5 +226,11 @@ namespace BrendansProject
                 path.DrawWithGizmos();
             }
         }
+
+        private void OnDisable()
+        {
+            StopAllCoroutines();
+        }
+
     }
 }

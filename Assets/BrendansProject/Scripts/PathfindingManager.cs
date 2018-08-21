@@ -43,8 +43,8 @@ namespace BrendansProject
             // TODO check for a walkable node
             if (!startNode.walkable)
             {
-                print("Finding new start node");
-                startNode = nodeGrid.GetClosestWalkable(startNode);
+                print("Start node not walkable");
+                //startNode = nodeGrid.GetClosestWalkable(startNode);
                 //transform.position = startNode.worldPosition;
             }
 

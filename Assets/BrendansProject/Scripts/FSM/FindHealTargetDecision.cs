@@ -43,7 +43,7 @@ namespace BrendansProject
             }
             else if (listsToCheck == null)
             {
-                Debug.Log("Error no tag combination found");
+                //Debug.Log("Error no tag combination found");
             }
 
 
@@ -68,12 +68,12 @@ namespace BrendansProject
                 // TODO move into one variable either in unit or controller REALLLLYYY BAADDD
                 controller.target = bestTarget;
                 controller.movingUnit.target = bestTarget;
-                controller.movingUnit.StartCoroutine(controller.movingUnit.UpdatePath());
+                //controller.movingUnit.StartCoroutine(controller.movingUnit.UpdatePath());
                 return true; // found a target so return true
             }
             else
             {
-                Debug.Log("Unable to find a target");
+                //Debug.Log("Unable to find a target");
                 return false; // Didnt find a target.
             }
 

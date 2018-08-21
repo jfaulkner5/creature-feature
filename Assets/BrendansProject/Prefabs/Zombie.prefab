@@ -1017,7 +1017,7 @@ MonoBehaviour:
   speed: 3
   turnSpeed: 3
   turnDst: 1
-  stoppingDst: 0.25
+  stoppingDst: 0
   followingPath: 0
   finalLocation: 0
   updatingPath: 0

@@ -19,7 +19,7 @@ namespace BrendansProject
 
         private void Message(StateController controller)
         {
-            Debug.Log("No Target Found! In NoTargetState");
+            //Debug.Log("No Target Found! In NoTargetState");
         }
 
     }

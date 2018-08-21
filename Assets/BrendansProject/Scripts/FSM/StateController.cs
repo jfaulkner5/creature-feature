@@ -14,12 +14,14 @@ namespace BrendansProject
 
         // State controllers current state
         public State currentState;
+        // State controllers previous state
+        public State previousState;
 
-        //public Transform eyes; 
 
         public State remainState; // Dummy state makesing it easier to read in editor. Could just use a null check instead of this state.
-        public State healSearchState;
+        public State chaseState;
         public State attackSearchState;
+        public State healSearchState;
 
 
         //[HideInInspector] public NavMeshAgent navMeshAgent;
@@ -33,9 +35,7 @@ namespace BrendansProject
 
         void Awake()
         {
-            //unit = GetComponent<Unit>();
 
-            //TODO check if working
             if (GetComponent<MovingUnit>() != null)
             { 
             movingUnit = GetComponent<MovingUnit>();
@@ -48,19 +48,6 @@ namespace BrendansProject
             aiActive = true; // activate the state machine
         }
 
-        //public void SetupAI(bool aiActivationFromTankManager, List<Transform> wayPointsFromTankManager)
-        //{
-        //    wayPointList = wayPointsFromTankManager;
-        //    aiActive = aiActivationFromTankManager;
-        //    if (aiActive)
-        //    {
-        //        navMeshAgent.enabled = true;
-        //    }
-        //    else
-        //    {
-        //       navMeshAgent.enabled = false;
-        //    }
-        //}
 
         private void Update()
         {
@@ -81,6 +68,8 @@ namespace BrendansProject
         {
             if (nextState != remainState) // If not remainState or null
             {
+
+                previousState = currentState;
                 currentState = nextState; // Change states
                                           // OnExitState();
             }

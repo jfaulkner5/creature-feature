@@ -250,6 +250,8 @@ namespace BrendansProject
                     int checkX = node.gridX + x;
                     int checkY = node.gridY + y;
 
+                    //TODO might have to move somewhere else...
+
                     // Check if the node is inside of the grid then return value
                     if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY && nodeGrid[checkX, checkY].walkable )
                     {
@@ -277,8 +279,8 @@ namespace BrendansProject
                     }
                 }
             }
-                if (walkableNode == null)
-                    Debug.Log("Unable to find a valid node");
+                //if (walkableNode == null)
+                    //Debug.Log("Unable to find a valid node");
 
                 return walkableNode;
             }
