@@ -16,8 +16,8 @@ namespace EthansProject
         public ExpandStorageAction()
         {
             AddPrecondition("hasResource", true);
-            AddPrecondition("expansionComplete", false);
-            AddEffect("expansionComplete", true);
+            AddPrecondition("expandNeeded", true);
+            AddEffect("expandNeeded", false);
           
             AddEffect("hasResource", false);
 
@@ -82,6 +82,7 @@ namespace EthansProject
         {
             if (!upgraded)
             {
+                Debug.Log("Expanded Storage!");
                 Storage.resourceHolding -= expandExpences;
                 targetSupplyToExpand.UpgradeResources();
 

@@ -63,6 +63,9 @@ namespace EthansProject
 
         public void GenerateTerrain()
         {
+            UnityEngine.Random.InitState(1858397153);
+     
+          
             // Runs through the gernerated objects and deletes them and clears the list to that objects like trees are still there when world is regened
             for (int i = 0; i < genedObjs.Count; i++)
             {
@@ -114,7 +117,6 @@ namespace EthansProject
                     {
                         heightMap[x, z] += currentStrength * 2f * newNoiseScale * (Mathf.PerlinNoise(newxScale * x / terrainData.heightmapWidth,
                                                                                 newzScale * z / terrainData.heightmapHeight) - 0.5f) * UnityEngine.Random.Range(min, max);
-
                     }
                 }
                 // 

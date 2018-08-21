@@ -12,7 +12,7 @@ namespace EthansProject
         {
             get { return GetComponent<AgentStorage>(); }
         }
-
+        public int resourcesNeeded;
         public int ResourceAmountNeeded
         {
             get { return GetComponent<ExpandStorageAction>().expandExpences; }
@@ -44,7 +44,7 @@ namespace EthansProject
 
                 return false;
             }
-
+            resourcesNeeded = GetComponent<ExpandStorageAction>().expandExpences;
             if(closest.resourceCount < ResourceAmountNeeded)
             {
                 UnityEngine.Debug.LogWarning("Resource amount contains: " + closest.resourceCount + " and didn't have enough (" + ResourceAmountNeeded + ") to upgrade");
@@ -54,6 +54,8 @@ namespace EthansProject
             // TODO: check if it gets to this point in the code.
             target = closest.gameObject;
             targetResourceSupply = closest;
+
+            Debug.Log("Closest = " + closest);
             return closest != null;
         }
       
@@ -64,7 +66,7 @@ namespace EthansProject
 
         public override bool Preform(GameObject agent)
         {
-            if (!hasResource && (targetResourceSupply.resourceCount > ResourceAmountNeeded))
+            if (!hasResource && (targetResourceSupply.resourceCount >= ResourceAmountNeeded))
             {
                 Storage.resourceHolding += targetResourceSupply.TakeResource(ResourceAmountNeeded);
 
