@@ -10,8 +10,8 @@ namespace BrendansProject
     public class MovingUnit : Unit
     {
 
-        const float minPathUpdateTime = .2f;
-        const float pathUpdateMoveThreshold = .5f;
+        const float minPathUpdateTime = 1f;
+        public const float pathUpdateMoveThreshold = 1f;
                
 
         public Transform target;
@@ -22,7 +22,7 @@ namespace BrendansProject
 
         [HideInInspector] public bool followingPath = false;
         public bool finalLocation = false;
-        [HideInInspector] public bool updatingPath = false;
+        //[HideInInspector] public bool updatingPath = false;
 
         Path path;
              
@@ -92,7 +92,7 @@ namespace BrendansProject
         {
 
 
-            updatingPath = true;
+            //updatingPath = true;
             //Debug.Log("Updating");
 
 
@@ -101,42 +101,21 @@ namespace BrendansProject
                 yield return new WaitForSeconds(.3f);
             }
 
-
-            // Check if target is a building then goto targetPos instead of target.position
-            //Vector3 _targetPos;
-
-            //if (target.gameObject.CompareTag("Building"))
-            //{
-            //    _targetPos = target.gameObject.GetComponent<Unit>().targetPos;
-            //}
-            //else
-            //{
-            //    _targetPos = target.position;
-            //}
-
             PathRequestManager.RequestPath(new PathRequest(transform.position, TargetPos, OnPathFound));
-            //PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
 
             float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
             Vector3 targetPosOld = TargetPos;
-            //Vector3 targetPosOld = target.position;
 
-
-            //TODO check for a building change targetpos instead of target.position
             while (true)
             {
                 yield return new WaitForSeconds(minPathUpdateTime);
 
-                //print(((TargetPos - targetPosOld).sqrMagnitude) + "    " + sqrMoveThreshold) ; //Used to debug location
-
-
                 if ((TargetPos - targetPosOld).sqrMagnitude > sqrMoveThreshold)
-                //if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
                 {
-                    //PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
+
                     PathRequestManager.RequestPath(new PathRequest(transform.position, TargetPos, OnPathFound));
                     targetPosOld = TargetPos;
-                    //targetPosOld = target.position;
+
                 }
             }
         }

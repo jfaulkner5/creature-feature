@@ -43,7 +43,7 @@ namespace BrendansProject
             // TODO check for a walkable node
             if (!startNode.walkable)
             {
-                print("Start node not walkable");
+                //print("Start node not walkable");
                 //startNode = nodeGrid.GetClosestWalkable(startNode);
                 //transform.position = startNode.worldPosition;
             }
@@ -97,11 +97,11 @@ namespace BrendansProject
             }
             else if (!startNode.walkable)
             {
-                print("Start node not walkable");
+                //print("Start node not walkable");
             }
             else if (!targetNode.walkable)
             {
-                print("Target node not walkable");
+                //print("Target node not walkable");
             }
 
 

@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 95088451010006592}
   - component: {fileID: 114874240843693062}
   m_Layer: 0
-  m_Name: Corpse 1
+  m_Name: Corpse
   m_TagString: Corpse
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1007,6 +1007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
   targetRot: {x: 0, y: 0, z: 0, w: 0}
+  currentHp: 0
   hpAmount: 100
   dmgAmount: 5
   healAmount: 5
