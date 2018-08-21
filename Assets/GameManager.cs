@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
     #region In Game Time
     [Header("In Game Time")]
@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+            SceneManager.LoadScene(0);
+
         Time.timeScale = timeScale;
 
         UpdateSun();
