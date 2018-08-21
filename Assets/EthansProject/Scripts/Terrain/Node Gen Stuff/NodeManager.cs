@@ -153,6 +153,13 @@ namespace EthansProject
 
         }
 
+        public void CalulateLighting (Torch source)
+        {
+
+            PathingNode sourceNode = NodeFromWorldPoint(source.transform.position);
+           sourceNode.AssignField(null, source);
+        }
+
         public List<PathingNode> path = new List<PathingNode>();
 
         /// <summary>
@@ -163,17 +170,37 @@ namespace EthansProject
             if (!debugMode)
                 return;
 
+
+            foreach (var item in nodes)
+            {
+                if (item.spacialLighting <= 0)
+                    Gizmos.color = Color.black;
+                else if (item.spacialLighting == 1)
+                    Gizmos.color = Color.grey;
+                else if (item.spacialLighting == 2)
+                    Gizmos.color = Color.white;
+                else if (item.spacialLighting == 3)
+                    Gizmos.color = Color.green;
+                else if (item.spacialLighting == 4)
+                    Gizmos.color = Color.yellow;
+                else if (item.spacialLighting >= 5)
+                    Gizmos.color = Color.red;
+
+
+                   Gizmos.DrawCube(item.node.spacialInfo, Vector3.one * nodeDiameter / 2);
+            }
+
             if (grid != null)
             {
 
                 foreach (PathingNode n in path)
                 {
-                  
+
 
                     if (path != null && path.Contains(n))
                         Gizmos.color = Color.blue;
 
-                    Gizmos.DrawCube(n.node.spacialInfo, Vector3.one *  nodeDiameter / 2);
+                    Gizmos.DrawCube(n.node.spacialInfo, Vector3.one * nodeDiameter / 2);
                 }
             }
         }

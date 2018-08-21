@@ -22,8 +22,10 @@ namespace EthansProject
         public PathingNode parent;
 
         public Node node = new Node();
-        public bool traverable;
+        public bool traverable, isLit = false;
+        public float spacialLighting = 0;
         int heapIndex;
+
         public PathingNode(bool _traverable, Vector3 _spacialInfo, int x, int y)
         {
             traverable = _traverable;
@@ -31,6 +33,34 @@ namespace EthansProject
             gridX = x;
             gridY = y;
         }
+
+        public void AssignField(PathingNode parent, Torch source)
+        {
+            //Hack: temp. Want to make it a bit smarter
+
+            if (isLit)
+                return;
+
+            if (parent == null)
+                spacialLighting = source.fieldStrength;
+            else
+                spacialLighting = (parent.spacialLighting - 1);
+
+            if (spacialLighting > 0)
+            {
+                isLit = true;
+                Debug.Log("Node at: " + node.spacialInfo + ", has been lit up dude. With a value of: " + spacialLighting);
+            }
+            else
+                return;
+
+            List<PathingNode> subNeigbours = NodeManager.instance.GetNeigbours(this);
+            for (int i = 0; i < subNeigbours.Count; i++)
+            {
+                subNeigbours[i].AssignField(this, source);
+            }
+        }
+            
 
         public int HeapIndex
         {
@@ -53,6 +83,8 @@ namespace EthansProject
             }
             return -compare;
         }
+
+        
 
     }
 }

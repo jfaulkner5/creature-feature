@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-#region In Game Time
+    #region In Game Time
     [Header("In Game Time")]
+    [Range(0.1f, 5f)]
+    public float timeScale = 1;
 
     public Light gameSun;
     public float dayLength = 300;
@@ -24,6 +26,8 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
+        Time.timeScale = timeScale;
+
         UpdateSun();
 
         currentTimeOfDay += (Time.deltaTime / dayLength) * (timeRate);
