@@ -25,6 +25,7 @@ namespace BrendansProject
         public int healAmount = 5;
         public float tickRate = 100.0f;
 
+        public bool gettingAttacked;
 
 
         private void Start()

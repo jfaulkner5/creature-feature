@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 20589114}
   - component: {fileID: 122028437251381804}
   - component: {fileID: 65443314257473742}
-  - component: {fileID: 114942351084134578}
+  - component: {fileID: 114458103671654152}
   m_Layer: 9
   m_Name: urb_bui_3_lod0
   m_TagString: Building
@@ -358,7 +358,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.6, y: 3.2017846, z: 2.2992892}
   m_Center: {x: 0, y: 1.6008923, z: 0.07841116}
---- !u!114 &114942351084134578
+--- !u!114 &114458103671654152
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -366,15 +366,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 151704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3df1d01bfda21441be5d9be4a81c478, type: 3}
+  m_Script: {fileID: 11500000, guid: da461bc15808eff44bb55e198e33387a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
   targetRot: {x: 0, y: 0, z: 0, w: 0}
-  hpAmount: 100
+  currentHp: 0
+  hpAmount: 200
   dmgAmount: 5
   healAmount: 5
   tickRate: 100
+  gettingAttacked: 0
+  humansInside: 0
 --- !u!122 &122028437251381804
 Halo:
   m_ObjectHideFlags: 1

@@ -15,6 +15,9 @@ namespace BrendansProject
         private void Attack(StateController controller)
         {
 
+            if (!controller.movingUnit.finalLocation)
+                return;
+
             Unit targetUnit = null;
 
             if (controller.target.GetComponent<MovingUnit>() == null)
@@ -32,6 +35,8 @@ namespace BrendansProject
                 // Attack target
                 targetUnit.currentHp -= controller.movingUnit.dmgAmount;
 
+                targetUnit.gettingAttacked = true;
+
                 if (targetUnit.currentHp <= 0)
                 {
                     if (targetUnit.CompareTag("Human"))
@@ -47,6 +52,7 @@ namespace BrendansProject
                         ProcGenerator.instance.buildingsList.Remove(targetUnit.transform);
                     }
 
+                    targetUnit.gettingAttacked = false;
                     targetUnit.gameObject.SetActive(false);
                 }
 

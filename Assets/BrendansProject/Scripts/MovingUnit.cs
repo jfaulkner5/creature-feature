@@ -23,6 +23,8 @@ namespace BrendansProject
         [HideInInspector] public bool followingPath = false;
         public bool finalLocation = false;
         //[HideInInspector] public bool updatingPath = false;
+        
+        Vector3 targetPosOld;
 
         Path path;
              
@@ -65,6 +67,7 @@ namespace BrendansProject
                 // Stop previous follow path and follow path with new path
                 StopCoroutine("FollowPath");
                 StartCoroutine("FollowPath");
+
             }
         }
         
@@ -93,7 +96,6 @@ namespace BrendansProject
 
 
             //updatingPath = true;
-            //Debug.Log("Updating");
 
 
             if (Time.timeSinceLevelLoad < .3f)
@@ -104,7 +106,7 @@ namespace BrendansProject
             PathRequestManager.RequestPath(new PathRequest(transform.position, TargetPos, OnPathFound));
 
             float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
-            Vector3 targetPosOld = TargetPos;
+            targetPosOld = TargetPos;
 
             while (true)
             {
@@ -112,12 +114,15 @@ namespace BrendansProject
 
                 if ((TargetPos - targetPosOld).sqrMagnitude > sqrMoveThreshold)
                 {
+                    Debug.Log("New Path for " + gameObject.name);
 
                     PathRequestManager.RequestPath(new PathRequest(transform.position, TargetPos, OnPathFound));
                     targetPosOld = TargetPos;
 
                 }
             }
+
+            
         }
 
         /// <summary>

@@ -1010,11 +1010,12 @@ MonoBehaviour:
   targetRot: {x: 0, y: 0, z: 0, w: 0}
   currentHp: 0
   hpAmount: 100
-  dmgAmount: 5
+  dmgAmount: 3
   healAmount: 5
   tickRate: 1
+  gettingAttacked: 0
   target: {fileID: 0}
-  speed: 3
+  speed: 2
   turnSpeed: 3
   turnDst: 1
   stoppingDst: 0

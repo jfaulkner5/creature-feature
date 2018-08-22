@@ -253,7 +253,7 @@ namespace BrendansProject
                     //TODO might have to move somewhere else...
 
                     // Check if the node is inside of the grid then return value
-                    if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY && nodeGrid[checkX, checkY].walkable )
+                    if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY && nodeGrid[checkX, checkY].walkable)
                     {
                         // Get the cost of that node and then make closest
                         int newX = x;

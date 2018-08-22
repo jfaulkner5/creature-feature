@@ -97,11 +97,11 @@ namespace BrendansProject
             }
             else if (!startNode.walkable)
             {
-                //print("Start node not walkable");
+                print("Start node not walkable");
             }
             else if (!targetNode.walkable)
             {
-                //print("Target node not walkable");
+                print("Target node not walkable");
             }
 
 

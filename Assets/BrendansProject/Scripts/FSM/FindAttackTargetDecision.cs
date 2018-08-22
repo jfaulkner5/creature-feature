@@ -66,7 +66,8 @@ namespace BrendansProject
                 // TODO move into one variable either in unit or controller REALLLLYYY BAADDD
                 controller.target = bestTarget;
                 controller.movingUnit.target = bestTarget;
-                //controller.movingUnit.StartCoroutine(controller.movingUnit.UpdatePath());
+                controller.movingUnit.StartCoroutine(controller.movingUnit.UpdatePath());
+                Debug.Log("finding target");
                 return true; // found a target so return true
             }
             else

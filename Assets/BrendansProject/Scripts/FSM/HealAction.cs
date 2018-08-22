@@ -15,27 +15,40 @@ namespace BrendansProject
         private void Heal(StateController controller)
         {
 
-            Unit targetUnit = null;
+            if (!controller.movingUnit.finalLocation)
+                return;
 
+            Unit targetUnit = null;
+            
             targetUnit = controller.target.GetComponent<Unit>();
 
-            if (controller.CheckIfCountDownElapsed(controller.movingUnit.tickRate))
+            if (controller.CompareTag("Human"))
             {
-
-                controller.movingUnit.currentHp += targetUnit.healAmount;
-
-                if (targetUnit.CompareTag("Corpse"))
+                ProcGenerator.instance.humansList.Remove(controller.transform);
+                targetUnit.GetComponent<Building>().humansInside++;
+                controller.gameObject.SetActive(false);
+            }
+            else
+            {
+                if (controller.CheckIfCountDownElapsed(controller.movingUnit.tickRate))
                 {
-                    targetUnit.currentHp -= controller.movingUnit.dmgAmount;
 
-                    if (targetUnit.currentHp <= 0)
+                    controller.movingUnit.currentHp += targetUnit.healAmount;
+
+                    if (targetUnit.CompareTag("Corpse"))
                     {
-                        ProcGenerator.instance.corpsesList.Remove(targetUnit.transform);
-                        // Do animation here
-                        targetUnit.gameObject.SetActive(false);
+                        targetUnit.currentHp -= controller.movingUnit.dmgAmount;
+
+                        if (targetUnit.currentHp <= 0)
+                        {
+                            ProcGenerator.instance.corpsesList.Remove(targetUnit.transform);
+                            // Do animation here
+                            targetUnit.gameObject.SetActive(false);
+                        }
                     }
+
+                    controller.stateTimeElapsed = 0; // reset state timer
                 }
-                controller.stateTimeElapsed = 0; // reset state timer
             }
         }
     }

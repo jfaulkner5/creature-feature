@@ -19,9 +19,7 @@ namespace BrendansProject
         private bool Search(StateController controller)
         {
 
-            // Leave decision if unable to attack
-            if (controller.movingUnit.currentHp >= controller.movingUnit.hpAmount)
-                return false;
+
 
             Transform bestTarget = null;
             float closestDistanceSqr = Mathf.Infinity;
@@ -68,7 +66,7 @@ namespace BrendansProject
                 // TODO move into one variable either in unit or controller REALLLLYYY BAADDD
                 controller.target = bestTarget;
                 controller.movingUnit.target = bestTarget;
-                //controller.movingUnit.StartCoroutine(controller.movingUnit.UpdatePath());
+                controller.movingUnit.StartCoroutine(controller.movingUnit.UpdatePath());
                 return true; // found a target so return true
             }
             else

@@ -20,7 +20,9 @@ namespace BrendansProject
             // if was not chasing run the pathfinder to start chasing
             if (controller.currentState != controller.previousState)
             {
+
                 controller.movingUnit.StartCoroutine(controller.movingUnit.UpdatePath());
+                
             }
 
         }

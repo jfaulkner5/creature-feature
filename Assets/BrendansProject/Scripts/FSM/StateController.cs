@@ -66,10 +66,12 @@ namespace BrendansProject
         /// <param name="nextState"></param>
         public void TransitionToState(State nextState)
         {
+
+            previousState = currentState;
+
             if (nextState != remainState) // If not remainState or null
             {
 
-                previousState = currentState;
                 currentState = nextState; // Change states
                                           // OnExitState();
             }

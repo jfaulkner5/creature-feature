@@ -19,10 +19,17 @@ namespace BrendansProject
         private bool QueryUnit(StateController controller)
         {
             //TODO add a heal amount variable
-            if (controller.movingUnit.currentHp > controller.movingUnit.hpAmount / 2) // Check currentHP more than 50%
+            if (controller.movingUnit.currentHp > controller.movingUnit.hpAmount / 2) // Check currentHP more than 50% or if being attacked
                 return true; // Attack
+            else if (controller.movingUnit.gettingAttacked & controller.CompareTag("Zombie"))
+            {
+                return true; // Attack
+            }
             else
+            {
+                controller.movingUnit.gettingAttacked = false;
                 return false; // Heal
+            }
         }
     }
 }
